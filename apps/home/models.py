@@ -40,3 +40,18 @@ class Wisata(db.Model):
     transaksi = db.relationship("Transaksi", backref="transaksi_wisata", uselist=False)
     create_at = db.Column(db.DateTime, default=datetime.datetime.utcnow())
     update_at = db.Column(db.DateTime, onupdate=datetime.datetime.utcnow())
+
+
+class HomeSession(db.Model):
+    __tablename__ = "id_home_session"
+    id = db.Column(db.Integer, primary_key=True)
+    id_homestay = db.Column(db.Integer)
+    user_now = db.Column(db.Integer, db.ForeignKey("user.id"))
+
+
+class WisataSession(db.Model):
+    __tablename__ = "id_wisata_session"
+    id = db.Column(db.Integer, primary_key=True)
+    id_wisata = db.Column(db.Integer)
+    user_now = db.Column(db.Integer, db.ForeignKey("user.id"))
+

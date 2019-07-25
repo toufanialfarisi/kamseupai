@@ -7,6 +7,11 @@ from flask_login import current_user
 home = Blueprint("home", __name__, template_folder="templates/")
 
 
+def custom_session_idhomestay(homestay_id):
+    id_homestay = models.Homestay.query.get(homestay_id)
+    return id_homestay
+
+
 @home.route("/", methods=["GET"])
 def index():
     model = models.Homestay.query.all()
@@ -23,6 +28,14 @@ def detail_homestay(id):
 def book_homestay(id):
     model = models.Homestay.query.get(id)
     session["save_id_homestay"] = id
+    print(
+        "homestay booked, saya simpen id_homestay-nya = ", session["save_id_homestay"]
+    )
+    save_id_homestay = models.HomeSession(
+        id_homestay=id, user_now=current_user.get_id()
+    )
+    models.db.session.add(save_id_homestay)
+    models.db.session.commit()
     model_wisata = models.Wisata.query.all()
     return render_template("book_wisata.html", form=model_wisata, form_homestay=model)
 
@@ -31,23 +44,31 @@ def book_homestay(id):
 def book_wisata(id):
     model = models.Wisata.query.get(id)
     session["save_id_wisata"] = id
-    print(session["save_id_homestay"])
-    print(session["save_id_wisata"])
+    print("Wisata booked, saya simpen id_wisata-nya = ", session["save_id_wisata"])
     if request.method == "GET":
-        return redirect(url_for("home.book_homestay", id=id))
+        return redirect(url_for("home.book_processing", id=id))
+
+
+@home.route("/book-processing")
+def book_processing():
+    id_homestay = session["save_id_homestay"]
+    id_wisata = session["save_id_wisata"]
+    if id_wisata == None:
+        return redirect(url_for("home.checkout"))
+    else:
+        user_now = current_user.get_id()
+        checkout = models.Transaksi(
+            id_homestay=id_homestay, id_wisata=id_wisata, id_user=user_now
+        )
+        models.db.session.add(checkout)
+        models.db.session.commit()
+        return redirect(url_for("home.checkout"))
 
 
 @home.route("/book/homestay/wisata/checkout", methods=["GET"])
 def checkout():
-    id_homestay = session["save_id_homestay"]
-    id_wisata = session["save_id_wisata"]
     user_now = current_user.get_id()
-    checkout = models.Transaksi(
-        id_homestay=id_homestay, id_wisata=id_wisata, id_user=user_now
-    )
-    models.db.session.add(checkout)
-    models.db.session.commit()
-
+    id_homestay = session["save_id_homestay"]
     model_homestay = models.Homestay.query.get(id_homestay)
     """
     1. query all transaksinya
@@ -61,7 +82,8 @@ def checkout():
     biaya_wisata = []
     form_wisata = []
 
-    paket_wisata = models.Transaksi.query.filter_by(id_user=user_now).all()
+    paket_wisata = models.Transaksi.query.filter_by(id_homestay=id_homestay).all()
+
     for val in paket_wisata:
         show_wisata = models.Wisata.query.get(val.id_wisata)
         form_wisata.append(show_wisata)
@@ -72,7 +94,6 @@ def checkout():
     biaya_wisata = sum(biaya_wisata)
     biaya_homestay = model_homestay.harga
     total_biaya = biaya_wisata + biaya_homestay
-    print(total_biaya)
 
     return render_template(
         "checkout.html",
@@ -106,6 +127,13 @@ def pay():
 
 @home.route("/pay/confirmed", methods=["GET"])
 def pay_confirmed():
+    session.pop("save_id_homestay", None)
+    session.pop("save_id_wisata", None)
+    trans = models.Transaksi.query.all()
+    for data in trans:
+        models.db.session.delete(data)
+        models.db.session.commit()
+    print("done")
     return render_template("pay_confirmed.html")
 
 
