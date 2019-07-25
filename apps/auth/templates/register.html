@@ -1,0 +1,98 @@
+{% extends "main_layout.html" %}
+{% block content %}
+<main role="main" class="container">
+  <div class="row">
+    <div class="col-md-6"></div>
+    <div class="col-md-6">
+      {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+      {% for category, message in messages %}
+      <div class="alert alert-{{ category }}"> {{ message }} </div>
+      {% endfor %}
+      {% endif %}
+      {% endwith %}
+      <div class="content-selection">
+        <div class="content-section">
+          <article class="card card-product">
+            <div class="card-body">
+              <form action="" method="POST">
+                {{ form.hidden_tag() }}
+                <fieldset class="form-group">
+                  <p class='text-muted'>
+                    <legend class="border-bottom mb-4">Register</legend>
+                  </p>
+                  {{ form.username.label(class='form-control-label') }}
+                  {% if form.username.errors %}
+                  {{ form.username(class='form-control form-control-lg is-invalid') }}
+                  <div class="invalid-feedback">
+                    {% for error in form.username.errors %}
+                    <span>{{ error }}</span>
+                    {% endfor %}
+                  </div>
+                  {% else %}
+                  {{ form.username(class='form-control form-control-lg') }}
+                  {% endif %}
+
+                </fieldset>
+
+                <fieldset class="form-group">
+                  {{ form.email.label(class='form-control-label') }}
+                  {% if form.email.errors %}
+                  {{ form.email(class='form-control form-control-lg is-invalid') }}
+                  <div class="invalid-feedback">
+                    {% for error in form.email.errors %}
+                    <span>{{ error }}</span>
+                    {% endfor %}
+                  </div>
+                  {% else %}
+                  {{ form.email(class='form-control form-control-lg') }}
+                  {% endif %}
+
+                </fieldset>
+
+                <fieldset class="form-group">
+                  {{ form.password.label(class='form-control-label') }}
+                  {% if form.password.errors %}
+                  {{ form.password(class='form-control form-control-lg is-invalid') }}
+                  <div class="invalid-feedback">
+                    {% for error in form.password.errors %}
+                    <span>{{ error }}</span>
+                    {% endfor %}
+                  </div>
+                  {% else %}
+                  {{ form.password(class='form-control form-control-lg') }}
+                  {% endif %}
+
+                </fieldset>
+
+                <fieldset class="form-group">
+                  {{ form.confirm_password.label(class='form-control-label') }}
+                  {% if form.confirm_password.errors %}
+                  {{ form.confirm_password(class='form-control form-control-lg is-invalid') }}
+                  <div class="invalid-feedback">
+                    {% for error in form.confirm_password.errors %}
+                    <span>{{ error }}</span>
+                    {% endfor %}
+                  </div>
+                  {% else %}
+                  {{ form.confirm_password(class='form-control form-control-lg') }}
+                  {% endif %}
+                </fieldset>
+
+                <fieldset class="form-group">
+                  {{ form.submit(class='btn btn-outline-info') }}
+                </fieldset>
+
+              </form>
+          </article>
+        </div>
+      </div>
+    </div>
+  </div>
+  </div>
+</main>
+
+
+
+
+{% endblock %}

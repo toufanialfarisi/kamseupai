@@ -1,0 +1,113 @@
+{% extends "main_layout.html" %}
+{% block content %}
+<main role="main" class="container">
+    <div class="row">
+        <div class="col-md-6"></div>
+        <div class="col-md-6">
+            {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+            {% for category, message in messages %}
+            <div class="alert alert-{{ category }}"> {{ message }} </div>
+            {% endfor %}
+            {% endif %}
+            {% endwith %}
+            <div class="content-selection">
+                <div class="content-section">
+                    <article class="card card-product">
+                        <div class="card-body">
+
+                            <!-- <form method="POST" action=""> -->
+                            <form action="" method="POST" enctype="multipart/form-data">
+                                {{ form.hidden_tag() }}
+                                <fieldset class="form-group">
+                                    {{ form.nama_homestay.label(class='form-control-label') }}
+                                    {% if form.nama_homestay.errors %}
+                                    {{ form.nama_homestay(class='form-control form-control-lg is-invalid') }}
+                                    <div class="invalid-feedback">
+                                        {% for error in form.nama_homestay.errors %}
+                                        <span>{{ error }}</span>
+                                        {% endfor %}
+                                    </div>
+                                    {% endif %}
+                                    {{ form.nama_homestay(class='form-control form-control-lg') }}
+                                </fieldset>
+                                <fieldset class="form-group">
+                                    {{ form.alamat.label(class='form-control-label') }}
+                                    {% if form.alamat.errors %}
+                                    {{ form.alamat(class='form-control form-control-lg is-invalid') }}
+                                    <div class="invalid-feedback">
+                                        {% for error in form.alamat.errors %}
+                                        <span>{{ error }}</span>
+                                        {% endfor %}
+                                    </div>
+                                    {% endif %}
+                                    {{ form.alamat(class='form-control form-control-lg') }}
+                                </fieldset>
+                                <fieldset class="form-group">
+                                    {{ form.deskripsi.label(class='form-control-label') }}
+                                    {% if form.deskripsi.errors %}
+                                    {{ form.deskripsi(class='form-control form-control-lg is-invalid') }}
+                                    <div class="invalid-feedback">
+                                        {% for error in form.deskripsi.errors %}
+                                        <span>{{ error }}</span>
+                                        {% endfor %}
+                                    </div>
+                                    {% endif %}
+                                    {{ form.deskripsi(class='form-control form-control-lg') }}
+                                </fieldset>
+                                <fieldset class="form-group">
+                                    {{ form.fasilitas.label(class='form-control-label') }}
+                                    {% if form.fasilitas.errors %}
+                                    {{ form.fasilitas(class='form-control form-control-lg is-invalid') }}
+                                    <div class="invalid-feedback">
+                                        {% for error in form.fasilitas.errors %}
+                                        <span>{{ error }}</span>
+                                        {% endfor %}
+                                    </div>
+                                    {% endif %}
+                                    {{ form.fasilitas(class='form-control form-control-lg') }}
+                                </fieldset>
+                                <fieldset class="form-group">
+                                    {{ form.harga.label(class='form-control-label') }}
+                                    {% if form.harga.errors %}
+                                    {{ form.harga(class='form-control form-control-lg is-invalid') }}
+                                    <div class="invalid-feedback">
+                                        {% for error in form.harga.errors %}
+                                        <span>{{ error }}</span>
+                                        {% endfor %}
+                                    </div>
+                                    {% endif %}
+                                    {{ form.harga(class='form-control form-control-lg') }}
+                                </fieldset>
+                                <fieldset class="form-group">
+                                    {{ form.foto_homestay.label(class='form-control-label') }}
+                                    {% if form.foto_homestay.errors %}
+                                    {{ form.foto_homestay(class='form-control form-control-lg is-invalid') }}
+                                    <div class="invalid-feedback">
+                                        {% for error in form.foto_homestay.errors %}
+                                        <span>{{ error }}</span>
+                                        {% endfor %}
+                                    </div>
+                                    {% endif %}
+                                    {{ form.foto_homestay(class='form-control form-control-lg') }}
+                                </fieldset>
+                                <fieldset class="form-group">
+                                    {{ form.submit(class='btn btn-outline-info') }}
+                                </fieldset>
+
+                            </form>
+                            </form>
+
+
+                    </article>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+</main>
+
+
+
+
+{% endblock %}
