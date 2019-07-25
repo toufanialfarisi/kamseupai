@@ -1,0 +1,171 @@
+{% extends "main_layout.html" %}
+{% block content %}
+<main role="main" class="container">
+  <div class="row">
+    <div class="col-md-12">
+      <div class="content-section">
+        <p class='text-muted'>
+          <legend class="border-bottom mb-4"> Detail <strong>Homestay</strong></legend>
+        </p>
+        <article class="card card-product">
+
+          <div class="card-body">
+            <div class="row">
+              <aside class="col-sm-3">
+                <div class="img-wrap"><img class="rounded float-left" src="{{ form.foto_homestay }}" width="250px">
+                </div>
+              </aside> <!-- col.// -->
+              <article class="col-sm-6">
+
+                <h2 class="title"> <strong>{{ form.nama_homestay }}</strong></h2>
+                <div class="rating-wrap">
+                  <strong>
+                    <div class="label-rating">132 reviews</div>
+                  </strong>
+
+                </div> <!-- rating-wrap.// -->
+                <p> {{ form.deskripsi }} </p>
+                <dl class="dlist-align">
+                  <dt>Fasilitas</dt>
+                  <dd>Taman dan Outbond</dd>
+                </dl> <!-- item-property-hor .// -->
+                <dl class="dlist-align">
+                  <dt>Luas / Ukuran</dt>
+                  <dd>1 Are</dd>
+                </dl> <!-- item-property-hor .// -->
+                <dl class="dlist-align">
+                  <dt>Lokasi</dt>
+                  <dd>{{ form.alamat }}</dd>
+                </dl> <!-- item-property-hor .// -->
+
+              </article> <!-- col.// -->
+              <aside class="col-sm-3 border-left">
+                <div class="action-wrap">
+                  <div class="price-wrap h4">
+                    <span class="price"> Rp. {{ form.harga }} </span> <br>
+                    <del class="price-old"> Rp. 200.000 </del>
+                  </div> <!-- info-price-detail // -->
+                  <p class="text-success">potongan 20%</p>
+                  <br>
+                  <p>
+
+                    <!-- <button type="button" class="btn btn--outline-light" disabled>Terpesan</button> -->
+
+                    <a href="http://localhost/book/homestay/{{ form.id }}" class="btn btn-outline-danger "> <strong>
+                        Pesan
+                        Homestay
+                      </strong>
+                    </a>
+                  </p>
+
+                  <!-- <a href="#"><i class="fa fa-heart"></i> Tambah ke favorit</a> -->
+
+
+                </div> <!-- action-wrap.// -->
+              </aside> <!-- col.// -->
+            </div> <!-- row.// -->
+          </div> <!-- card-body .// -->
+        </article> <!-- product-list.// -->
+
+        <article class="card card-product">
+          <div class="card-body">
+            <div class="row">
+              <aside class="col-sm-3">
+                <!-- <div class="img-wrap"><img class="rounded float-left" src="static/homestay.jpg" width="250px"></div> -->
+              </aside> <!-- col.// -->
+              <article class="col-sm-9">
+
+                <h2 class="title"> <strong>Deskripsi</strong></h2>
+
+                <p>
+                  {{ form.deskripsi }}
+                </p>
+
+
+
+              </article> <!-- col.// -->
+            </div> <!-- row.// -->
+          </div> <!-- card-body .// -->
+        </article> <!-- product-list.// -->
+      </div>
+      <div class="content-section">
+
+        <article class="card card-product">
+          <div class="card-body">
+            <div class="row">
+              <div class="col-md-10">
+                <strong>REKOMENDASI HOMESTAY LAINNYA </strong>
+              </div>
+            </div>
+
+          </div> <!-- card-body .// -->
+        </article> <!-- product-list.// -->
+
+        <div class="row">
+
+          <div class="col-lg-4 col-md-6 mb-4">
+            <div class="card h-100">
+              <a href="#"><img class="card-img-top" src="static/homestay.jpg" style="width: 335px ; height: 200px"
+                  alt=""></a>
+              <div class="card-body">
+                <h4 class="card-title">
+                  <a href="#"><strong>Homestay Bergaya Eropa</strong></a>
+                </h4>
+                <h5>Rp. 150.000</h5>
+                <p class="card-text">Wisata Outbond adalah adalah permainan seru yang dimainkan secara kelompok untuk
+                  menguji adrenalin tapi masih dalam taraf yang aman</p>
+              </div>
+              <div class="card-footer">
+                <small class="text-muted"><a href="#" class="btn btn-info"> Pesan </a></small>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-lg-4 col-md-6 mb-4">
+            <div class="card h-100">
+              <a href="#"><img class="card-img-top" src="static/homestay.jpg" style="width: 335px ; height: 200px"
+                  alt=""></a>
+              <div class="card-body">
+                <h4 class="card-title">
+                  <a href="#"><strong>Homestay bergaya Amerika</strong></a>
+                </h4>
+                <h5>Rp. 100.000</h5>
+                <p class="card-text">Wisata Outbond adalah adalah permainan seru yang dimainkan secara kelompok untuk
+                  menguji adrenalin tapi masih dalam taraf yang aman</p>
+              </div>
+              <div class="card-footer">
+                <small class="text-muted"><a href="#" class="btn btn-info"> Pesan </a></small>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-lg-4 col-md-6 mb-4">
+            <div class="card h-100">
+              <a href="#"><img class="card-img-top" src="static/homestay.jpg" style="width: 335px ; height: 200px"
+                  alt=""></a>
+              <div class="card-body">
+                <h4 class="card-title">
+                  <a href="#"><strong>Homestay bergaya Rusa</strong></a>
+                </h4>
+                <h5>Rp. 100.000</h5>
+                <p class="card-text">Wisata Outbond adalah adalah permainan seru yang dimainkan secara kelompok untuk
+                  menguji adrenalin tapi masih dalam taraf yang aman</p>
+              </div>
+              <div class="card-footer">
+                <small class="text-muted"><a href="#" class="btn btn-info"> Pesan </a></small>
+              </div>
+            </div>
+          </div>
+
+
+
+        </div>
+      </div>
+
+
+    </div>
+
+  </div>
+  </div>
+</main>
+{% endblock %}

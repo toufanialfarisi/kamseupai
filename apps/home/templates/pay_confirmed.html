@@ -1,0 +1,44 @@
+{% extends "main_layout.html" %}
+{% block content %}
+
+<main role="main" class="container">
+
+    <div class="row">
+        <div class="col-md-8">
+            <div class="content-selection">
+                <div class="content-section">
+                    <article class="card card-product">
+                        <div class="card-body">
+                            <div class="row">
+
+                                <div class="img-wrap"><img class="rounded float-left"
+                                        src="{{ url_for('static', filename='sukses-bayar.png') }}" width="250px"></div>
+
+                                <article class="col-sm-6">
+
+                                    <a href="#" style="color: black"> <strong>Berhasil !!!</strong></a>
+                                    <div class="rating-wrap">
+                                        <div class="text-muted"><strong> Pembayaran Anda telah kami konfirmasi </strong>
+                                        </div>
+                                        </strong>
+                                    </div> <!-- rating-wrap.// -->
+                                    <div class="price-wrap h4">
+                                        <span class="price"> Terima kasih atas pembayaran Anda, semoga bisa membantu
+                                            masyarakan di desa tersebut </span> <br>
+
+                                    </div> <!-- info-price-detail // -->
+                                    <!-- <p><a href="#" class="btn btn-danger"> Konfirmasi </a></p> -->
+                                </article> <!-- col.// -->
+                                <!-- col.// -->
+                            </div> <!-- row.// -->
+
+                        </div> <!-- card-body .// -->
+                    </article> <!-- product-list.// -->
+                </div>
+
+            </div>
+            <!-- TAMBAHKAN CONTENT LAGI DI SINI -->
+        </div>
+
+    </div>
+</main {% endblock %}

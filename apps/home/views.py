@@ -1,14 +1,112 @@
-from flask import redirect, url_for, flash, render_template, request, Blueprint
+from flask import redirect, url_for, flash, render_template, request, Blueprint, session
 from apps.home import forms, models
 from apps.utils import validasi_type, upload_file
 from apps.config import IMAGES_DIR, MY_IP
+from flask_login import current_user
 
 home = Blueprint("home", __name__, template_folder="templates/")
 
 
 @home.route("/", methods=["GET"])
 def index():
-    return render_template("home.html")
+    model = models.Homestay.query.all()
+    return render_template("home.html", form=model)
+
+
+@home.route("/homestay/<int:id>", methods=["GET"])
+def detail_homestay(id):
+    model = models.Homestay.query.get(id)
+    return render_template("home_detail.html", form=model)
+
+
+@home.route("/book/homestay/<int:id>", methods=["GET"])
+def book_homestay(id):
+    model = models.Homestay.query.get(id)
+    session["save_id_homestay"] = id
+    model_wisata = models.Wisata.query.all()
+    return render_template("book_wisata.html", form=model_wisata, form_homestay=model)
+
+
+@home.route("/book/homestay/wisata/<int:id>", methods=["GET"])
+def book_wisata(id):
+    model = models.Wisata.query.get(id)
+    session["save_id_wisata"] = id
+    print(session["save_id_homestay"])
+    print(session["save_id_wisata"])
+    if request.method == "GET":
+        return redirect(url_for("home.book_homestay", id=id))
+
+
+@home.route("/book/homestay/wisata/checkout", methods=["GET"])
+def checkout():
+    id_homestay = session["save_id_homestay"]
+    id_wisata = session["save_id_wisata"]
+    user_now = current_user.get_id()
+    checkout = models.Transaksi(
+        id_homestay=id_homestay, id_wisata=id_wisata, id_user=user_now
+    )
+    models.db.session.add(checkout)
+    models.db.session.commit()
+
+    model_homestay = models.Homestay.query.get(id_homestay)
+    """
+    1. query all transaksinya
+    2. filter transaksi berdasarkan id_user = 1
+    3. ambil id_wisata dari filter transaksi tersebut
+    4. iterasi list dari id_wisata 
+    5. tampilkan di front html 
+    """
+    total_tagihan = []
+    biaya_homestay = None
+    biaya_wisata = []
+    form_wisata = []
+
+    paket_wisata = models.Transaksi.query.filter_by(id_user=user_now).all()
+    for val in paket_wisata:
+        show_wisata = models.Wisata.query.get(val.id_wisata)
+        form_wisata.append(show_wisata)
+
+    for val in form_wisata:
+        biaya_wisata.append(val.biaya)
+
+    biaya_wisata = sum(biaya_wisata)
+    biaya_homestay = model_homestay.harga
+    total_biaya = biaya_wisata + biaya_homestay
+    print(total_biaya)
+
+    return render_template(
+        "checkout.html",
+        form_homestay=model_homestay,
+        form_wisata=form_wisata,
+        total=total_biaya,
+    )
+
+
+@home.route("/pay", methods=["GET"])
+def pay():
+    user_now = current_user.get_id()
+    id_homestay = session["save_id_homestay"]
+    model_homestay = models.Homestay.query.get(id_homestay)
+    biaya_wisata = []
+    form_wisata = []
+
+    paket_wisata = models.Transaksi.query.filter_by(id_user=user_now).all()
+    for val in paket_wisata:
+        show_wisata = models.Wisata.query.get(val.id_wisata)
+        form_wisata.append(show_wisata)
+
+    for val in form_wisata:
+        biaya_wisata.append(val.biaya)
+
+    biaya_wisata = sum(biaya_wisata)
+    biaya_homestay = model_homestay.harga
+    total_biaya = biaya_wisata + biaya_homestay
+    return render_template("pay.html", total=total_biaya)
+
+
+@home.route("/pay/confirmed", methods=["GET"])
+def pay_confirmed():
+    return render_template("pay_confirmed.html")
 
 
 @home.route("/homestay/add", methods=["GET", "POST", "PUT", "DELETE"])

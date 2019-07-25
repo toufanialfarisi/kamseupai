@@ -18,7 +18,7 @@ class Homestay(db.Model):
     update_at = db.Column(db.DateTime, onupdate=datetime.datetime.utcnow())
 
     def __repr__(self):
-        return f"id_homestay ke-{self.id}"
+        return f"homestay : -{self.nama_homestay}"
 
 
 class Transaksi(db.Model):
@@ -27,22 +27,6 @@ class Transaksi(db.Model):
     id_homestay = db.Column(db.Integer, db.ForeignKey("homestay.id"))
     id_user = db.Column(db.Integer, db.ForeignKey("user.id"))
     id_wisata = db.Column(db.Integer, db.ForeignKey("wisata.id"))
-
-    def save(self):
-        try:
-            db.session.add(self)
-            db.session.commit()
-            return True
-        except:
-            return False
-
-    def delete(self):
-        try:
-            db.session.delete(self)
-            db.session.commit()
-            return True
-        except:
-            return False
 
 
 class Wisata(db.Model):

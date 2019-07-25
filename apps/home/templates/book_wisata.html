@@ -1,0 +1,61 @@
+{% extends "main_layout.html" %}
+{% block content %}
+<main role="main" class="container">
+  <div class="row">
+    <div class="col-md-12">
+      <div class="content-section">
+        <article class="card card-product">
+          <div class="card-body">
+            <div class="row">
+              <div class="col-md-10">
+                Apakah Anda ingin memesan paket wisata Juga ?, Kalau tidak klik tombol lanjutkan
+              </div>
+              <div class="col-md-2">
+                <a href="http://localhost/book/homestay/wisata/checkout" class="btn btn-outline-danger"> <strong>
+                    Lanjutkan </strong>
+                </a>
+              </div>
+
+            </div>
+
+          </div> <!-- card-body .// -->
+        </article> <!-- product-list.// -->
+      </div>
+      <div class="content-section">
+        <p class='text-muted'>
+          <legend class="border-bottom mb-4"> <strong>Pilih hanya <strong> 1 paket wisata </strong> yang ada </strong>
+            di {{ form_homestay.nama_homestay }} </legend>
+        </p>
+        <div class="row">
+
+          {% for data in form %}
+          <div class="col-lg-4 col-md-6 mb-4">
+            <div class="card h-100">
+              <a href="#"><img class="card-img-top" src="#" style="width: 335px ; height: 200px" alt=""></a>
+              <div class="card-body">
+                <h4 class="card-title">
+                  Paket Wisata : <strong>{{ data.wisata }}</strong>
+                </h4>
+                <h5>Rp. {{ data.biaya }}</h5>
+                <p class="card-text">{{ data.kegiatan }}</p>
+                <small class="text-muted"> Fasilitas : {{ data.fasilitas }}</small>
+              </div>
+              <div class="card-footer">
+                <small id="pesanPaket" class="text-muted"><a href="http://localhost/book/homestay/wisata/{{ data.id }}"
+                    class="btn btn-info">Tambah Paket</a></small>
+              </div>
+            </div>
+          </div>
+          {% endfor %}
+
+
+
+        </div>
+      </div>
+
+
+    </div>
+
+  </div>
+</main>
+{% endblock %}
