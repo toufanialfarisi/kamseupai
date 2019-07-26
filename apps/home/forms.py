@@ -26,7 +26,7 @@ class WisataForm(FlaskForm):
         choices=[(k.id, k.nama_homestay) for k in models.Homestay.query.all()],
         coerce=int,
     )
-    submit = SubmitField("Tambah")
+    submit = SubmitField("Tambah Wisata")
 
 
 class HomestayForm(FlaskForm):
@@ -36,4 +36,4 @@ class HomestayForm(FlaskForm):
     fasilitas = StringField("Fasilitas", validators=[DataRequired()])
     harga = IntegerField("Harga", validators=[DataRequired()])
     foto_homestay = FileField(validators=[FileRequired()])
-    submit = SubmitField("Tambah")
+    submit = SubmitField("Tambah Homestay")

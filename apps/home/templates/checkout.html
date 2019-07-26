@@ -1,5 +1,14 @@
 {% extends "main_layout.html" %}
 {% block content %}
+<style>
+    #carding {
+        border-radius: 15px;
+        padding: 20px;
+        width: 100%;
+        height: auto;
+        box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    }
+</style>
 <main role="main" class="container">
 
     <!-- </div>
@@ -10,80 +19,80 @@
     <div class="row">
         <div class="col-md-8">
             <div class="content-selection">
-                <div class="content-section">
+                <div class="content-section" id="carding">
                     <legend class="border-bottom mb-4"> <strong style="color: black">Detail Pembayaran dan
                             Tagihan</strong></legend>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="img-wrap"><img class="rounded float-left"
+                                    src="{{ form_homestay.foto_homestay }}" width="250px"></div>
 
-                    <article class="card card-product">
-                        <div class="card-body">
-                            <div class="row">
-                                <div class="img-wrap"><img class="rounded float-left"
-                                        src="{{ form_homestay.foto_homestay }}" width="250px"></div>
+                            <article class="col-sm-6">
 
-                                <article class="col-sm-6">
+                                <a href="#" style="color: black">
+                                    <strong>{{ form_homestay.nama_homestay }}</strong></a>
+                                <div class="rating-wrap">
+                                    <div class="text-muted"> {{ malam }} malam
+                                    </div></strong>
+                                </div> <!-- rating-wrap.// -->
+                                <p>
+                                    <strong> Lok : </strong> {{ form_homestay.alamat }}
+                                </p>
+                                <div class="price-wrap h4">
+                                    <span class="price"> Rp. {{ form_homestay.harga }} </span> <br>
 
-                                    <a href="#" style="color: black">
-                                        <strong>{{ form_homestay.nama_homestay }}</strong></a>
-                                    <div class="rating-wrap">
-                                        <div class="text-muted"><strong> Lok : </strong> {{ form_homestay.alamat }}
-                                        </div></strong>
+                                </div> <!-- info-price-detail // -->
+                                <p><a href="#" class="btn btn-danger"> hapus </a></p>
 
-                                    </div> <!-- rating-wrap.// -->
-                                    <div class="price-wrap h4">
-                                        <span class="price"> Rp. {{ form_homestay.harga }} </span> <br>
-
-                                    </div> <!-- info-price-detail // -->
-                                    <p><a href="#" class="btn btn-danger"> hapus </a></p>
-                                </article> <!-- col.// -->
                                 <!-- col.// -->
-                            </div> <!-- row.// -->
-                        </div> <!-- card-body .// -->
+                        </div> <!-- row.// -->
+                    </div> <!-- card-body .// -->
                     </article> <!-- product-list.// -->
                 </div>
 
             </div>
-            <div class="content-section">
+            <div class="content-section" id="carding">
                 <p class="text-muted">
                     <legend class="border-bottom mb-4"> Paket wisata yang dipilih
                     </legend>
                 </p>
 
                 {% for form in form_wisata %}
-                <article class="card card-product">
-                    <div class="card-body">
-                        <div class="row">
-                            <article class="col-sm-6">
-                                <a href="#" style="color: black"> <strong>Wisata {{ form.wisata }}</strong> [
-                                    {{id_ws}} ]
-                                </a>
-                                <div class="text-muted"><strong> Fasilitas : </strong> {{ form.fasilitas }} </div>
-                                </strong>
-                                <div class="price-wrap h4">
 
-                                    <span class="price"> Rp. {{ form.biaya }} </span> <br>
+                <div class="card-body">
+                    <div class="row">
+                        <article class="col-sm-6">
+                            <a href="#" style="color: black"> <strong>Wisata {{ form.wisata }}</strong> [
+                                {{id_ws}} ]
+                            </a>
+                            <div class="text-muted"><strong> Fasilitas : </strong> {{ form.fasilitas }} </div>
+                            </strong>
+                            <div class="price-wrap h4">
 
-                                </div> <!-- info-price-detail // -->
-                                <p><a href="#" class="btn btn-danger"> hapus paket wisata</a></p>
-                            </article> <!-- col.// -->
+                                <span class="price"> Rp. {{ form.biaya }} </span> <br>
 
-                            <article class="col-sm-3">
-                                <div class="img-wrap"><img class="rounded float-left" src="static/homestay.jpg"
-                                        width="190px"></div>
-                            </article> <!-- col.// -->
+                            </div> <!-- info-price-detail // -->
+                            <p><a href="#" class="btn btn-danger"> hapus paket wisata</a></p>
+                        </article> <!-- col.// -->
+
+                        <article class="col-sm-3">
+                            <div class="img-wrap"><img class="rounded float-left" src="static/homestay.jpg"
+                                    width="190px"></div>
+                        </article> <!-- col.// -->
 
 
-                            <!-- col.// -->
-                        </div> <!-- row.// -->
-                    </div> <!-- card-body .// -->
-                </article> <!-- product-list.// -->
+                        <!-- col.// -->
+                    </div> <!-- row.// -->
+                </div> <!-- card-body .// -->
+
                 {% endfor %}
 
             </div>
         </div>
 
         <div class="col-md-4">
-            <div class="content-section">
-                <article class="card card-product">
+            <div class="content-section" id="carding">
+                <div class="card-body">
                     <table class="table">
                         <thead>
                             <tr>
@@ -104,18 +113,18 @@
                             <tr>
                                 <th scope="row"></th>
                                 <td>
-                                    <div class="price-wrap h4"><span class="price"> <strong> Rp. {{ total }} </strong>
+                                    <div class="price-wrap h4"><span class="price"> <strong> Rp. {{ total }}
+                                            </strong>
                                         </span></div>
                                 </td>
                             </tr>
                         </tbody>
                     </table>
-                </article> <!-- product-list.// -->
-                <br>
-                <article class="col-sm-6">
-                    <p><a href="http://localhost/pay" class="btn btn-info"> Bayar Sekarang </a></p>
-                </article> <!-- col.// -->
+                    <br>
+                    <article class="col-md">
+                        <p><a href="http://localhost/pay" class="btn btn-info btn-block"> Bayar Sekarang </a></p>
+                    </article> <!-- col.// -->
+                </div>
             </div>
         </div>
-    </div>
 </main {% endblock %}

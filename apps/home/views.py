@@ -2,7 +2,8 @@ from flask import redirect, url_for, flash, render_template, request, Blueprint,
 from apps.home import forms, models
 from apps.utils import validasi_type, upload_file
 from apps.config import IMAGES_DIR, MY_IP
-from flask_login import current_user
+from flask_login import current_user, login_required, logout_user
+
 
 home = Blueprint("home", __name__, template_folder="templates/")
 
@@ -18,13 +19,17 @@ def index():
     return render_template("home.html", form=model)
 
 
-@home.route("/homestay/<int:id>", methods=["GET"])
+@home.route("/homestay/<int:id>", methods=["GET", "POST"])
 def detail_homestay(id):
     model = models.Homestay.query.get(id)
+    if request.method == "POST":
+        session["malam"] = request.form["malam"]
+        return redirect(url_for("home.book_homestay", id=id))
     return render_template("home_detail.html", form=model)
 
 
-@home.route("/book/homestay/<int:id>", methods=["GET"])
+@home.route("/book/homestay/<int:id>", methods=["GET", "POST"])
+@login_required
 def book_homestay(id):
     model = models.Homestay.query.get(id)
     session["save_id_homestay"] = id
@@ -41,6 +46,7 @@ def book_homestay(id):
 
 
 @home.route("/book/homestay/wisata/<int:id>", methods=["GET"])
+@login_required
 def book_wisata(id):
     model = models.Wisata.query.get(id)
     session["save_id_wisata"] = id
@@ -50,9 +56,13 @@ def book_wisata(id):
 
 
 @home.route("/book-processing")
+@login_required
 def book_processing():
     id_homestay = session["save_id_homestay"]
-    id_wisata = session["save_id_wisata"]
+    try:
+        id_wisata = session["save_id_wisata"]
+    except:
+        id_wisata = session["save_id_wisata"] = None
     if id_wisata == None:
         return redirect(url_for("home.checkout"))
     else:
@@ -66,9 +76,11 @@ def book_processing():
 
 
 @home.route("/book/homestay/wisata/checkout", methods=["GET"])
+@login_required
 def checkout():
     user_now = current_user.get_id()
     id_homestay = session["save_id_homestay"]
+    n_malam = int(session["malam"])
     model_homestay = models.Homestay.query.get(id_homestay)
     """
     1. query all transaksinya
@@ -92,7 +104,7 @@ def checkout():
         biaya_wisata.append(val.biaya)
 
     biaya_wisata = sum(biaya_wisata)
-    biaya_homestay = model_homestay.harga
+    biaya_homestay = model_homestay.harga * n_malam
     total_biaya = biaya_wisata + biaya_homestay
 
     return render_template(
@@ -100,13 +112,16 @@ def checkout():
         form_homestay=model_homestay,
         form_wisata=form_wisata,
         total=total_biaya,
+        malam=n_malam,
     )
 
 
 @home.route("/pay", methods=["GET"])
+@login_required
 def pay():
     user_now = current_user.get_id()
     id_homestay = session["save_id_homestay"]
+    n_malam = int(session["malam"])
     model_homestay = models.Homestay.query.get(id_homestay)
     biaya_wisata = []
     form_wisata = []
@@ -120,15 +135,17 @@ def pay():
         biaya_wisata.append(val.biaya)
 
     biaya_wisata = sum(biaya_wisata)
-    biaya_homestay = model_homestay.harga
+    biaya_homestay = model_homestay.harga * n_malam
     total_biaya = biaya_wisata + biaya_homestay
     return render_template("pay.html", total=total_biaya)
 
 
 @home.route("/pay/confirmed", methods=["GET"])
+@login_required
 def pay_confirmed():
     session.pop("save_id_homestay", None)
     session.pop("save_id_wisata", None)
+    session.pop("malam", None)
     trans = models.Transaksi.query.all()
     for data in trans:
         models.db.session.delete(data)
@@ -138,6 +155,7 @@ def pay_confirmed():
 
 
 @home.route("/homestay/add", methods=["GET", "POST", "PUT", "DELETE"])
+@login_required
 def add_homestay():
     form = forms.HomestayForm()
 
@@ -169,6 +187,7 @@ def add_homestay():
 
 
 @home.route("/homestay/wisata/add", methods=["GET", "POST", "PUT", "DELETE"])
+@login_required
 def add_wisata():
     form = forms.WisataForm()
     if request.method == "POST" and form.validate_on_submit():
@@ -191,4 +210,10 @@ def add_wisata():
         flash("Wisata berhasil ditambah", "success")
         return redirect(url_for("home.add_wisata"))
     return render_template("add_wisata.html", form=form)
+
+
+@home.route("/logout", methods=["GET"])
+def logout():
+    logout_user()
+    return redirect(url_for("auth.login"))
 

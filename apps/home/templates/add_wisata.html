@@ -2,8 +2,8 @@
 {% block content %}
 <main role="main" class="container">
     <div class="row">
-        <div class="col-md-6"></div>
-        <div class="col-md-6">
+        <div class="col-sm"></div>
+        <div class="col-sm">
             {% with messages = get_flashed_messages(with_categories=true) %}
             {% if messages %}
             {% for category, message in messages %}
@@ -11,88 +11,98 @@
             {% endfor %}
             {% endif %}
             {% endwith %}
+            <style>
+                #carding {
+                    border-radius: 15px;
+                    padding: 20px;
+                    width: 450px;
+                    height: auto;
+                    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+                }
+            </style>
             <div class="content-selection">
-                <div class="content-section">
-                    <article class="card card-product">
-                        <div class="card-body">
+                <div class="content-section" id="carding">
 
-                            <!-- <form method="POST" action=""> -->
-                            <form action="" method="POST">
-                                {{ form.hidden_tag() }}
-                                <fieldset class="form-group">
-                                    {{ form.wisata.label(class='form-control-label') }}
-                                    {% if form.wisata.errors %}
-                                    {{ form.wisata(class='form-control form-control-lg is-invalid') }}
-                                    <div class="invalid-feedback">
-                                        {% for error in form.wisata.errors %}
-                                        <span>{{ error }}</span>
-                                        {% endfor %}
-                                    </div>
-                                    {% endif %}
-                                    {{ form.wisata(class='form-control form-control-lg') }}
-                                </fieldset>
-                                <fieldset class="form-group">
-                                    {{ form.fasilitas.label(class='form-control-label') }}
-                                    {% if form.fasilitas.errors %}
-                                    {{ form.fasilitas(class='form-control form-control-lg is-invalid') }}
-                                    <div class="invalid-feedback">
-                                        {% for error in form.fasilitas.errors %}
-                                        <span>{{ error }}</span>
-                                        {% endfor %}
-                                    </div>
-                                    {% endif %}
-                                    {{ form.fasilitas(class='form-control form-control-lg') }}
-                                </fieldset>
-                                <fieldset class="form-group">
-                                    {{ form.kegiatan.label(class='form-control-label') }}
-                                    {% if form.kegiatan.errors %}
-                                    {{ form.kegiatan(class='form-control form-control-lg is-invalid') }}
-                                    <div class="invalid-feedback">
-                                        {% for error in form.kegiatan.errors %}
-                                        <span>{{ error }}</span>
-                                        {% endfor %}
-                                    </div>
-                                    {% endif %}
-                                    {{ form.kegiatan(class='form-control form-control-lg') }}
-                                </fieldset>
-                                <fieldset class="form-group">
-                                    {{ form.biaya.label(class='form-control-label') }}
-                                    {% if form.biaya.errors %}
-                                    {{ form.biaya(class='form-control form-control-lg is-invalid') }}
-                                    <div class="invalid-feedback">
-                                        {% for error in form.biaya.errors %}
-                                        <span>{{ error }}</span>
-                                        {% endfor %}
-                                    </div>
-                                    {% endif %}
-                                    {{ form.biaya(class='form-control form-control-lg') }}
-                                </fieldset>
+                    <div class="card-body">
 
-                                <fieldset class="form-group">
-                                    {{ form.id_homestay.label(class='form-control-label') }}
-                                    {% if form.id_homestay.errors %}
-                                    {{ form.id_homestay(class='form-control form-control-lg is-invalid') }}
-                                    <div class="invalid-feedback">
-                                        {% for error in form.id_homestay.errors %}
-                                        <span>{{ error }}</span>
-                                        {% endfor %}
-                                    </div>
-                                    {% endif %}
-                                    {{ form.id_homestay(class='form-control form-control-lg') }}
+                        <!-- <form method="POST" action=""> -->
+                        <form action="" method="POST">
+                            {{ form.hidden_tag() }}
+                            <fieldset class="form-group">
+                                {{ form.wisata.label(class='form-control-label') }}
+                                {% if form.wisata.errors %}
+                                {{ form.wisata(class='form-control form-control-lg is-invalid') }}
+                                <div class="invalid-feedback">
+                                    {% for error in form.wisata.errors %}
+                                    <span>{{ error }}</span>
+                                    {% endfor %}
+                                </div>
+                                {% endif %}
+                                {{ form.wisata(class='form-control form-control-lg') }}
+                            </fieldset>
+                            <fieldset class="form-group">
+                                {{ form.fasilitas.label(class='form-control-label') }}
+                                {% if form.fasilitas.errors %}
+                                {{ form.fasilitas(class='form-control form-control-lg is-invalid') }}
+                                <div class="invalid-feedback">
+                                    {% for error in form.fasilitas.errors %}
+                                    <span>{{ error }}</span>
+                                    {% endfor %}
+                                </div>
+                                {% endif %}
+                                {{ form.fasilitas(class='form-control form-control-lg') }}
+                            </fieldset>
+                            <fieldset class="form-group">
+                                {{ form.kegiatan.label(class='form-control-label') }}
+                                {% if form.kegiatan.errors %}
+                                {{ form.kegiatan(class='form-control form-control-lg is-invalid') }}
+                                <div class="invalid-feedback">
+                                    {% for error in form.kegiatan.errors %}
+                                    <span>{{ error }}</span>
+                                    {% endfor %}
+                                </div>
+                                {% endif %}
+                                {{ form.kegiatan(class='form-control form-control-lg') }}
+                            </fieldset>
+                            <fieldset class="form-group">
+                                {{ form.biaya.label(class='form-control-label') }}
+                                {% if form.biaya.errors %}
+                                {{ form.biaya(class='form-control form-control-lg is-invalid') }}
+                                <div class="invalid-feedback">
+                                    {% for error in form.biaya.errors %}
+                                    <span>{{ error }}</span>
+                                    {% endfor %}
+                                </div>
+                                {% endif %}
+                                {{ form.biaya(class='form-control form-control-lg') }}
+                            </fieldset>
 
-
-                                </fieldset>
-                                <fieldset class="form-group">
-                                    {{ form.submit(class='btn btn-outline-info') }}
-                                </fieldset>
-                            </form>
-                            <!-- </form> -->
+                            <fieldset class="form-group">
+                                {{ form.id_homestay.label(class='form-control-label') }}
+                                {% if form.id_homestay.errors %}
+                                {{ form.id_homestay(class='form-control form-control-lg is-invalid') }}
+                                <div class="invalid-feedback">
+                                    {% for error in form.id_homestay.errors %}
+                                    <span>{{ error }}</span>
+                                    {% endfor %}
+                                </div>
+                                {% endif %}
+                                {{ form.id_homestay(class='form-control form-control-lg') }}
 
 
-                    </article>
+                            </fieldset>
+                            <fieldset class="form-group">
+                                {{ form.submit(class='btn btn-info btn-block') }}
+                            </fieldset>
+                        </form>
+                        <!-- </form> -->
+
+
+                    </div>
                 </div>
             </div>
         </div>
+        <div class="col-sm"></div>
     </div>
     </div>
 </main>

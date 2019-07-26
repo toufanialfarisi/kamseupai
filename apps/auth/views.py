@@ -9,6 +9,7 @@ from flask_login import (
 from flask import redirect, url_for, flash, render_template, request, Blueprint
 from apps.auth import forms, models
 from apps import db
+from apps.auth.models import User
 
 
 auth = Blueprint("auth", __name__, template_folder="templates/")
@@ -40,18 +41,18 @@ def login():
 
     if form.validate_on_submit():
         user = models.User.query.filter_by(username=form.username.data).first()
-        if user.check_password(form.password.data) and user is not None:
-            # if check_password_hash(user.password, form.password.data) and user is
-
-            login_user(user)
-            flash("login success", "success")
-
-            next = request.args.get("next")
-
-            if next == None or not next[0] == "/":
-                next = url_for("home.index")
-
-            return redirect(next)
+        try:
+            if user.check_password(form.password.data) and user is not None:
+                # if check_password_hash(user.password, form.password.data) and user is
+                login_user(user)
+                flash("login success", "success")
+                next = request.args.get("next")
+                if next == None or not next[0] == "/":
+                    next = url_for("home.index")
+                return redirect(next)
+        except:
+            flash("wrong password or username", "danger")
+            return redirect(url_for("auth.login"))
     return render_template("login.html", form=form)
 
 

@@ -27,6 +27,16 @@ class Transaksi(db.Model):
     id_homestay = db.Column(db.Integer, db.ForeignKey("homestay.id"))
     id_user = db.Column(db.Integer, db.ForeignKey("user.id"))
     id_wisata = db.Column(db.Integer, db.ForeignKey("wisata.id"))
+    malam = db.Column(db.Integer)
+
+
+class BelanjaUser(db.Model):
+    __tablename__ = "belanjauser"
+    id = db.Column(db.Integer, primary_key=True)
+    homestay_book = db.Column(db.String(50))
+    wisata_book = db.Column(db.String(50))
+    malam = db.Column(db.Integer)
+    id_user = db.Column(db.Integer, db.ForeignKey("user.id"))
 
 
 class Wisata(db.Model):

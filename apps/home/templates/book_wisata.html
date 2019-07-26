@@ -1,9 +1,18 @@
 {% extends "main_layout.html" %}
 {% block content %}
+<style>
+  #carding {
+    border-radius: 15px;
+    padding: 20px;
+    width: 100%;
+    height: auto;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  }
+</style>
 <main role="main" class="container">
   <div class="row">
     <div class="col-md-12">
-      <div class="content-section">
+      <div class="content-section" id="carding">
         <article class="card card-product">
           <div class="card-body">
             <div class="row">
@@ -19,9 +28,9 @@
             </div>
 
           </div> <!-- card-body .// -->
-        </article> <!-- product-list.// -->
+        </article>
       </div>
-      <div class="content-section">
+      <div class="content-section" id="carding">
         <p class='text-muted'>
           <legend class="border-bottom mb-4"> <strong>Pilih hanya <strong> 1 paket wisata </strong> yang ada </strong>
             di {{ form_homestay.nama_homestay }} </legend>

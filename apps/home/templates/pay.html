@@ -1,65 +1,72 @@
 {% extends "main_layout.html" %}
 {% block content %}
-
+<style>
+    #carding {
+        border-radius: 15px;
+        padding: 20px;
+        width: 100%;
+        height: auto;
+        box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    }
+</style>
 <main role="main" class="container">
 
     <div class="row">
         <div class="col-md-8">
             <div class="content-selection">
-                <div class="content-section">
-                    <article class="card card-product">
-                        <div class="card-body">
-                            <div class="row">
+                <div class="content-section" id="carding">
 
-                                <div class="img-wrap"><img class="rounded float-left" src="static/mandiri.jpg"
-                                        width="250px"></div>
+                    <div class="card-body">
+                        <div class="row">
 
-                                <article class="col-sm-6">
+                            <div class="img-wrap"><img class="rounded float-left" src="static/mandiri.jpg"
+                                    width="250px"></div>
 
-                                    <a href="#" style="color: black"> <strong>Bank Mandiri</strong></a>
-                                    <div class="rating-wrap">
-                                        <div class="text-muted"><strong> No. Rek : </strong> 00865439000324 </div>
-                                        </strong>
-                                    </div> <!-- rating-wrap.// -->
-                                    <div class="price-wrap h4">
-                                        <span class="price"> A/N. PT Kamseupai Guna Daya </span> <br>
+                            <article class="col-sm-6">
 
-                                    </div> <!-- info-price-detail // -->
-                                    <!-- <p><a href="#" class="btn btn-danger"> Konfirmasi </a></p> -->
-                                </article> <!-- col.// -->
-                                <!-- col.// -->
-                            </div> <!-- row.// -->
-                            <div class="row">
+                                <a href="#" style="color: black"> <strong>Bank Mandiri</strong></a>
+                                <div class="rating-wrap">
+                                    <div class="text-muted"><strong> No. Rek : </strong> 00865439000324 </div>
+                                    </strong>
+                                </div> <!-- rating-wrap.// -->
+                                <div class="price-wrap h4">
+                                    <span class="price"> A/N. PT Kamseupai Guna Daya </span> <br>
 
-                                <div class="img-wrap"><img class="rounded float-left" src="static/bni.jpg"
-                                        width="250px"></div>
+                                </div> <!-- info-price-detail // -->
+                                <!-- <p><a href="#" class="btn btn-danger"> Konfirmasi </a></p> -->
+                            </article> <!-- col.// -->
+                            <!-- col.// -->
+                        </div> <!-- row.// -->
+                        <div class="row">
 
-                                <article class="col-sm-6">
+                            <div class="img-wrap"><img class="rounded float-left" src="static/bni.jpg" width="250px">
+                            </div>
 
-                                    <a href="#" style="color: black"> <strong>Bank BNI</strong></a>
-                                    <div class="rating-wrap">
-                                        <div class="text-muted"><strong> No. Rek : </strong> 00865439000324 </div>
-                                        </strong>
-                                    </div> <!-- rating-wrap.// -->
-                                    <div class="price-wrap h4">
-                                        <span class="price"> A/N. PT Kamseupai Guna Daya </span> <br>
+                            <article class="col-sm-6">
 
-                                    </div> <!-- info-price-detail // -->
-                                    <!-- <p><a href="#" class="btn btn-danger"> Konfirmasi </a></p> -->
-                                </article> <!-- col.// -->
-                                <!-- col.// -->
-                            </div> <!-- row.// -->
-                        </div> <!-- card-body .// -->
-                    </article> <!-- product-list.// -->
+                                <a href="#" style="color: black"> <strong>Bank BNI</strong></a>
+                                <div class="rating-wrap">
+                                    <div class="text-muted"><strong> No. Rek : </strong> 00865439000324 </div>
+                                    </strong>
+                                </div> <!-- rating-wrap.// -->
+                                <div class="price-wrap h4">
+                                    <span class="price"> A/N. PT Kamseupai Guna Daya </span> <br>
+
+                                </div> <!-- info-price-detail // -->
+                                <!-- <p><a href="#" class="btn btn-danger"> Konfirmasi </a></p> -->
+                            </article> <!-- col.// -->
+                            <!-- col.// -->
+                        </div> <!-- row.// -->
+                    </div> <!-- card-body .// -->
+
                 </div>
 
             </div>
             <!-- TAMBAHKAN CONTENT LAGI DI SINI -->
         </div>
         <div class="col-md-4">
-            <div class="content-section">
-                <article class="card card-product">
-
+            <div class="content-section" id="carding">
+                <div class="card-body">
 
                     <table class="table">
                         <thead>
@@ -78,10 +85,11 @@
                             </tr>
                         </tbody>
                     </table>
-                </article> <!-- product-list.// -->
+                </div>
+
                 <br>
-                <article class="col-sm-6">
-                    <p><a href="http://localhost/pay/confirmed" class="btn btn-danger"> Konfirmasi </a></p>
+                <article class="col-sm">
+                    <p><a href="http://localhost/pay/confirmed" class="btn btn-danger btn-block"> Konfirmasi </a></p>
                 </article> <!-- col.// -->
             </div>
         </div>

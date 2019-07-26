@@ -1,55 +1,63 @@
 {% extends "main_layout.html" %}
 {% block content %}
+<style>
+  #carding {
+    border-radius: 15px;
+    padding: 20px;
+    width: 100%;
+    height: auto;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  }
+</style>
 <main role="main" class="container">
   <div class="row">
     <div class="col-md-12">
       <div class="content-selection">
-        <form class="form-inline">
+        <!-- <form class="form-inline">
           <div class="form-group mb-2">
             <input type="text" class="form-control" id="inputPassword2" placeholder="Temukan Homestay">
           </div>
           <div class="form-group mx-sm-2 mb-2">
           </div>
           <button type="submit" class="btn btn-warning mb-2">Cari Homestay</button>
-        </form>
+        </form> -->
       </div>
+      <br>
       <!-- LOGIC -->
-      <div class="content-section">
-        {% for data in form %}
-        <article class="card card-product">
-          <div class="card-body">
-            <div class="row">
-              <aside class="col-sm-3">
-                <div class="img-wrap"><img class="rounded float-left" src="{{ data.foto_homestay }}" width="250px">
-                </div>
-              </aside> <!-- col.// -->
-              <article class="col-sm-6">
-                <a href="#" style="color: black"> <strong>Homestay Asri Mataram</strong></a>
-                <div class="rating-wrap">
-                  <div class="text-muted"><strong> Lok : </strong> {{ data.alamat }} </div></strong>
-                  <p> {{ data.deskripsi }} </p>
-                </div> <!-- rating-wrap.// -->
-                <!-- <p> {{ alamat }}</p> -->
-              </article> <!-- col.// -->
-              <aside class="col-sm-3 border-left">
-                <div class="action-wrap">
-                  <div class="price-wrap h4">
-                    <span class="price"> Rp. {{ data.harga }} </span> <br>
-                    <del class="price-old"> Rp. 200.000 </del>
-                  </div> <!-- info-price-detail // -->
-                  <p class="text-success">potongan 20%</p>
-                  <p>
-                    <a href="http://localhost/homestay/{{ data.id }}" class="btn btn-outline-info"> Detail </a>
-                    <a href="#" class="btn btn-success"> favoritkan </a>
-                  </p>
-                </div> <!-- action-wrap.// -->
-              </aside> <!-- col.// -->
-            </div> <!-- row.// -->
-          </div> <!-- card-body .// -->
-        </article> <!-- product-list.// -->
-        <br>
-        {% endfor %}
+      {% for data in form %}
+      <div class="content-section" id="carding">
+
+        <div class="card-body">
+          <div class="row">
+            <aside class="col-sm-3">
+              <div class="img-wrap"><img class="rounded float-left" src="{{ data.foto_homestay }}" width="250px">
+              </div>
+            </aside> <!-- col.// -->
+            <article class="col-sm-6">
+              <a href="#" style="color: black"> <strong>Homestay Asri Mataram</strong></a>
+              <div class="rating-wrap">
+                <div class="text-muted"><strong> Lok : </strong> {{ data.alamat }} </div></strong>
+                <p> {{ data.deskripsi }} </p>
+              </div> <!-- rating-wrap.// -->
+              <!-- <p> {{ alamat }}</p> -->
+            </article> <!-- col.// -->
+            <aside class="col-sm-3 border-left">
+              <div class="action-wrap">
+                <div class="price-wrap h4">
+                  <span class="price"> Rp. {{ data.harga }} </span> <br>
+                  <del class="price-old"> Rp. 200.000 </del>
+                </div> <!-- info-price-detail // -->
+                <p class="text-success">potongan 20%</p>
+                <p>
+                  <a href="http://localhost/homestay/{{ data.id }}" class="btn btn-outline-info"> Detail </a>
+                  <a href="#" class="btn btn-success"> favoritkan </a>
+                </p>
+              </div> <!-- action-wrap.// -->
+            </aside> <!-- col.// -->
+          </div> <!-- row.// -->
+        </div> <!-- card-body .// -->
       </div>
+      {% endfor %}
     </div>
   </div>
   </div>
