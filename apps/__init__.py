@@ -11,6 +11,7 @@ import os
 
 app = Flask(__name__)
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
+app.jinja_env.filters["zip"] = zip
 db = SQLAlchemy(app)
 file_path = os.path.abspath(os.path.dirname(__file__))
 basedir = os.path.join(file_path, "data.sqlite")

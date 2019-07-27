@@ -11,125 +11,146 @@
 </style>
 <main role="main" class="container">
 
-    <!-- </div>
-    </div> -->
+    <div class="content-section" id="carding">
+
+        <div class="card">
+            <table class="table shopping-cart-wrap table-borderless">
+                <thead class="text-muted">
+                    <tr>
+                        <th scope="col" width="250" class="text-center">Yang dipesan</th>
+                        <th scope="col"></th>
+                        <th scope="col" width="200">Harga</th>
+                        <th scope="col" width="200" class="text-center">Aksi</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>
+                            <h5>Homestay</h5>
+                        </td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                </tbody>
+                <tbody>
+                    <tr>
+                        <td>
+                            <figure class="media">
+                                <div class="img-wrap"><img src="{{ form_homestay.foto_homestay }}" width="250px"
+                                        class="img-thumbnail img-sm"></div>
+                            </figure>
+                        </td>
+                        <td>
+                            <figure class="media">
+                                <figcaption class="media-body">
+                                    <h6 class="title text-truncate">{{form_homestay.nama_homestay}} </h6>
+                                    <dl class="dlist-inline small">
+                                        <dt>code: </dt>
+                                        <dd>{{form_homestay.code_homestay}}</dd>
+                                    </dl>
+                                    <dl class="dlist-inline small">
+                                        <dt>loc: </dt>
+                                        <dd>{{form_homestay.alamat}}</dd>
+                                    </dl>
+                                </figcaption>
+                            </figure>
+                        </td>
+                        <td>
+                            <div class="price-wrap">
+                                <var class="price">Rp {{formatrupiah(form_homestay.harga)}} / <h6>malam</h6></var>
+                                <br>
+                                <small class="text-muted">({{ malam }} malam)</small>
+                            </div> <!-- price-wrap .// -->
+                        </td>
+                        <td class="text-right">
+                            <a title="" href="http://localhost/checkout/favorit/{{ form_homestay.id }}"
+                                class="btn btn-outline-success" data-toggle="tooltip"
+                                data-original-title="Save to Wishlist"><i class="fas fa-heart"></i>
+                            </a>
+                            <a href="http://localhost/remove/item/{{ form_homestay.id }}"
+                                class="btn btn-outline-danger"> <i class="fas fa-trash-alt"></i>
+                                Remove</a>
+                        </td>
+                    </tr>
+
+                </tbody>
+                <tbody>
+                    <tr>
+                        <td>
+                            <h5>Paket Wisata</h5>
+                        </td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                </tbody>
+                {% for form in form_wisata %}
+                <tbody>
+                    <tr>
+                        <td>
+                            <figure class="media">
+                                <div class="img-wrap"><img src="{{ form.foto_wisata }}" width="250px"
+                                        class="img-thumbnail img-sm"></div>
+                            </figure>
+                        </td>
+                        <td>
+                            <figure class="media">
+                                <figcaption class="media-body">
+                                    <h6 class="title text-truncate">{{form.wisata}} </h6>
+                                    <dl class="dlist-inline small">
+                                        <dt>code: </dt>
+                                        <dd>{{form.code_wisata}}</dd>
+                                    </dl>
+                                    <dl class="dlist-inline small">
+                                        <dt>fasilitas: </dt>
+                                        <dd>{{ form.fasilitas }}</dd>
+                                    </dl>
+                                </figcaption>
+                            </figure>
+                        </td>
+                        <td>
+                            <div class="price-wrap">
+                                <var class="price">Rp {{formatrupiah(form.biaya)}}</var>
+                            </div> <!-- price-wrap .// -->
+                        </td>
+                        <td class="text-right">
+                            <!-- <a title="" href="" class="btn btn-outline-success" data-toggle="tooltip"
+                                data-original-title="Save to Wishlist"><i class="fas fa-heart"></i>
+                            </a> -->
+                            <a href="http://localhost/remove/item/paket/{{ form.id }}" class="btn btn-warning"> <i
+                                    class="fas fa-trash-alt"></i>
+                                hapus paket</a>
+                        </td>
+                    </tr>
+
+                </tbody>
+                {% endfor %}
+                <tbody>
+                    <tr>
+                        <td></td>
+
+                        <td><strong>Total Tagihan</strong></td>
+                        <td>
+                            <div class="price-wrap h4"><span class="price"> <strong> Rp.
+                                        {{ formatrupiah(total) }}
+                                    </strong>
+                                </span></div>
+                        </td>
+                        <td>
+                            <article class="col-md">
+                                <p><a href="http://localhost/pay" class="btn btn-info btn-block"> <i
+                                            class="fas fa-paper-plane"></i>
+                                        Bayar Sekarang </a></p>
+                            </article> <!-- col.// -->
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div> <!-- card.// -->
+
+    </div>
+
 </main>
 
-<main role="main" class="container">
-    <div class="row">
-        <div class="col-md-8">
-            <div class="content-selection">
-                <div class="content-section" id="carding">
-                    <legend class="border-bottom mb-4"> <strong style="color: black">Detail Pembayaran dan
-                            Tagihan</strong></legend>
-                    <div class="card-body">
-                        <div class="row">
-                            <div class="img-wrap"><img class="rounded float-left"
-                                    src="{{ form_homestay.foto_homestay }}" width="250px"></div>
-
-                            <article class="col-sm-6">
-
-                                <a href="#" style="color: black">
-                                    <strong>{{ form_homestay.nama_homestay }}</strong></a>
-                                <h6>
-                                    Code : {{ form_homestay.code_homestay }}
-                                </h6>
-                                <div class="rating-wrap">
-                                    <div class="text-muted"> {{ malam }} malam
-                                    </div></strong>
-                                </div> <!-- rating-wrap.// -->
-                                <h5>
-                                    <strong> Lok : </strong> {{ form_homestay.alamat }}
-                                </h5>
-                                <div class="price-wrap h4">
-                                    <span class="price"> Rp. {{ form_homestay.harga }} </span> <br>
-
-                                </div> <!-- info-price-detail // -->
-                                <p><a href="#" class="btn btn-danger"> hapus </a></p>
-
-                                <!-- col.// -->
-                        </div> <!-- row.// -->
-                    </div> <!-- card-body .// -->
-                    </article> <!-- product-list.// -->
-                </div>
-
-            </div>
-            <div class="content-section" id="carding">
-                <p class="text-muted">
-                    <legend class="border-bottom mb-4"> Paket wisata yang dipilih
-                    </legend>
-                </p>
-
-                {% for form in form_wisata %}
-
-                <div class="card-body">
-                    <div class="row">
-                        <article class="col-sm-6">
-                            <a href="#" style="color: black"> <strong>Wisata {{ form.wisata }}</strong>
-                            </a>
-                            <h6>
-                                Code : {{ form.code_wisata }}
-                            </h6>
-                            <div class="text-muted"><strong> Fasilitas : </strong> {{ form.fasilitas }} </div>
-                            </strong>
-                            <div class="price-wrap h4">
-
-                                <span class="price"> Rp. {{ form.biaya }} </span> <br>
-
-                            </div> <!-- info-price-detail // -->
-                            <p><a href="#" class="btn btn-danger"> hapus paket wisata</a></p>
-                        </article> <!-- col.// -->
-
-                        <article class="col-sm-3">
-                            <div class="img-wrap"><img class="rounded float-left" src="{{ form.foto_wisata }}"
-                                    width="190px"></div>
-                        </article> <!-- col.// -->
-
-
-                        <!-- col.// -->
-                    </div> <!-- row.// -->
-                </div> <!-- card-body .// -->
-
-                {% endfor %}
-
-            </div>
-        </div>
-
-        <div class="col-md-4">
-            <div class="content-section" id="carding">
-                <div class="card-body">
-                    <table class="table">
-                        <thead>
-                            <tr>
-                                <th scope="col">#code</th>
-                                <th scope="col">Total Tagihan</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <!-- <tr>
-                                <th scope="row"></th>
-
-                                <td>
-                                    <div class="price-wrap h4"><span class="price"> Rp. {{ biaya }} </span></div>
-                                </td>
-
-                            </tr> -->
-
-                            <tr>
-                                <th scope="row"></th>
-                                <td>
-                                    <div class="price-wrap h4"><span class="price"> <strong> Rp. {{ total }}
-                                            </strong>
-                                        </span></div>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                    <br>
-                    <article class="col-md">
-                        <p><a href="http://localhost/pay" class="btn btn-info btn-block"> Bayar Sekarang </a></p>
-                    </article> <!-- col.// -->
-                </div>
-            </div>
-        </div>
-</main {% endblock %}
+{% endblock %}

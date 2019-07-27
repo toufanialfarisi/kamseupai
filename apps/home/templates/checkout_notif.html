@@ -1,0 +1,51 @@
+{% extends "home_layout.html" %}
+{% block content %}
+<style>
+    #carding {
+        border-radius: 15px;
+        padding: 20px;
+        width: 100%;
+        height: auto;
+        box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    }
+</style>
+
+<main role="main" class="container">
+
+    <div class="content-section" id="carding">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+        {% for category, message in messages %}
+        <div class="alert alert-{{ category }}"> {{ message }} </div>
+        {% endfor %}
+        {% endif %}
+        {% endwith %}
+        <div class="card">
+            <table class="table shopping-cart-wrap table-borderless">
+                <thead class="text-muted">
+                    <tr>
+                        <th scope="col" width="250" class="text-center">Yang dipesan</th>
+                        <th scope="col"></th>
+                        <th scope="col" width="200">Harga</th>
+                        <th scope="col" width="200" class="text-center">Aksi</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>
+                            <h5>Homestay</h5>
+                        </td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                </tbody>
+
+            </table>
+        </div> <!-- card.// -->
+
+    </div>
+
+</main>
+
+{% endblock %}

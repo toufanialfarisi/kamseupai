@@ -9,6 +9,14 @@
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
   }
 </style>
+
+<main class="container">
+  <div class="row">
+
+  </div>
+</main>
+
+
 <main role="main" class="container">
   <div class="row">
     <div class="col-md-12">
@@ -24,7 +32,7 @@
       </div>
       <br>
       <!-- LOGIC -->
-      {% for data in form %}
+      {% for data, idr, diskon in form | zip(rupiah, ls_diskon) %}
       <div class="content-section" id="carding">
 
         <div class="card-body">
@@ -37,20 +45,22 @@
               <a href="#" style="color: black"> <strong>{{ data.nama_homestay }}</strong></a>
               <div class="rating-wrap">
                 <div class="text-muted"><strong> Lok : </strong> {{ data.alamat }} </div></strong>
-                <p> {{ data.deskripsi }} </p>
+                <h5> {{ data.deskripsi }} </h5>
               </div> <!-- rating-wrap.// -->
               <!-- <p> {{ alamat }}</p> -->
             </article> <!-- col.// -->
             <aside class="col-sm-3 border-left">
               <div class="action-wrap">
                 <div class="price-wrap h4">
-                  <span class="price"> Rp. {{ data.harga }} </span> <br>
-                  <del class="price-old"> Rp. 200.000 </del>
+                  <span class="price"> Rp. {{ diskon }} </span> <br>
+                  <del class="price-old"> Rp. {{ idr }} </del>
                 </div> <!-- info-price-detail // -->
-                <p class="text-success">potongan 20%</p>
+                <h5 class="text-success">potongan {{data.diskon}} %</h5>
                 <p>
+                  <a href="http://localhost/favorit/{{ data.id }}" class="btn btn-outline-success"> <i
+                      class="fas fa-heart"></i></a>
                   <a href="http://localhost/homestay/{{ data.id }}" class="btn btn-outline-info"> Detail </a>
-                  <a href="http://localhost/favorit/{{ data.id }}" class="btn btn-success"> favoritkan </a>
+
                 </p>
               </div> <!-- action-wrap.// -->
             </aside> <!-- col.// -->

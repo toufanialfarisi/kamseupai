@@ -21,7 +21,9 @@
               </div>
               <div class="col-md-2">
                 <a href="http://localhost/book-processing" class="btn btn-outline-danger"> <strong>
-                    Lanjutkan </strong>
+                    Lanjutkan <i class="fas fa-arrow-right"></i>
+
+                  </strong>
                 </a>
               </div>
 
@@ -40,7 +42,8 @@
           {% for data in form %}
           <div class="col-lg-4 col-md-6 mb-4">
             <div class="card h-100">
-              <a href="#"><img class="card-img-top" src="#" style="width: 335px ; height: 200px" alt=""></a>
+              <a href="#"><img class="card-img-top" src="{{ data.foto_wisata }}" style="width: 335px ; height: 200px"
+                  alt=""></a>
               <div class="card-body">
                 <h4 class="card-title">
                   Paket Wisata : <strong>{{ data.wisata }}</strong>
@@ -51,7 +54,7 @@
               </div>
               <div class="card-footer">
                 <small id="pesanPaket" class="text-muted"><a href="http://localhost/book/homestay/wisata/{{ data.id }}"
-                    class="btn btn-info">Tambah Paket</a></small>
+                    class="btn btn-info"><i class="fas fa-plus"></i> Tambah Paket</a></small>
               </div>
             </div>
           </div>
