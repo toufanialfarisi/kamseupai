@@ -7,8 +7,18 @@ import random
 import string
 
 
+
+ 
+
 home = Blueprint("home", __name__, template_folder="templates/")
 
+def host(localhost="localhost"):
+    if localhost == "localhost":
+        host = "http://localhost"
+        return host
+    else:
+        host = MY_IP
+        return host 
 
 def custom_session_idhomestay(homestay_id):
     id_homestay = models.Homestay.query.get(homestay_id)
@@ -57,6 +67,7 @@ def index():
         favs_exist=is_fav_exist, 
         rupiah=ls_curency, 
         ls_diskon=ls_diskon,
+        host=host(),
         )
 
 
@@ -111,7 +122,7 @@ def detail_homestay(id):
         session["malam"] = request.form["malam"]
         return redirect(url_for("home.book_homestay", id=id))
     return render_template(
-        "home_detail.html", form=model, favs=fav, favs_exist=is_fav_exist
+        "home_detail.html", form=model, favs=fav, favs_exist=is_fav_exist, host=host(),
     )
 
 
@@ -136,6 +147,7 @@ def book_homestay(id):
         form_homestay=model,
         favs=fav,
         favs_exist=is_fav_exist,
+        host=host(),
     )
 
 
@@ -216,6 +228,7 @@ def checkout():
         favs=fav,
         favs_exist=is_fav_exist,
         formatrupiah=formatrupiah,
+        host=host(),
     )
 
 
@@ -246,7 +259,12 @@ def pay():
     total_biaya = biaya_wisata + biaya_homestay
     fav, is_fav_exist = show_fav()
     return render_template(
-        "pay.html", total=total_biaya, favs=fav, favs_exist=is_fav_exist, formatrupiah=formatrupiah,
+        "pay.html", 
+        total=total_biaya, 
+        favs=fav, 
+        favs_exist=is_fav_exist, 
+        formatrupiah=formatrupiah, 
+        host=host(),
     )
 
 
@@ -262,7 +280,7 @@ def pay_confirmed():
         models.db.session.commit()
     print("done")
     fav, is_fav_exist = show_fav()
-    return render_template("pay_confirmed.html", favs=fav, favs_exist=is_fav_exist)
+    return render_template("pay_confirmed.html", favs=fav, favs_exist=is_fav_exist, host=host())
 
 
 def code_homestay(stringLength=6, gen_for="H"):
@@ -304,7 +322,11 @@ def add_homestay():
         flash("Homestay berhasil ditambah", "success")
         return redirect(url_for("home.add_homestay"))
     return render_template(
-        "add_homestay.html", form=form, favs=fav, favs_exist=is_fav_exist
+        "add_homestay.html", 
+        form=form, 
+        favs=fav, 
+        favs_exist=is_fav_exist, 
+        host=host(),
     )
 
 

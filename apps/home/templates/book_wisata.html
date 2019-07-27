@@ -20,7 +20,7 @@
                 Apakah Anda ingin memesan paket wisata Juga ?, Kalau tidak klik tombol lanjutkan
               </div>
               <div class="col-md-2">
-                <a href="http://localhost/book-processing" class="btn btn-outline-danger"> <strong>
+                <a href="{{ host }}/book-processing" class="btn btn-outline-danger"> <strong>
                     Lanjutkan <i class="fas fa-arrow-right"></i>
 
                   </strong>
@@ -53,7 +53,7 @@
                 <small class="text-muted"> Fasilitas : {{ data.fasilitas }}</small>
               </div>
               <div class="card-footer">
-                <small id="pesanPaket" class="text-muted"><a href="http://localhost/book/homestay/wisata/{{ data.id }}"
+                <small id="pesanPaket" class="text-muted"><a href="{{ host }}/book/homestay/wisata/{{ data.id }}"
                     class="btn btn-info"><i class="fas fa-plus"></i> Tambah Paket</a></small>
               </div>
             </div>
