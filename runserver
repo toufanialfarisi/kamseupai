@@ -1,0 +1,4 @@
+user=monolitik
+redirect_stderr=true
+command=/home/ubuntu/monolitik/runserver
+stdout_log=/home/ubuntu/monolitik/logs/gunicorn_service.log 
