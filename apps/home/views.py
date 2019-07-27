@@ -12,7 +12,7 @@ import string
 
 home = Blueprint("home", __name__, template_folder="templates/")
 
-def host(localhost="localhost"):
+def host(localhost="production"):
     if localhost == "localhost":
         host = "http://localhost"
         return host
