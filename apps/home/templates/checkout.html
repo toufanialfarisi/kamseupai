@@ -1,4 +1,4 @@
-{% extends "main_layout.html" %}
+{% extends "home_layout.html" %}
 {% block content %}
 <style>
     #carding {
@@ -31,13 +31,16 @@
 
                                 <a href="#" style="color: black">
                                     <strong>{{ form_homestay.nama_homestay }}</strong></a>
+                                <h6>
+                                    Code : {{ form_homestay.code_homestay }}
+                                </h6>
                                 <div class="rating-wrap">
                                     <div class="text-muted"> {{ malam }} malam
                                     </div></strong>
                                 </div> <!-- rating-wrap.// -->
-                                <p>
+                                <h5>
                                     <strong> Lok : </strong> {{ form_homestay.alamat }}
-                                </p>
+                                </h5>
                                 <div class="price-wrap h4">
                                     <span class="price"> Rp. {{ form_homestay.harga }} </span> <br>
 
@@ -62,9 +65,11 @@
                 <div class="card-body">
                     <div class="row">
                         <article class="col-sm-6">
-                            <a href="#" style="color: black"> <strong>Wisata {{ form.wisata }}</strong> [
-                                {{id_ws}} ]
+                            <a href="#" style="color: black"> <strong>Wisata {{ form.wisata }}</strong>
                             </a>
+                            <h6>
+                                Code : {{ form.code_wisata }}
+                            </h6>
                             <div class="text-muted"><strong> Fasilitas : </strong> {{ form.fasilitas }} </div>
                             </strong>
                             <div class="price-wrap h4">
@@ -76,7 +81,7 @@
                         </article> <!-- col.// -->
 
                         <article class="col-sm-3">
-                            <div class="img-wrap"><img class="rounded float-left" src="static/homestay.jpg"
+                            <div class="img-wrap"><img class="rounded float-left" src="{{ form.foto_wisata }}"
                                     width="190px"></div>
                         </article> <!-- col.// -->
 

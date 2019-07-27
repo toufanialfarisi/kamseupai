@@ -1,4 +1,4 @@
-{% extends "main_layout.html" %}
+{% extends "home_layout.html" %}
 {% block content %}
 <main role="main" class="container">
     <div class="row">
@@ -37,8 +37,10 @@
                                     <span>{{ error }}</span>
                                     {% endfor %}
                                 </div>
-                                {% endif %}
+                                {% else %}
                                 {{ form.nama_homestay(class='form-control form-control-lg') }}
+                                {% endif %}
+
                             </fieldset>
                             <fieldset class="form-group">
                                 {{ form.alamat.label(class='form-control-label') }}
@@ -49,8 +51,10 @@
                                     <span>{{ error }}</span>
                                     {% endfor %}
                                 </div>
-                                {% endif %}
+                                {% else %}
                                 {{ form.alamat(class='form-control form-control-lg') }}
+                                {% endif %}
+
                             </fieldset>
                             <fieldset class="form-group">
                                 {{ form.deskripsi.label(class='form-control-label') }}
@@ -61,8 +65,10 @@
                                     <span>{{ error }}</span>
                                     {% endfor %}
                                 </div>
-                                {% endif %}
+                                {% else %}
                                 {{ form.deskripsi(class='form-control form-control-lg') }}
+                                {% endif %}
+
                             </fieldset>
                             <fieldset class="form-group">
                                 {{ form.fasilitas.label(class='form-control-label') }}
@@ -73,8 +79,10 @@
                                     <span>{{ error }}</span>
                                     {% endfor %}
                                 </div>
-                                {% endif %}
+                                {% else %}
                                 {{ form.fasilitas(class='form-control form-control-lg') }}
+                                {% endif %}
+
                             </fieldset>
                             <fieldset class="form-group">
                                 {{ form.harga.label(class='form-control-label') }}
@@ -85,8 +93,10 @@
                                     <span>{{ error }}</span>
                                     {% endfor %}
                                 </div>
-                                {% endif %}
+                                {% else %}
                                 {{ form.harga(class='form-control form-control-lg') }}
+                                {% endif %}
+
                             </fieldset>
                             <fieldset class="form-group">
                                 {{ form.foto_homestay.label(class='form-control-label') }}
@@ -97,8 +107,10 @@
                                     <span>{{ error }}</span>
                                     {% endfor %}
                                 </div>
-                                {% endif %}
+                                {% else %}
                                 {{ form.foto_homestay(class='form-control form-control-lg') }}
+                                {% endif %}
+
                             </fieldset>
                             <fieldset class="form-group">
                                 {{ form.submit(class='btn btn-info btn-block') }}

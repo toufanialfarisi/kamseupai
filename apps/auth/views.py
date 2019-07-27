@@ -45,7 +45,6 @@ def login():
             if user.check_password(form.password.data) and user is not None:
                 # if check_password_hash(user.password, form.password.data) and user is
                 login_user(user)
-                flash("login success", "success")
                 next = request.args.get("next")
                 if next == None or not next[0] == "/":
                     next = url_for("home.index")

@@ -26,6 +26,7 @@ class WisataForm(FlaskForm):
         choices=[(k.id, k.nama_homestay) for k in models.Homestay.query.all()],
         coerce=int,
     )
+    foto_wisata = FileField(validators=[FileRequired()])
     submit = SubmitField("Tambah Wisata")
 
 

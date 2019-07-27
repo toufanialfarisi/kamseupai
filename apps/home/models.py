@@ -7,6 +7,7 @@ class Homestay(db.Model):
     __tablename__ = "homestay"
     id = db.Column(db.Integer, primary_key=True)
     nama_homestay = db.Column(db.String(80))
+    code_homestay = db.Column(db.String(10))
     alamat = db.Column(db.TEXT)
     deskripsi = db.Column(db.TEXT)
     fasilitas = db.Column(db.String(100))
@@ -14,6 +15,7 @@ class Homestay(db.Model):
     foto_homestay = db.Column(db.String(255))
     paket_wisata = db.relationship("Wisata", backref="paket_wisata")
     transaksi = db.relationship("Transaksi", backref="transaksi_id")
+    favoritkan = db.relationship("Favorit", backref="list_favorit")
     create_at = db.Column(db.DateTime, default=datetime.datetime.utcnow())
     update_at = db.Column(db.DateTime, onupdate=datetime.datetime.utcnow())
 
@@ -42,10 +44,12 @@ class BelanjaUser(db.Model):
 class Wisata(db.Model):
     __tablename__ = "wisata"
     id = db.Column(db.Integer, primary_key=True)
+    code_wisata = db.Column(db.String(10))
     wisata = db.Column(db.String(80))
     fasilitas = db.Column(db.String(100))
     biaya = db.Column(db.Integer)
     kegiatan = db.Column(db.TEXT)
+    foto_wisata = db.Column(db.String(100))
     id_homestay = db.Column(db.Integer, db.ForeignKey("homestay.id"))
     transaksi = db.relationship("Transaksi", backref="transaksi_wisata", uselist=False)
     create_at = db.Column(db.DateTime, default=datetime.datetime.utcnow())
@@ -65,3 +69,10 @@ class WisataSession(db.Model):
     id_wisata = db.Column(db.Integer)
     user_now = db.Column(db.Integer, db.ForeignKey("user.id"))
 
+
+class Favorit(db.Model):
+    __tablename__ = "favorit"
+    id = db.Column(db.Integer, primary_key=True)
+    fav_homestay = db.Column(db.String(100))
+    id_homestay = db.Column(db.Integer, db.ForeignKey("homestay.id"))
+    id_user = db.Column(db.Integer, db.ForeignKey("user.id"))

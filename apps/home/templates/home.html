@@ -1,4 +1,4 @@
-{% extends "main_layout.html" %}
+{% extends "home_layout.html" %}
 {% block content %}
 <style>
   #carding {
@@ -34,7 +34,7 @@
               </div>
             </aside> <!-- col.// -->
             <article class="col-sm-6">
-              <a href="#" style="color: black"> <strong>Homestay Asri Mataram</strong></a>
+              <a href="#" style="color: black"> <strong>{{ data.nama_homestay }}</strong></a>
               <div class="rating-wrap">
                 <div class="text-muted"><strong> Lok : </strong> {{ data.alamat }} </div></strong>
                 <p> {{ data.deskripsi }} </p>
@@ -50,7 +50,7 @@
                 <p class="text-success">potongan 20%</p>
                 <p>
                   <a href="http://localhost/homestay/{{ data.id }}" class="btn btn-outline-info"> Detail </a>
-                  <a href="#" class="btn btn-success"> favoritkan </a>
+                  <a href="http://localhost/favorit/{{ data.id }}" class="btn btn-success"> favoritkan </a>
                 </p>
               </div> <!-- action-wrap.// -->
             </aside> <!-- col.// -->

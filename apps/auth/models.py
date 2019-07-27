@@ -29,6 +29,7 @@ class User(db.Model, UserMixin):
         "WisataSession", backref="wisata_session", uselist=True
     )
     belanja_user = db.relationship("BelanjaUser", backref="belanjaan", uselist=False)
+    favorit_user = db.relationship("Favorit", backref="homestay_favorit", uselist=True)
 
     # This connects BlogPosts to a User Author.
     # posts = db.relationship('BlogPost', backref='author', lazy=True)

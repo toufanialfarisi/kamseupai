@@ -1,4 +1,4 @@
-{% extends "main_layout.html" %}
+{% extends "home_layout.html" %}
 {% block content %}
 <main role="main" class="container">
     <div class="row">
@@ -26,7 +26,7 @@
                     <div class="card-body">
 
                         <!-- <form method="POST" action=""> -->
-                        <form action="" method="POST">
+                        <form action="" method="POST" enctype="multipart/form-data">
                             {{ form.hidden_tag() }}
                             <fieldset class="form-group">
                                 {{ form.wisata.label(class='form-control-label') }}
@@ -37,8 +37,10 @@
                                     <span>{{ error }}</span>
                                     {% endfor %}
                                 </div>
-                                {% endif %}
+                                {% else %}
                                 {{ form.wisata(class='form-control form-control-lg') }}
+                                {% endif %}
+
                             </fieldset>
                             <fieldset class="form-group">
                                 {{ form.fasilitas.label(class='form-control-label') }}
@@ -49,8 +51,10 @@
                                     <span>{{ error }}</span>
                                     {% endfor %}
                                 </div>
-                                {% endif %}
+                                {% else %}
                                 {{ form.fasilitas(class='form-control form-control-lg') }}
+                                {% endif %}
+
                             </fieldset>
                             <fieldset class="form-group">
                                 {{ form.kegiatan.label(class='form-control-label') }}
@@ -61,8 +65,10 @@
                                     <span>{{ error }}</span>
                                     {% endfor %}
                                 </div>
-                                {% endif %}
+                                {% else %}
                                 {{ form.kegiatan(class='form-control form-control-lg') }}
+                                {% endif %}
+
                             </fieldset>
                             <fieldset class="form-group">
                                 {{ form.biaya.label(class='form-control-label') }}
@@ -73,8 +79,10 @@
                                     <span>{{ error }}</span>
                                     {% endfor %}
                                 </div>
-                                {% endif %}
+                                {% else %}
                                 {{ form.biaya(class='form-control form-control-lg') }}
+                                {% endif %}
+
                             </fieldset>
 
                             <fieldset class="form-group">
@@ -86,9 +94,25 @@
                                     <span>{{ error }}</span>
                                     {% endfor %}
                                 </div>
-                                {% endif %}
+                                {% else %}
                                 {{ form.id_homestay(class='form-control form-control-lg') }}
+                                {% endif %}
 
+
+
+                            </fieldset>
+                            <fieldset class="form-group">
+                                {{ form.foto_wisata.label(class='form-control-label') }}
+                                {% if form.foto_wisata.errors %}
+                                {{ form.foto_wisata(class='form-control form-control-lg is-invalid') }}
+                                <div class="invalid-feedback">
+                                    {% for error in form.foto_wisata.errors %}
+                                    <span>{{ error }}</span>
+                                    {% endfor %}
+                                </div>
+                                {% else %}
+                                {{ form.foto_wisata(class='form-control form-control-lg') }}
+                                {% endif %}
 
                             </fieldset>
                             <fieldset class="form-group">
