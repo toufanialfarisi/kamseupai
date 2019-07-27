@@ -1,4 +1,16 @@
-user=monolitik
-redirect_stderr=true
-command=/home/ubuntu/monolitik/runserver
-stdout_log=/home/ubuntu/monolitik/logs/gunicorn_service.log 
+#!/bin/bash
+# Activate the virtual environment
+#cd $(pwd)
+DIR=/home/ubuntu/backend
+cd ${DIR}
+source  /home/ubuntu/monolitik/env/bin/activate
+pip install -r requirements.txt  
+
+export FLASK_ENV=development
+
+python manage.py runserver
+#exec /home/ubuntu/monolitik/env/bin/gunicorn app:app -b 0.0.0.0:5000 \
+#  --reload \
+#  --workers 2 \
+#  --log-level=debug \
+#  --log-file=-
