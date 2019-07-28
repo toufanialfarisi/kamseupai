@@ -12,7 +12,7 @@ import string
 
 home = Blueprint("home", __name__, template_folder="templates/")
 
-def host(localhost="production"):
+def host(localhost="prod"):
     if localhost == "localhost":
         host = "http://localhost"
         return host
@@ -298,7 +298,7 @@ def add_homestay():
         file = request.files["foto_homestay"]
         folder = IMAGES_DIR + "/homestay"
         foto = upload_file(file, folder)  # return random name
-        foto = MY_IP + "/" + foto
+        foto = host() + "/" + foto
 
         nama_homestay = validasi_type(form.nama_homestay.data, str)
         alamat = validasi_type(form.alamat.data, str)
@@ -341,7 +341,8 @@ def add_wisata():
         # return "test"
         folder = IMAGES_DIR + "/wisata"
         foto = upload_file(file, folder)  # return random name
-        foto = "http://localhost" + "/" + foto
+        ip = host()
+        foto = ip + "/" + foto
 
         wisata = validasi_type(form.wisata.data, str)
         fasilitas = validasi_type(form.fasilitas.data, str)
