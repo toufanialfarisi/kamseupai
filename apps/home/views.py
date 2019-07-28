@@ -298,7 +298,7 @@ def add_homestay():
         file = request.files["foto_homestay"]
         folder = IMAGES_DIR + "/homestay"
         foto = upload_file(file, folder)  # return random name
-        foto = "http://localhost" + "/" + foto
+        foto = MY_IP + "/" + foto
 
         nama_homestay = validasi_type(form.nama_homestay.data, str)
         alamat = validasi_type(form.alamat.data, str)
