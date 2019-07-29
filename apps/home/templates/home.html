@@ -45,7 +45,7 @@
               <a href="#" style="color: black"> <strong>{{ data.nama_homestay }}</strong></a>
               <div class="rating-wrap">
                 <div class="text-muted"><strong> Lok : </strong> {{ data.alamat }} </div></strong>
-                <h5> {{ data.deskripsi }} </h5>
+                <h5> {{ data.deskripsi[:145] }} . . . . </h5>
               </div> <!-- rating-wrap.// -->
               <!-- <p> {{ alamat }}</p> -->
             </article> <!-- col.// -->
@@ -57,9 +57,9 @@
                 </div> <!-- info-price-detail // -->
                 <h5 class="text-success">potongan {{data.diskon}} %</h5>
                 <p>
-                  <a href="{{ host }}/favorit/{{ data.id }}" class="btn btn-outline-success"> <i
-                      class="fas fa-heart"></i></a>
+                  <a href="{{ host }}/favorit/{{ data.id }}" class="btn btn-info"> Favorite </a>
                   <a href="{{ host }}/homestay/{{ data.id }}" class="btn btn-outline-info"> Detail </a>
+                  <span class="badge badge-success">tersedia</span>
 
                 </p>
               </div> <!-- action-wrap.// -->

@@ -85,7 +85,18 @@
 
                             </fieldset>
 
-                            <fieldset class="form-group">
+                            <fieldset>
+
+                                <label for="id_homestay">id homestay</label>
+                                <select name="id_homestay" class="custom-select custom-select-md" style="height: 50px;">
+                                    {% for form in model_homestay %}
+                                    <option value="{{ form.id }}"> {{ form.nama_homestay }} </option>
+                                    {% endfor %}
+                                </select>
+                            </fieldset>
+
+
+                            <!-- <fieldset class="form-group">
                                 {{ form.id_homestay.label(class='form-control-label') }}
                                 {% if form.id_homestay.errors %}
                                 {{ form.id_homestay(class='form-control form-control-lg is-invalid') }}
@@ -98,9 +109,8 @@
                                 {{ form.id_homestay(class='form-control form-control-lg') }}
                                 {% endif %}
 
+                            </fieldset> -->
 
-
-                            </fieldset>
                             <fieldset class="form-group">
                                 {{ form.foto_wisata.label(class='form-control-label') }}
                                 {% if form.foto_wisata.errors %}

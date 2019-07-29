@@ -18,6 +18,7 @@ basedir = os.path.join(file_path, "data.sqlite")
 app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///" + basedir
 app.config["SECRET_KEY"] = "KAMseupai291195"
 
+
 manager = Manager(app)
 manager.add_command("db", MigrateCommand)
 

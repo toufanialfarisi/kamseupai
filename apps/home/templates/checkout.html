@@ -53,12 +53,23 @@
                                         <dt>loc: </dt>
                                         <dd>{{form_homestay.alamat}}</dd>
                                     </dl>
+                                    <dl class="dlist-inline small">
+                                        <dt>Check in : </dt>
+                                        <dd>{{ check_in }}</dd>
+                                        <dt>Check out : </dt>
+                                        <dd>{{ check_out }}</dd>
+
+                                    </dl>
                                 </figcaption>
                             </figure>
                         </td>
                         <td>
                             <div class="price-wrap">
-                                <var class="price">Rp {{formatrupiah(form_homestay.harga)}} / <h6>malam</h6></var>
+                                <var class="price">Rp {{diskon}} / <h6>malam</h6></var>
+                                <var>
+                                    <h5 class="text-danger"><del class="price-old"> Rp.
+                                            {{ formatrupiah(form_homestay.harga) }} </del></h5>
+                                </var>
                                 <br>
                                 <small class="text-muted">({{ malam }} malam)</small>
                             </div> <!-- price-wrap .// -->

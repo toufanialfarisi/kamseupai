@@ -5,14 +5,35 @@ from apps.config import IMAGES_DIR, MY_IP
 from flask_login import current_user, login_required, logout_user
 import random
 import string
-
+from apps.hostmode import args
+from datetime import date, time, datetime
 
 
  
 
 home = Blueprint("home", __name__, template_folder="templates/")
+global host_mode
+host_mode = str(args["hostmode"])
 
-def host(localhost="prod"):
+
+@home.route("/clear-session", methods=["GET", "POST"])
+def delete_sessions():
+    trans = models.Transaksi.query.all()
+    for data in trans:
+        models.db.session.delete(data)
+        models.db.session.commit()
+
+    session.pop("id_save_homestay", None)
+    session.pop("id_save_wisata", None)
+    session.pop("malam", None)
+    session.pop("check_in", None)
+    session.pop("check_out", None)
+    session.pop("ci", None)
+    session.pop("co", None)
+    session.pop("total_biaya", None)
+    return 'all sessions are clear'
+
+def host(localhost=host_mode):    
     if localhost == "localhost":
         host = "http://localhost"
         return host
@@ -45,11 +66,9 @@ def formatrupiah(uang):
 
 @home.route("/", methods=["GET"])
 def index():
-    
     ls_curency = []
     model = models.Homestay.query.all()
     fav, is_fav_exist = show_fav()
-    print("fav exist ? ", is_fav_exist)
     ls_diskon = []
     for cur in model:
         rupiah = formatrupiah(cur.harga)
@@ -109,20 +128,56 @@ def remove_item_notif():
 def remove_paket(id):
     user_now = current_user.get_id()
     session.pop('save_id_wisata', None)
-    # transaksi = models.Transaksi.query.filter_by(id_wisata=id).first()
-    # models.db.session.delete(transaksi)
-    # models.db.session.commit()
+    transaksi = models.Transaksi.query.all()
+    for data in transaksi:
+        models.db.session.delete(data)
+        models.db.session.commit()
     return redirect(url_for("home.checkout"))
+
+    
 
 @home.route("/homestay/<int:id>", methods=["GET", "POST"])
 def detail_homestay(id):
-    model = models.Homestay.query.get(id)
+    cur = models.Homestay.query.get(id)
+
     fav, is_fav_exist = show_fav()
+    ls_diskon = []
+    rupiah = formatrupiah(cur.harga)
+    real_harga = cur.harga 
+    potongan_harga = cur.harga * (cur.diskon/100)
+    disk = int(real_harga - potongan_harga)
+    thediskon = formatrupiah(disk)
+    model_wisata = models.Wisata.query.all()
+    fav, is_fav_exist = show_fav()
+    
+
     if request.method == "POST":
-        session["malam"] = request.form["malam"]
+        malam = session["malam"] = request.form["malam"]
+
+        tgl_checkin = request.form["check_in"] # session["check_in"] = 
+        checkin = tgl_checkin.split('-')
+        check_in = checkin[0] + '-' + checkin[1] +'-' + checkin[2]
+        session["ci"] = datetime(int(checkin[0]), int(checkin[1]), int(checkin[2]))
+        tgl_checkin = session["check_in"] = check_in
+        
+
+        kamar = session["kamar"] = request.form["kamar"]
+        checkout = tgl_checkin.split('-')
+        tgl_checkout = int(checkout[2]) + int(malam)
+        check_out = session["check_out"] = checkout[0] + '-' + checkout[1] + '-' +  str(tgl_checkout)
+        session["co"] = datetime(int(checkout[0]), int(checkout[1]), int(tgl_checkout))
+        
         return redirect(url_for("home.book_homestay", id=id))
+
     return render_template(
-        "home_detail.html", form=model, favs=fav, favs_exist=is_fav_exist, host=host(),
+        "home_detail.html", 
+        form=cur, 
+        favs=fav, 
+        favs_exist=is_fav_exist, 
+        host=host(),
+        formatrupiah=formatrupiah,
+        diskon=thediskon, 
+        form_wisata=model_wisata,
     )
 
 
@@ -154,28 +209,42 @@ def book_homestay(id):
 @home.route("/book/homestay/wisata/<int:id>", methods=["GET"])
 @login_required
 def book_wisata(id):
-    model = models.Wisata.query.get(id)
     session["save_id_wisata"] = id
-    print("Wisata booked, saya simpen id_wisata-nya = ", session["save_id_wisata"])
-    if request.method == "GET":
-        return redirect(url_for("home.book_processing", id=id))
+    print("/book/homestay/wisata/<int:id> == >",session["save_id_wisata"])
+    print("Wisata booked, saya simpen id_wisata-nya = ", session["save_id_wisata"])    
+    return redirect(url_for("home.book_processing", id=id))
 
 
 @home.route("/book-processing")
 @login_required
 def book_processing():
+
     id_homestay = session["save_id_homestay"]
+    malam = session["malam"]
+    kamar = session["kamar"]
+    tgl_check_in = session["check_in"]
+    tgl_check_out = session["check_out"]
+
     try:
         id_wisata = session["save_id_wisata"]
     except:
         id_wisata = session["save_id_wisata"] = None
+        
     if id_wisata == None:
         return redirect(url_for("home.checkout"))
+
     else:
         user_now = current_user.get_id()
         checkout = models.Transaksi(
-            id_homestay=id_homestay, id_wisata=id_wisata, id_user=user_now
+            id_homestay=id_homestay, 
+            id_wisata=id_wisata, 
+            id_user=user_now,
+            malam=malam,
+            kamar=kamar,
+            tgl_check_in=tgl_check_in,
+            tgl_check_out=tgl_check_out
         )
+
         models.db.session.add(checkout)
         models.db.session.commit()
         return redirect(url_for("home.checkout"))
@@ -186,11 +255,17 @@ def book_processing():
 def checkout():
     user_now = current_user.get_id()
     id_homestay = session["save_id_homestay"]
+    tgl_check_in = session["check_in"]
+    tgl_check_out = session["check_out"]
+    print("check in ", tgl_check_in)
     try:
         n_malam = int(session["malam"])
     except:
         n_malam = 1
     model_homestay = models.Homestay.query.get(id_homestay)
+
+
+
     """
     1. query all transaksinya
     2. filter transaksi berdasarkan id_user = 1
@@ -212,11 +287,17 @@ def checkout():
 
     for val in form_wisata:
         biaya_wisata.append(val.biaya)
+    
+    rupiah = formatrupiah(model_homestay.harga)
+    real_harga = model_homestay.harga 
+    potongan_harga = model_homestay.harga * (model_homestay.diskon/100)
+    disk = int(real_harga - potongan_harga)
+    thediskon = formatrupiah(disk)
 
     biaya_wisata = sum(biaya_wisata)
-    biaya_homestay = model_homestay.harga * n_malam
+    biaya_homestay = disk * n_malam
     total_biaya = biaya_wisata + biaya_homestay
-    total_biaya = total_biaya
+    session["total_biaya"] = total_biaya
     fav, is_fav_exist = show_fav()
 
     return render_template(
@@ -229,6 +310,9 @@ def checkout():
         favs_exist=is_fav_exist,
         formatrupiah=formatrupiah,
         host=host(),
+        check_in=tgl_check_in,
+        check_out=tgl_check_out,
+        diskon=thediskon,
     )
 
 
@@ -254,9 +338,8 @@ def pay():
     for val in form_wisata:
         biaya_wisata.append(val.biaya)
 
-    biaya_wisata = sum(biaya_wisata)
-    biaya_homestay = model_homestay.harga * n_malam
-    total_biaya = biaya_wisata + biaya_homestay
+    
+    total_biaya = session["total_biaya"]
     fav, is_fav_exist = show_fav()
     return render_template(
         "pay.html", 
@@ -271,15 +354,30 @@ def pay():
 @home.route("/pay/confirmed", methods=["GET"])
 @login_required
 def pay_confirmed():
-    session.pop("save_id_homestay", None)
-    session.pop("save_id_wisata", None)
-    session.pop("malam", None)
+    history = models.Historybelanja(
+        id_homestay = session["save_id_homestay"]   ,
+        id_user = current_user.get_id(),
+        id_wisata = session["save_id_wisata"],
+        malam = session["malam"],
+        kamar = session["kamar"],
+        tgl_check_in = session["ci"],
+        tgl_check_out = session["co"]
+
+    )
+    models.db.session.add(history)
+    models.db.session.commit()
+
+    delete_sessions()
+    
     trans = models.Transaksi.query.all()
     for data in trans:
         models.db.session.delete(data)
         models.db.session.commit()
     print("done")
     fav, is_fav_exist = show_fav()
+
+    
+
     return render_template("pay_confirmed.html", favs=fav, favs_exist=is_fav_exist, host=host())
 
 
@@ -304,6 +402,7 @@ def add_homestay():
         alamat = validasi_type(form.alamat.data, str)
         deskripsi = validasi_type(form.deskripsi.data, str)
         fasilitas = validasi_type(form.fasilitas.data, str)
+        jumlah_kamar = validasi_type(form.jumlah_kamar.data, int)
         harga = validasi_type(form.harga.data, int)
         diskon = validasi_type(form.diskon.data, int)
 
@@ -316,6 +415,7 @@ def add_homestay():
             harga=harga,
             diskon=diskon,
             foto_homestay=foto,
+            jumlah_kamar=jumlah_kamar,
         )
         models.db.session.add(model)
         models.db.session.commit()
@@ -335,6 +435,7 @@ def add_homestay():
 def add_wisata():
     form = forms.WisataForm()
     fav, is_fav_exist = show_fav()
+    model_homestay = models.Homestay.query.all()
     if request.method == "POST":
         file = request.files["foto_wisata"]
         # print(file)
@@ -348,7 +449,7 @@ def add_wisata():
         fasilitas = validasi_type(form.fasilitas.data, str)
         biaya = validasi_type(form.biaya.data, str)
         kegiatan = validasi_type(form.biaya.data, int)
-        id_homestay = validasi_type(form.id_homestay.data, int)
+        id_homestay = validasi_type(request.form['id_homestay'], int)
 
         model = models.Wisata(
             code_wisata=code_homestay(stringLength=5, gen_for="W"),
@@ -364,7 +465,10 @@ def add_wisata():
         flash("Wisata berhasil ditambah", "success")
         return redirect(url_for("home.add_wisata"))
     return render_template(
-        "add_wisata.html", form=form, favs=fav, favs_exist=is_fav_exist
+        "add_wisata.html", 
+        form=form, favs=fav, 
+        favs_exist=is_fav_exist, 
+        model_homestay=model_homestay,
     )
 
 

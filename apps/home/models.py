@@ -14,8 +14,10 @@ class Homestay(db.Model):
     harga = db.Column(db.Integer)
     diskon = db.Column(db.Integer)
     foto_homestay = db.Column(db.String(255))
+    jumlah_kamar = db.Column(db.Integer)
     paket_wisata = db.relationship("Wisata", backref="paket_wisata")
     transaksi = db.relationship("Transaksi", backref="transaksi_id")
+    history_belanja = db.relationship("Historybelanja", backref="history_belanja_user")
     favoritkan = db.relationship("Favorit", backref="list_favorit")
     create_at = db.Column(db.DateTime, default=datetime.datetime.utcnow())
     update_at = db.Column(db.DateTime, onupdate=datetime.datetime.utcnow())
@@ -31,6 +33,21 @@ class Transaksi(db.Model):
     id_user = db.Column(db.Integer, db.ForeignKey("user.id"))
     id_wisata = db.Column(db.Integer, db.ForeignKey("wisata.id"))
     malam = db.Column(db.Integer)
+    kamar = db.Column(db.Integer)
+    tgl_check_in = db.Column(db.String(10))
+    tgl_check_out = db.Column(db.String(10))
+
+
+class Historybelanja(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    id_homestay = db.Column(db.Integer, db.ForeignKey("homestay.id"))
+    id_user = db.Column(db.Integer, db.ForeignKey("user.id"))
+    id_wisata = db.Column(db.Integer, db.ForeignKey("wisata.id"))
+    malam = db.Column(db.Integer)
+    kamar = db.Column(db.Integer)
+    tgl_check_in = db.Column(db.DATE)
+    tgl_check_out = db.Column(db.DATE)
+    create_at = db.Column(db.DateTime, default=datetime.datetime.utcnow())
 
 
 class BelanjaUser(db.Model):
@@ -54,6 +71,9 @@ class Wisata(db.Model):
     diskon = db.Column(db.Integer)
     id_homestay = db.Column(db.Integer, db.ForeignKey("homestay.id"))
     transaksi = db.relationship("Transaksi", backref="transaksi_wisata", uselist=False)
+    history_belanja = db.relationship(
+        "Historybelanja", backref="history_belanja_wisata", uselist=False
+    )
     create_at = db.Column(db.DateTime, default=datetime.datetime.utcnow())
     update_at = db.Column(db.DateTime, onupdate=datetime.datetime.utcnow())
 

@@ -33,12 +33,12 @@
               </div> <!-- rating-wrap.// -->
               <p> {{ form.deskripsi }} </p>
               <dl class="dlist-align">
-                <dt>Fasilitas</dt>
-                <dd>Taman dan Outbond</dd>
+                <dt>Jumlah Kamar</dt>
+                <dd>{{ form.jumlah_kamar }}</dd>
               </dl> <!-- item-property-hor .// -->
               <dl class="dlist-align">
-                <dt>Luas / Ukuran</dt>
-                <dd>1 Are</dd>
+                <dt>Fasilitas</dt>
+                <dd>{{ form.fasilitas }}</dd>
               </dl> <!-- item-property-hor .// -->
               <dl class="dlist-align">
                 <dt>Lokasi</dt>
@@ -49,8 +49,8 @@
             <aside class="col-sm-3 border-left">
               <div class="action-wrap">
                 <div class="price-wrap h4">
-                  <span class="price"> Rp. {{ form.harga }} </span> <br>
-                  <del class="price-old"> Rp. 200.000 </del>
+                  <span class="price"> Rp. {{ diskon }} </span> <br>
+                  <del class="price-old"> Rp. {{ formatrupiah(form.harga) }} </del>
                 </div> <!-- info-price-detail // -->
                 <p class="text-success">potongan 20%</p>
                 <br>
@@ -60,11 +60,20 @@
                   <form action="" method="POST">
                     <div class="form-group">
                       <label for="malam" class="form-contol">
-                        <h5>Berapa hari ?</h5>
+                        <h6>Berapa hari ?</h6>
                       </label>
                       <input type="number" class="form-control" name="malam" placeholder="Durasi ditempati">
+                      <label for="kamar" class="form-contol">
+                        <h6>Berapa kamar ?</h6>
+                      </label>
+                      <input type="number" class="form-control" name="kamar" placeholder="Jumlah Kamar yang dibutuhkan">
+                      <label for="check_in" class="form-contol">
+                        <h6>Tanggal Check in ?</h6>
+                      </label>
+                      <input type="date" class="form-control" name="check_in" placeholder="Tanggal Check in">
                     </div>
-                    <button type="submit" class="btn btn-outline-info"> <strong> Pesan Homestay </strong> </button>
+                    <button type="submit" class="btn btn-outline-info btn-block"> <strong> Pesan Homestay </strong>
+                    </button>
                   </form>
                 </p>
 
@@ -97,7 +106,7 @@
         <div class="card-body">
           <div class="row">
             <div class="col-md-10">
-              <strong>REKOMENDASI HOMESTAY LAINNYA </strong>
+              <strong>Atraksi / kegiatan wisata yang dimiliki Homestay </strong>
             </div>
           </div>
 
@@ -123,43 +132,6 @@
               </div>
             </div>
           </div>
-
-          <div class="col-lg-4 col-md-6 mb-4">
-            <div class="card h-100">
-              <a href="#"><img class="card-img-top" src="static/homestay.jpg" style="width: 335px ; height: 200px"
-                  alt=""></a>
-              <div class="card-body">
-                <h4 class="card-title">
-                  <a href="#"><strong>Homestay bergaya Amerika</strong></a>
-                </h4>
-                <h5>Rp. 100.000</h5>
-                <p class="card-text">Wisata Outbond adalah adalah permainan seru yang dimainkan secara kelompok untuk
-                  menguji adrenalin tapi masih dalam taraf yang aman</p>
-              </div>
-              <div class="card-footer">
-                <small class="text-muted"><a href="#" class="btn btn-info"> lihat </a></small>
-              </div>
-            </div>
-          </div>
-
-          <div class="col-lg-4 col-md-6 mb-4">
-            <div class="card h-100">
-              <a href="#"><img class="card-img-top" src="static/homestay.jpg" style="width: 335px ; height: 200px"
-                  alt=""></a>
-              <div class="card-body">
-                <h4 class="card-title">
-                  <a href="#"><strong>Homestay bergaya Rusa</strong></a>
-                </h4>
-                <h5>Rp. 100.000</h5>
-                <p class="card-text">Wisata Outbond adalah adalah permainan seru yang dimainkan secara kelompok untuk
-                  menguji adrenalin tapi masih dalam taraf yang aman</p>
-              </div>
-              <div class="card-footer">
-                <small class="text-muted"><a href="#" class="btn btn-info"> lihat </a></small>
-              </div>
-            </div>
-          </div>
-
 
 
         </div>

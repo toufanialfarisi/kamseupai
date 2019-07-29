@@ -72,6 +72,20 @@
 
                             </fieldset>
                             <fieldset class="form-group">
+                                {{ form.jumlah_kamar.label(class='form-control-label') }}
+                                {% if form.jumlah_kamar.errors %}
+                                {{ form.jumlah_kamar(class='form-control form-control-lg is-invalid') }}
+                                <div class="invalid-feedback">
+                                    {% for error in form.jumlah_kamar.errors %}
+                                    <span>{{ error }}</span>
+                                    {% endfor %}
+                                </div>
+                                {% else %}
+                                {{ form.jumlah_kamar(class='form-control form-control-lg') }}
+                                {% endif %}
+
+                            </fieldset>
+                            <fieldset class="form-group">
                                 {{ form.fasilitas.label(class='form-control-label') }}
                                 {% if form.fasilitas.errors %}
                                 {{ form.fasilitas(class='form-control form-control-lg is-invalid') }}

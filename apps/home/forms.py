@@ -35,6 +35,7 @@ class HomestayForm(FlaskForm):
     alamat = StringField("Alamat", validators=[DataRequired()])
     deskripsi = TextAreaField("Deskripsi", validators=[DataRequired()])
     fasilitas = StringField("Fasilitas", validators=[DataRequired()])
+    jumlah_kamar = IntegerField("Jumlah kamar", validators=[DataRequired()])
     harga = IntegerField("Harga", validators=[DataRequired()])
     diskon = IntegerField("Diskon", validators=[DataRequired()])
     foto_homestay = FileField(validators=[FileRequired()])
