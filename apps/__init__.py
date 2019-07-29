@@ -56,6 +56,15 @@ CORS(app)
 # db.create_all()
 
 
+# import argparse
+
+# ap = argparse.ArgumentParser()
+# ap.add_argument(
+#     "-hm", "--hostmode", required=False, help="localserver mode or production mode"
+# )
+# args = vars(ap.parse_args())
+
+
 from apps.auth.views import auth
 from apps.home.views import home
 

@@ -5,16 +5,9 @@ from apps.config import IMAGES_DIR, MY_IP
 from flask_login import current_user, login_required, logout_user
 import random
 import string
-from apps.hostmode import args
 from datetime import date, time, datetime
 
-
- 
-
 home = Blueprint("home", __name__, template_folder="templates/")
-global host_mode
-host_mode = str(args["hostmode"])
-
 
 @home.route("/clear-session", methods=["GET", "POST"])
 def delete_sessions():
