@@ -347,6 +347,10 @@ def pay():
 @home.route("/pay/confirmed", methods=["GET"])
 @login_required
 def pay_confirmed():
+    try:
+        id_wisata = session["save_id_wisata"]
+    except:
+        id_wisata = session["save_id_wisata"] = None
     history = models.Historybelanja(
         id_homestay = session["save_id_homestay"]   ,
         id_user = current_user.get_id(),
