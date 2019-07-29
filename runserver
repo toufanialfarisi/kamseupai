@@ -8,7 +8,7 @@ pip install -r requirements.txt
 
 export FLASK_ENV=development
 
-python app.py runserver --hostmode production
+python manage.py runserver
 #exec /home/ubuntu/monolitik/env/bin/gunicorn app:app -b 0.0.0.0:5000 \
 #  --reload \
 #  --workers 2 \
