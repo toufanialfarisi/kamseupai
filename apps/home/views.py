@@ -6,8 +6,10 @@ from flask_login import current_user, login_required, logout_user
 import random
 import string
 from datetime import date, time, datetime
+from apps.home.utility import * 
 
 home = Blueprint("home", __name__, template_folder="templates/")
+
 
 @home.route("/clear-session", methods=["GET", "POST"])
 def delete_sessions():
@@ -26,76 +28,7 @@ def delete_sessions():
     session.pop("total_biaya", None)
     return 'all sessions are clear'
 
-def host(localhost="production"):    
-    if localhost == "localhost":
-        host = "http://localhost"
-        return host
-    else:
-        host = MY_IP
-        return host 
 
-def custom_session_idhomestay(homestay_id):
-    id_homestay = models.Homestay.query.get(homestay_id)
-    return id_homestay
-
-
-def show_fav():
-    fav = models.Favorit.query.all()
-    if fav:
-        is_fav_exist = True
-    else:
-        is_fav_exist = False
-    return fav, is_fav_exist
-
-def formatrupiah(uang):
-    y = str(uang)
-    if len(y) <= 3 :
-        return  y     
-    else :
-        p = y[-3:]
-        q = y[:-3]
-        return   formatrupiah(q) + '.' + p
-
-
-def tanggal_checkout(n_malam, tanggal_checkin, bulan_checkin):
-    feb_kabisat = datetime.utcnow().date().day
-    jan = 31
-    if feb_kabisat == 29:
-        feb = 29
-    else:
-        feb = 28
-
-    mar = 30 
-    apr = 30 
-    may = 31 
-    jun = 30 
-    jul = 31
-    aug = 31 
-    sep = 30 
-    okt = 31 
-    nov = 30 
-    dec = 31
-
-    end_month = [
-        '',jan, feb, mar, apr, may,jun, 
-        jul, aug, sep, okt,nov, dec
-    ]
-    
-    end_month_str = [
-        '','jan', 'feb', 'mar', 'apr', 'may','jun', 
-        'jul', 'aug', 'sep', 'okt', 'nov', 'dec'
-    ]
-
-    n_malam = n_malam
-    tanggal_checkin = tanggal_checkin
-    out = tanggal_checkin + n_malam
-    bulan_now = end_month[bulan_checkin]
-    if out >= bulan_now:
-        sis = out - bulan_now
-        checkout = sis
-        return checkout, end_month_str.index(end_month_str[bulan_checkin+1])
-    else:
-        return tanggal_checkin + n_malam
 
 @home.route("/", methods=["GET"])
 def index():
@@ -186,35 +119,41 @@ def detail_homestay(id):
     model_wisata = models.Wisata.query.filter_by(id_homestay=id).all()
     print(model_wisata)
     if request.method == "POST":
-        malam = session["malam"] = request.form["malam"]
 
-        tgl_checkin = request.form["check_in"] # session["check_in"] = 
-        checkin = tgl_checkin.split('-')
-        check_in = checkin[0] + '-' + checkin[1] +'-' + checkin[2]
-        session["ci"] = datetime(int(checkin[0]), int(checkin[1]), int(checkin[2]))
-        tgl_checkin = session["check_in"] = check_in
-        
+        if request.form["malam"] and request.form["kamar"] and request.form["malam"] and request.form["check_in"]:
 
-        kamar = session["kamar"] = request.form["kamar"]
-        checkout = tgl_checkin.split('-')
-        # tgl_checkout = int(checkout[2]) + int(malam)
+            malam = session["malam"] = request.form["malam"]
+            tgl_checkin = request.form["check_in"] # session["check_in"] = 
+            checkin = tgl_checkin.split('-')
+            check_in = checkin[0] + '-' + checkin[1] +'-' + checkin[2]
+            session["ci"] = datetime(int(checkin[0]), int(checkin[1]), int(checkin[2]))
+            tgl_checkin = session["check_in"] = check_in
+            
 
-        '''
-        checkin[0] = tahun
-        checkin[1] = bulan
-        checkin[2] = tanggal 
-        '''
+            kamar = session["kamar"] = request.form["kamar"]
+            checkout = tgl_checkin.split('-')
+            # tgl_checkout = int(checkout[2]) + int(malam)
 
-        try:
-            tgl_checkout, bulan = tanggal_checkout(int(malam), int(checkin[2]), int(checkin[1]))
-            check_out = session["check_out"] = checkout[0] + '-' + str(bulan) + '-' +  str(tgl_checkout)  
-            session["co"] = datetime(int(checkout[0]), int(bulan), int(tgl_checkout))      
-        except:
-            tgl_checkout = tanggal_checkout(int(malam), int(checkin[2]), int(checkin[1]))        
-            check_out = session["check_out"] = checkout[0] + '-' + str(checkout[1]) + '-' +  str(tgl_checkout)        
-            session["co"] = datetime(int(checkout[0]), int(checkout[1]), int(tgl_checkout))
-        
-        return redirect(url_for("home.book_homestay", id=id))
+            '''
+            checkin[0] = tahun
+            checkin[1] = bulan
+            checkin[2] = tanggal 
+            '''
+
+            try:
+                tgl_checkout, bulan = tanggal_checkout(int(malam), int(checkin[2]), int(checkin[1]))
+                check_out = session["check_out"] = checkout[0] + '-' + str(bulan) + '-' +  str(tgl_checkout)  
+                session["co"] = datetime(int(checkout[0]), int(bulan), int(tgl_checkout))      
+            except:
+                tgl_checkout = tanggal_checkout(int(malam), int(checkin[2]), int(checkin[1]))        
+                check_out = session["check_out"] = checkout[0] + '-' + str(checkout[1]) + '-' +  str(tgl_checkout)        
+                session["co"] = datetime(int(checkout[0]), int(checkout[1]), int(tgl_checkout))
+            
+            return redirect(url_for("home.book_homestay", id=id))
+        else:
+            flash("Silahkan isi semua form di bawah ini", "danger")
+            redirect(url_for("home.detail_homestay", id=id))
+
     
     return render_template(
         "home_detail.html", 
