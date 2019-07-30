@@ -26,7 +26,7 @@ def delete_sessions():
     session.pop("total_biaya", None)
     return 'all sessions are clear'
 
-def host(localhost="production"):    
+def host(localhost="localhost"):    
     if localhost == "localhost":
         host = "http://localhost"
         return host
@@ -55,7 +55,47 @@ def formatrupiah(uang):
         p = y[-3:]
         q = y[:-3]
         return   formatrupiah(q) + '.' + p
-        
+
+
+def tanggal_checkout(n_malam, tanggal_checkin, bulan_checkin):
+    feb_kabisat = datetime.utcnow().date().day
+    jan = 31
+    if feb_kabisat == 29:
+        feb = 29
+    else:
+        feb = 28
+
+    mar = 30 
+    apr = 30 
+    may = 31 
+    jun = 30 
+    jul = 31
+    aug = 31 
+    sep = 30 
+    okt = 31 
+    nov = 30 
+    dec = 31
+
+    end_month = [
+        '',jan, feb, mar, apr, may,jun, 
+        jul, aug, sep, okt,nov, dec
+    ]
+    
+    end_month_str = [
+        '','jan', 'feb', 'mar', 'apr', 'may','jun', 
+        'jul', 'aug', 'sep', 'okt', 'nov', 'dec'
+    ]
+
+    n_malam = n_malam
+    tanggal_checkin = tanggal_checkin
+    out = tanggal_checkin + n_malam
+    bulan_now = end_month[bulan_checkin]
+    if out >= bulan_now:
+        sis = out - bulan_now
+        checkout = sis
+        return checkout, end_month_str.index(end_month_str[bulan_checkin+1])
+    else:
+        return tanggal_checkin
 
 @home.route("/", methods=["GET"])
 def index():
@@ -127,7 +167,9 @@ def remove_paket(id):
         models.db.session.commit()
     return redirect(url_for("home.checkout"))
 
-    
+from datetime import datetime
+
+
 
 @home.route("/homestay/<int:id>", methods=["GET", "POST"])
 def detail_homestay(id):
@@ -156,12 +198,19 @@ def detail_homestay(id):
 
         kamar = session["kamar"] = request.form["kamar"]
         checkout = tgl_checkin.split('-')
-        tgl_checkout = int(checkout[2]) + int(malam)
-        check_out = session["check_out"] = checkout[0] + '-' + checkout[1] + '-' +  str(tgl_checkout)
-        session["co"] = datetime(int(checkout[0]), int(checkout[1]), int(tgl_checkout))
-        
-        return redirect(url_for("home.book_homestay", id=id))
+        # tgl_checkout = int(checkout[2]) + int(malam)
 
+        '''
+        checkin[0] = tahun
+        checkin[1] = bulan
+        checkin[2] = tanggal 
+        '''
+
+        tgl_checkout, bulan = tanggal_checkout(int(malam), int(checkin[2]), int(checkin[1]))
+        check_out = session["check_out"] = checkout[0] + '-' + str(bulan) + '-' +  str(tgl_checkout)
+        session["co"] = datetime(int(checkout[0]), int(bulan), int(tgl_checkout))
+        return redirect(url_for("home.book_homestay", id=id))
+    
     return render_template(
         "home_detail.html", 
         form=cur, 
