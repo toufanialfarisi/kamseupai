@@ -26,7 +26,7 @@ def delete_sessions():
     session.pop("total_biaya", None)
     return 'all sessions are clear'
 
-def host(localhost="localhost"):    
+def host(localhost="production"):    
     if localhost == "localhost":
         host = "http://localhost"
         return host
