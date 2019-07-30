@@ -10,6 +10,9 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
         integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css"
+        integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='main.css') }}">
     <link href='https://fonts.googleapis.com/css?family=Bai Jamjuree' rel='stylesheet'>
     {% if title %}
@@ -25,6 +28,7 @@
             background-image: url('{{ url_for('static', filename='background.png') }}');
             font-family: 'Bai Jamjuree';
             font-size: 22px;
+
         }
 
         .bg-info {
@@ -45,47 +49,18 @@
 
     <header class="site-header">
         <nav class="navbar navbar-expand-lg navbar-light bg-info fixed-top">
-            <div class="container">
-                <img src="{{ url_for('static', filename='test.png') }}" width="130px;">
-                <div class="collapse navbar-collapse" id="navbarToggle">
-                    <div class="navbar-nav mr-auto">
-                        <form class="form-inline">
-                            <div class="form-group mb-2">
-                                <input type="text" class="form-control" id="inputPassword2"
-                                    placeholder="Temukan Homestay">
-                            </div>
-                            <div class="form-group mx-sm-2 mb-2">
-                            </div>
-                            <button type="submit" class="btn btn-warning mb-2">Cari Homestay</button>
-                        </form>
-                    </div>
-                    <div class="navbar-nav">
-                        <div class="collapse navbar-collapse" id="navbarToggle">
-                            <div class="navbar-nav mr-auto">
+            <a class="navbar-brand" href="#">
+                <a class="navbar-brand mr-4" href="/">
 
-                                <div class="dropdown" style="margin-top:9px;">
-                                    <button class="btn btn-link dropdown-toggle" type="button" id="dropdownMenu2"
-                                        style="color: white" data-toggle="dropdown" aria-haspopup="true"
-                                        aria-expanded="false">
-                                        <i class="fas fa-bookmark"></i> Favorit
-                                    </button>
-                                    <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
-                                        <button class="dropdown-item" type="button">Action</button>
-                                        <button class="dropdown-item" type="button">Another action</button>
-                                        <button class="dropdown-item" type="button">Something else here</button>
-                                    </div>
-                                </div>
+                    <img style="margin-left:30px;" src="{{ url_for('static', filename='test.png') }}" width="130px;">
+
+                </a>
+            </a>
+            <button class="navbar-toggler" data-toggle="collapse" data-target="#navbarSupportedContent">
+
+            </button>
 
 
-                                <a class=" nav-item nav-link" href="{{ host }}/login"><input type="submit"
-                                        class="btn btn-outline-light" value="Login"></a>
-                                <a class="nav-item nav-link" href="{{ host }}/register"><input type="submit"
-                                        class="btn btn-light" value="Register" color="black"></a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
         </nav>
     </header>
 
