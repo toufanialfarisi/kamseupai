@@ -1,0 +1,64 @@
+{% extends "home_layout.html" %}
+{% block content %}
+<style>
+    #carding {
+        border-radius: 15px;
+        padding: 20px;
+        width: 100%;
+        height: auto;
+        box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    }
+</style>
+<main role="main" class="container">
+
+    <div class="row">
+        <div class="col-sm">
+            <div class="content-selection">
+                <div class="content-section" id="carding"
+                    style="background-image: url({{ url_for('static', filename='background.png') }});">
+                    <div class="card-body">
+                        <div class="row">
+
+                            <div class="img-wrap"><img class="rounded float-left"
+                                    src="{{ url_for('static', filename='sukses-bayar.png') }}" width="250px"></div>
+
+                            <article class="col-sm-6">
+
+                                <a href="#" style="color: white"> <strong>Berhasil !!!</strong></a>
+                                <div class="rating-wrap">
+                                    <div style="color: white"><strong> Pembayaran Anda telah kami konfirmasi </strong>
+                                    </div>
+
+                                </div> <!-- rating-wrap.// -->
+                                <div class="price-wrap h4">
+                                    <h5 class="price" style="color: white"> Terima kasih atas pembayaran Anda, semoga
+                                        bisa membantu
+                                        masyarakan di desa tersebut </h5> <br>
+
+
+                                </div> <!-- info-price-detail // -->
+
+                                <!-- <p><a href="#" class="btn btn-danger"> Konfirmasi </a></p> -->
+                            </article> <!-- col.// -->
+
+                            <!-- col.// -->
+                        </div> <!-- row.// -->
+                    </div> <!-- card-body .// -->
+
+                </div>
+
+            </div>
+            <div class="content-section" id="carding"
+                style="background-image: url({{ url_for('static', filename='background.png') }});">
+                <article class="col-sm" style="margin-top: 20px;">
+                    <p><a href="{{ host }}" class="btn btn-danger btn-block"> kembali ke beranda
+                        </a></p>
+                </article>
+            </div>
+
+            <!-- TAMBAHKAN CONTENT LAGI DI SINI -->
+        </div>
+
+
+    </div>
+</main {% endblock %}

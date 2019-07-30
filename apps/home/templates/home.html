@@ -1,0 +1,80 @@
+{% extends "home_layout.html" %}
+{% block content %}
+<style>
+  #carding {
+    border-radius: 15px;
+    padding: 20px;
+    width: auto;
+    height: auto;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  }
+</style>
+
+<main class="container">
+  <div class="row">
+
+  </div>
+</main>
+
+
+<main role="main" class="container">
+  <div class="row">
+    <div class="col-md-12">
+      <div class="content-selection">
+        <!-- <form class="form-inline">
+          <div class="form-group mb-2">
+            <input type="text" class="form-control" id="inputPassword2" placeholder="Temukan Homestay">
+          </div>
+          <div class="form-group mx-sm-2 mb-2">
+          </div>
+          <button type="submit" class="btn btn-warning mb-2">Cari Homestay</button>
+        </form> -->
+      </div>
+      <br>
+      <!-- LOGIC -->
+      {% for data, idr, diskon in form | zip(rupiah, ls_diskon) %}
+      <div class="content-section" id="carding">
+
+        <div class="card-body">
+          <div class="row">
+            <aside class="col-sm-3">
+              <div class="img-wrap"><img class="rounded float-left" src="{{ data.foto_homestay }}" width="230px">
+              </div>
+            </aside> <!-- col.// -->
+            <article class="col-sm-6">
+              <a href="#" style="color: black"> <strong>{{ data.nama_homestay.capitalize() }}</strong></a>
+              <div class="rating-wrap">
+                <div class="text-muted">
+                  <h6> <strong> lokasi : <br> </strong> {{ data.alamat }}
+                </div></strong> </h6>
+                <div class="text-muted">
+                  <h6> <strong> deskripsi : <br> </strong> {{ data.deskripsi[:200] }}
+                </div></strong> </h6>
+                <!-- <h5> {{ data.deskripsi[:145] }} . . . . </h5> -->
+              </div> <!-- rating-wrap.// -->
+              <!-- <p> {{ alamat }}</p> -->
+            </article> <!-- col.// -->
+            <aside class="col-sm-3 border-left">
+              <div class="action-wrap">
+                <div class="price-wrap h4">
+                  <span class="price"> Rp. {{ diskon }} </span> <br>
+                  <del class="price-old"> Rp. {{ idr }} </del>
+                </div> <!-- info-price-detail // -->
+                <h5 class="text-success">potongan {{data.diskon}} %</h5>
+                <p>
+                  <a href="{{ host }}/favorit/{{ data.id }}" class="btn btn-outline-success btn-sm"> Favoritkan </a> <a
+                    href="{{ host }}/homestay/{{ data.id }}" class="btn btn-outline-info btn-sm"> Detail </a> <br>
+                  <span class="badge badge-success">tersedia</span>
+
+                </p>
+              </div> <!-- action-wrap.// -->
+            </aside> <!-- col.// -->
+          </div> <!-- row.// -->
+        </div> <!-- card-body .// -->
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+  </div>
+</main>
+{% endblock %}

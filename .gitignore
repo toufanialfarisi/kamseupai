@@ -1,0 +1,11 @@
+env/
+env/*
+__pycache__/
+__pycache__/*
+apps/__pycache__/
+apps/static/images/*
+apps/home/__pycache__/*
+apps/auth/__pycache__/*
+templates/*
+.vscode/*
+migrations/*
