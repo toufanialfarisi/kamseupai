@@ -1,0 +1,28 @@
+{% extends "admin_layout.html" %}
+{% block content %}
+<style>
+    #carding {
+        border-radius: 15px;
+        padding: 20px;
+        width: auto;
+        height: auto;
+        box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    }
+</style>
+<main role="main" class="container">
+    <div class="content-section jumbotron" id="carding"
+        style=" color: white ;background-image: url({{ url_for('static', filename='background.png') }});">
+
+        <h1 class="display-4" style="color: white">Selamat Datang {{ admin }}</h1>
+        <p class="lead">Di halaman ini, <strong> {{ admin }} </strong> berwewenang untuk melihat list homestay serta
+            menambahkan homestay
+            dan
+            wisata</p>
+        <hr class="my-4">
+        <p>Selamat Bekerja Admin :)</p>
+        <a class="btn btn-outline-info btn-lg" href="#" role="button">Lihat Homestay</a>
+
+    </div>
+</main>
+
+{% endblock %}

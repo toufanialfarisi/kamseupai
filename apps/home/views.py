@@ -1,5 +1,6 @@
 from flask import redirect, url_for, flash, render_template, request, Blueprint, session
-from apps.home import forms, models
+from apps.home.forms import * 
+from apps.home.models import * 
 from apps.utils import validasi_type, upload_file
 from apps.config import IMAGES_DIR, MY_IP
 from flask_login import current_user, login_required, logout_user
@@ -372,95 +373,92 @@ def pay_confirmed():
     return render_template("pay_confirmed.html", favs=fav, favs_exist=is_fav_exist, host=host())
 
 
-def code_homestay(stringLength=6, gen_for="H"):
-    """Generate a random string of letters and digits """
-    lettersAndDigits = gen_for + string.ascii_letters + string.digits
-    return "".join(random.choice(lettersAndDigits) for i in range(stringLength))
 
 
-@home.route("/homestay/add", methods=["GET", "POST", "PUT", "DELETE"])
-@login_required
-def add_homestay():
-    form = forms.HomestayForm()
-    fav, is_fav_exist = show_fav()
-    if form.validate_on_submit() and request.method == "POST":
-        file = request.files["foto_homestay"]
-        folder = IMAGES_DIR + "/homestay"
-        foto = upload_file(file, folder)  # return random name
-        foto = host() + "/" + foto
 
-        nama_homestay = validasi_type(form.nama_homestay.data, str)
-        alamat = validasi_type(form.alamat.data, str)
-        deskripsi = validasi_type(form.deskripsi.data, str)
-        fasilitas = validasi_type(form.fasilitas.data, str)
-        jumlah_kamar = validasi_type(form.jumlah_kamar.data, int)
-        harga = validasi_type(form.harga.data, int)
-        diskon = validasi_type(form.diskon.data, int)
+# @home.route("/homestay/add", methods=["GET", "POST", "PUT", "DELETE"])
+# @login_required
+# def add_homestay():
+#     form = forms.HomestayForm()
+#     fav, is_fav_exist = show_fav()
+#     if form.validate_on_submit() and request.method == "POST":
+#         file = request.files["foto_homestay"]
+#         folder = IMAGES_DIR + "/homestay"
+#         foto = upload_file(file, folder)  # return random name
+#         foto = host() + "/" + foto
 
-        model = models.Homestay(
-            code_homestay=code_homestay(stringLength=5, gen_for="H"),
-            nama_homestay=nama_homestay,
-            alamat=alamat,
-            deskripsi=deskripsi,
-            fasilitas=fasilitas,
-            harga=harga,
-            diskon=diskon,
-            foto_homestay=foto,
-            jumlah_kamar=jumlah_kamar,
-        )
-        models.db.session.add(model)
-        models.db.session.commit()
-        flash("Homestay berhasil ditambah", "success")
-        return redirect(url_for("home.add_homestay"))
-    return render_template(
-        "add_homestay.html", 
-        form=form, 
-        favs=fav, 
-        favs_exist=is_fav_exist, 
-        host=host(),
-    )
+#         nama_homestay = validasi_type(form.nama_homestay.data, str)
+#         alamat = validasi_type(form.alamat.data, str)
+#         deskripsi = validasi_type(form.deskripsi.data, str)
+#         fasilitas = validasi_type(form.fasilitas.data, str)
+#         jumlah_kamar = validasi_type(form.jumlah_kamar.data, int)
+#         harga = validasi_type(form.harga.data, int)
+#         diskon = validasi_type(form.diskon.data, int)
+
+#         model = models.Homestay(
+#             code_homestay=code_homestay(stringLength=5, gen_for="H"),
+#             nama_homestay=nama_homestay,
+#             alamat=alamat,
+#             deskripsi=deskripsi,
+#             fasilitas=fasilitas,
+#             harga=harga,
+#             diskon=diskon,
+#             foto_homestay=foto,
+#             jumlah_kamar=jumlah_kamar,
+#         )
+#         models.db.session.add(model)
+#         models.db.session.commit()
+#         flash("Homestay berhasil ditambah", "success")
+#         return redirect(url_for("home.add_homestay"))
+#     return render_template(
+#         "add_homestay.html", 
+#         form=form, 
+#         favs=fav, 
+#         favs_exist=is_fav_exist, 
+#         host=host(),
+#     )
 
 
-@home.route("/homestay/wisata/add", methods=["GET", "POST", "PUT", "DELETE"])
-@login_required
-def add_wisata():
-    form = forms.WisataForm()
-    fav, is_fav_exist = show_fav()
-    model_homestay = models.Homestay.query.all()
-    if request.method == "POST":
-        file = request.files["foto_wisata"]
-        # print(file)
-        # return "test"
-        folder = IMAGES_DIR + "/wisata"
-        foto = upload_file(file, folder)  # return random name
-        ip = host()
-        foto = ip + "/" + foto
+# @home.route("/homestay/wisata/add", methods=["GET", "POST", "PUT", "DELETE"])
+# @login_required
+# def add_wisata():
+#     form = forms.WisataForm()
+#     fav, is_fav_exist = show_fav()
+#     model_homestay = models.Homestay.query.all()
+#     if request.method == "POST":
+#         file = request.files["foto_wisata"]
+#         # print(file)
+#         # return "test"
+#         folder = IMAGES_DIR + "/wisata"
+#         foto = upload_file(file, folder)  # return random name
+#         ip = host()
+#         foto = ip + "/" + foto
 
-        wisata = validasi_type(form.wisata.data, str)
-        fasilitas = validasi_type(form.fasilitas.data, str)
-        biaya = validasi_type(form.biaya.data, str)
-        kegiatan = validasi_type(form.kegiatan.data, str)
-        id_homestay = validasi_type(request.form['id_homestay'], int)
+#         wisata = validasi_type(form.wisata.data, str)
+#         fasilitas = validasi_type(form.fasilitas.data, str)
+#         biaya = validasi_type(form.biaya.data, str)
+#         kegiatan = validasi_type(form.kegiatan.data, str)
+#         id_homestay = validasi_type(request.form['id_homestay'], int)
 
-        model = models.Wisata(
-            code_wisata=code_homestay(stringLength=5, gen_for="W"),
-            wisata=wisata,
-            fasilitas=fasilitas,
-            biaya=biaya,
-            kegiatan=kegiatan,
-            id_homestay=id_homestay,
-            foto_wisata=foto,
-        )
-        models.db.session.add(model)
-        models.db.session.commit()
-        flash("Wisata berhasil ditambah", "success")
-        return redirect(url_for("home.add_wisata"))
-    return render_template(
-        "add_wisata.html", 
-        form=form, favs=fav, 
-        favs_exist=is_fav_exist, 
-        model_homestay=model_homestay,
-    )
+#         model = models.Wisata(
+#             code_wisata=code_homestay(stringLength=5, gen_for="W"),
+#             wisata=wisata,
+#             fasilitas=fasilitas,
+#             biaya=biaya,
+#             kegiatan=kegiatan,
+#             id_homestay=id_homestay,
+#             foto_wisata=foto,
+#         )
+#         models.db.session.add(model)
+#         models.db.session.commit()
+#         flash("Wisata berhasil ditambah", "success")
+#         return redirect(url_for("home.add_wisata"))
+#     return render_template(
+#         "add_wisata.html", 
+#         form=form, favs=fav, 
+#         favs_exist=is_fav_exist, 
+#         model_homestay=model_homestay,
+#     )
 
 
 @home.route("/logout", methods=["GET"])

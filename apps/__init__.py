@@ -67,6 +67,8 @@ CORS(app)
 
 from apps.auth.views import auth
 from apps.home.views import home
+from apps.auth_admin.views import admin
 
 app.register_blueprint(auth)
 app.register_blueprint(home)
+app.register_blueprint(admin)

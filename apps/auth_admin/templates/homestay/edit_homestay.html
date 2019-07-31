@@ -1,4 +1,4 @@
-{% extends "home_layout.html" %}
+{% extends "admin_layout.html" %}
 {% block content %}
 <main role="main" class="container">
     <div class="row">
@@ -16,13 +16,7 @@
             </style>
             <div class="content-selection">
                 <div class="content-section" id="carding">
-                    {% with messages = get_flashed_messages(with_categories=true) %}
-                    {% if messages %}
-                    {% for category, message in messages %}
-                    <div class="alert alert-{{ category }}"> {{ message }} </div>
-                    {% endfor %}
-                    {% endif %}
-                    {% endwith %}
+
 
                     <div class="card-body">
 
@@ -141,6 +135,7 @@
                                 {% endif %}
 
                             </fieldset>
+
                             <fieldset class="form-group">
                                 {{ form.submit(class='btn btn-info btn-block') }}
                             </fieldset>

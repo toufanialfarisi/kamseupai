@@ -1,6 +1,8 @@
 from datetime import datetime
 from apps.config import MY_IP
 from apps.home import models
+import random
+import string
 
 host_mode = "production"
 
@@ -85,3 +87,9 @@ def tanggal_checkout(n_malam, tanggal_checkin, bulan_checkin):
         return checkout, end_month_str.index(end_month_str[bulan_checkin + 1])
     else:
         return tanggal_checkin + n_malam
+
+
+def code_homestay(stringLength=6, gen_for="H"):
+    """Generate a random string of letters and digits """
+    lettersAndDigits = gen_for + string.ascii_letters + string.digits
+    return "".join(random.choice(lettersAndDigits) for i in range(stringLength))
