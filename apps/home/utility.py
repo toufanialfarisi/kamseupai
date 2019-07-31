@@ -3,8 +3,9 @@ from apps.config import MY_IP
 from apps.home import models
 import random
 import string
+import os
 
-host_mode = "production"
+host_mode = os.getenv("HOST_MODE")
 
 
 def host(localhost=host_mode):

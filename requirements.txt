@@ -18,6 +18,7 @@ Jinja2==2.10.1
 Mako==1.0.14
 MarkupSafe==1.1.1
 python-dateutil==2.8.0
+python-dotenv==0.10.3
 python-editor==1.0.4
 pytz==2019.1
 requests==2.22.0
