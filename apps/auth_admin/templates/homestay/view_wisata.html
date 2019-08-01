@@ -40,33 +40,39 @@
         </form>
         <br>
 
-        <table class="table table-hover" style="width: 100%;">
-            <thead>
-                <tr>
-                    <th scope="col">#</th>
-                    <th scope="col">Nama Atraksi/wisata</th>
-                    <th scope="col">Homestay</th>
-                    <th scope="col">Code</th>
-                    <th scope="col">Aksi</th>
-                </tr>
-            </thead>
-            {% for form, id in forms|zip(no) %}
-            <tbody>
-                <tr>
-                    <th scope="row">{{id}}</th>
-                    <td>{{form.wisata}}</td>
-                    <td> {{ form.id_homestay }} </td>
-                    <td>{{form.code_wisata}}</td>
-                    <td>
-                        <a href="{{ host }}/admin/wisata/edit/{{ form.id }}" class="btn btn-success"> <i
-                                class="fas fa-edit"></i> Edit</a>
-                        <a href="{{ host }}/admin/wisata/delete/{{ form.id }}" class="btn btn-danger"><i
-                                class="fas fa-trash-alt"></i> Hapus</a>
-                    </td>
-                </tr>
-            </tbody>
-            {% endfor %}
-        </table>
+        <div class="table-responsive-md">
+
+            <table class="table table-hover" style="width: 100%;">
+                <thead>
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Nama Atraksi/wisata</th>
+                        <th scope="col">Homestay</th>
+                        <th scope="col">Code</th>
+                        <th scope="col">Aksi</th>
+                    </tr>
+                </thead>
+                {% for form, id in forms|zip(no) %}
+                <tbody>
+                    <tr>
+                        <th scope="row">{{id}}</th>
+                        <td>{{form.wisata}}</td>
+                        <td> {{ form.id_homestay }} </td>
+                        <td>{{form.code_wisata}}</td>
+                        <td>
+                            <a href="{{ host }}/admin/wisata/edit/{{ form.id }}" class="btn btn-success"> <i
+                                    class="fas fa-edit"></i> Edit</a>
+                            <a href="{{ host }}/admin/wisata/delete/{{ form.id }}" class="btn btn-danger"><i
+                                    class="fas fa-trash-alt"></i> Hapus</a>
+                        </td>
+                    </tr>
+                </tbody>
+                {% endfor %}
+            </table>
+
+        </div>
+
+
         <!-- <legend class="border-bottom mb-4"></legend> -->
         <br>
         <div class="container">

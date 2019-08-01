@@ -1,0 +1,20 @@
+{% extends "error_layout.html" %}
+{% block content %}
+
+
+<!-- JUMBOTRON -->
+<div class="row">
+    <div class="col-md-2"></div>
+    <div class="col-md-8">
+        <div class="content-section" id="carding">
+            <div class="jumbotron-fluid">
+                <h1 class="display-4">Error 404</h1>
+                <p class="lead">Maaf, Halaman yang Anda cari nggak ketemu hehe :)</p>
+                <hr class="my-4">
+                <a class="btn btn-primary btn-lg" href="{{url_for('home.index')}}" role="button">Kembali ke</a>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-2"></div>
+</div>
+{% endblock %}
