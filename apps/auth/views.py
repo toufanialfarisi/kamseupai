@@ -10,7 +10,7 @@ from flask import redirect, url_for, flash, render_template, request, Blueprint,
 from apps.auth import forms, models
 from apps import db, email_confirm, Message, mail
 from apps.auth.models import User
-from apps.home.utility import host_mode
+from apps.home.utility import host_mode, host
 
 auth = Blueprint("auth", __name__, template_folder="templates/")
 
@@ -48,11 +48,11 @@ def register():
         email = form.email.data
         token = email_confirm.dumps(email, salt="email-confirm")
         msg = Message(
-            "confirm email", sender="kamseupai@makeitation.com", recipients=[email]
+            "Konfirmasi Akun", sender="kamseupai@makeitation.com", recipients=[email]
         )
         link = url_for("auth.confirmation", token=token, external=True)
 
-        host_server = host_mode
+        host_server = host()
         msg.html = "<html>Silahkan konfirmasi Akun  anda dengan mengklik link di bawah ini : <br> <strong> <a href='{}{}'> KONFIRMASI </a> </strong></html>".format(
             host_server, link
         )
