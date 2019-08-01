@@ -15,13 +15,6 @@
 
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='main.css') }}">
     <link href='https://fonts.googleapis.com/css?family=Bai Jamjuree' rel='stylesheet'>
-    {% if title %}
-    <title>Data - {{ title }}</title>
-    {% else %}
-    <title>Kamseupai</title>
-    <script src="https://kit.fontawesome.com/c32b8806e8.js"></script>
-
-    {% endif %}
 
     <style>
         body {
@@ -55,25 +48,24 @@
 
 <body>
 
-    <header class="site-header">
-        <nav class="navbar navbar-expand-lg navbar-light bg-info fixed-top">
-            <a class="navbar-brand" href="#">
-                <a class="navbar-brand mr-4" href="/">
-
-                    <img style="margin-left:30px;" src="{{ url_for('static', filename='test.png') }}" width="130px;">
-
-                </a>
-            </a>
-            <button class="navbar-toggler" data-toggle="collapse" data-target="#navbarSupportedContent">
-
-            </button>
 
 
-        </nav>
-    </header>
+    <div class="row">
+        <div class="col-md-2"></div>
+        <div class="col-md-8">
+            <div class="content-section" id="carding">
+                <div class="jumbotron-fluid">
+                    <h2 class="display-4">Konfirmasi Pendaftara</h2>
+                    <p class="lead">Terima kasih atar pendaftarannya di website kami</p>
+                    <p class="text-muted">Silahkan klik link di bawah ini untuk konfirmasi pendaftara Anda</p><br>
+                    <a href="http://localhost{{ link }}" class="btn btn-info">Konfirmasi</a>
+                    <hr class="my-4">
 
-    {% block content %}{% endblock %}
-
+                </div>
+            </div>
+        </div>
+        <div class="col-md-2"></div>
+    </div>
 </body>
 <!-- Optional JavaScript -->
 <!-- jQuery first, then Popper.js, then Bootstrap JS -->

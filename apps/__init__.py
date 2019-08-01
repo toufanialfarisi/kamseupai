@@ -7,6 +7,8 @@ from flask_script import Manager
 from flask_migrate import Migrate
 from flask_migrate import MigrateCommand
 from flask_cors import CORS
+from itsdangerous import URLSafeTimedSerializer, SignatureExpired
+from flask_mail import Mail, Message
 import os
 
 app = Flask(__name__)
@@ -18,6 +20,10 @@ basedir = os.path.join(file_path, "data.sqlite")
 app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///" + basedir
 app.config["SECRET_KEY"] = "KAMseupai291195"
 
+
+app.config.from_pyfile("config.cfg")
+email_confirm = URLSafeTimedSerializer("KAMseupai291195")
+mail = Mail(app)
 
 manager = Manager(app)
 manager.add_command("db", MigrateCommand)

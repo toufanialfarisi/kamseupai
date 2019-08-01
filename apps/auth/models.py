@@ -23,6 +23,7 @@ class User(db.Model, UserMixin):
     email = db.Column(db.String(64), unique=True, index=True)
     username = db.Column(db.String(64), unique=True, index=True)
     password_hash = db.Column(db.String(128))
+    confirmation_status = db.Column(db.Boolean, default=False)
     transaksi = db.relationship("Transaksi", backref="pemesanan", uselist=False)
     home_session = db.relationship("HomeSession", backref="home_session", uselist=False)
     wisata_session = db.relationship(

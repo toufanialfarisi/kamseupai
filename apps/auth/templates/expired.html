@@ -1,0 +1,21 @@
+{% extends "main_layout.html" %}
+{% block content %}
+
+
+<!-- JUMBOTRON -->
+<div class="row">
+    <div class="col-md-2"></div>
+    <div class="col-md-8">
+        <div class="content-section" id="carding"
+            style="background-image: url({{ url_for('static', filename='background.png') }});">
+            <div class="jumbotron-fluid">
+                <h1 class="display-4" style="color: white">Token Anda Kadaluarsa !</h1>
+                <p class="lead" style="color: white">Mohon maaf atas ketidaknyamanan ini</p>
+                <hr class="my-4">
+                <!-- <a class="btn btn-primary btn-lg" href="{{url_for('home.index')}}" role="button">Kembali ke</a> -->
+            </div>
+        </div>
+    </div>
+    <div class="col-md-2"></div>
+</div>
+{% endblock %}
