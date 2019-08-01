@@ -13,24 +13,26 @@
   <div class="row">
     <div class="col-md-12">
       <div class="content-section" id="carding">
-        <article class="card card-product">
-          <div class="card-body">
-            <div class="row">
-              <div class="col-md-10">
-                Apakah Anda ingin memesan paket wisata Juga ?, Kalau tidak klik tombol lanjutkan
+        <div class="table-responsive">
+          <article class="card card-product">
+            <div class="card-body">
+              <div class="row">
+                <div class="col-md-10">
+                  Apakah Anda ingin memesan paket wisata Juga ? Kalau tidak klik tombol lanjutkan
+                </div>
+                <div class="col-md-2">
+                  <a href="{{ host }}/book-processing" class="btn btn-outline-danger"> <strong>
+                      Lanjutkan <i class="fas fa-arrow-right"></i>
+
+                    </strong>
+                  </a>
+                </div>
+
               </div>
-              <div class="col-md-2">
-                <a href="{{ host }}/book-processing" class="btn btn-outline-danger"> <strong>
-                    Lanjutkan <i class="fas fa-arrow-right"></i>
 
-                  </strong>
-                </a>
-              </div>
-
-            </div>
-
-          </div> <!-- card-body .// -->
-        </article>
+            </div> <!-- card-body .// -->
+          </article>
+        </div>
       </div>
       <div class="content-section" id="carding">
         <p class='text-muted'>
@@ -40,31 +42,27 @@
         <div class="row">
 
           {% for data in form %}
-          <div class="col-lg-4 col-md-6 mb-4">
-            <div class="card h-100">
-              <a href="#"><img class="card-img-top" src="{{ data.foto_wisata }}" style="width: 335px ; height: 200px"
-                  alt=""></a>
+          <div class="col">
 
-              <div class="card-footer">
-                <h5 class="card-title">
-                  Paket Wisata : <strong>{{ data.wisata }}</strong>
-                </h5>
-              </div>
+            <div class="card" style="width: 18rem;">
+              <img class="card-img-top" src="{{ data.foto_wisata }}" alt="Card image cap">
               <div class="card-body">
+                <h5 class="card-title">Paket Wisata : <strong>{{ data.wisata }}</strong></h5>
+
                 <div class="text-muted">
                   <h6> <strong> Biaya paket : <br> </strong> Rp. {{ formatrupiah(data.biaya) }} </h6>
                   <h6><strong> Deskripsi : <br> </strong> {{ data.kegiatan }}</h6>
                   <h6><strong> Fasilitas : <br> </strong> {{ data.kegiatan }}</h6>
 
                 </div>
-              </div>
 
-              <div class="card-footer">
-                <small id="pesanPaket" class="text-muted"><a href="{{ host }}/book/homestay/wisata/{{ data.id }}"
-                    class="btn btn-info"><i class="fas fa-plus"></i> Tambah Paket</a></small>
+                <a href="{{ host }}/book/homestay/wisata/{{ data.id }}" class="btn btn-info"><i class="fas fa-plus"></i>
+                  Tambah Paket</a>
               </div>
             </div>
+
           </div>
+
           {% endfor %}
 
 
