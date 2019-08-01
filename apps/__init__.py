@@ -26,49 +26,16 @@ login_manager = LoginManager()
 login_manager.init_app(app)
 login_manager.login_view = "auth.login"
 
-
-@manager.command
-def show_urls():
-    import urllib
-
-    output = []
-    for rule in app.url_map.iter_rules():
-        options = {}
-        for arg in rule.arguments:
-            options[arg] = "[{0}]".format(arg)
-
-        methods = ",".join(rule.methods)
-        url = url_for(rule.endpoint, **options)
-        line = urllib.parse.unquote(
-            "{:50s} {:20s} {}".format(rule.endpoint, methods, url)
-        )
-        output.append(line)
-    for line in sorted(output):
-        print(line)
-
-
 Migrate(app, db)
 CORS(app)
-
-# from apps.auth import models
-# from apps.home import models
-
-# db.create_all()
-
-
-# import argparse
-
-# ap = argparse.ArgumentParser()
-# ap.add_argument(
-#     "-hm", "--hostmode", required=False, help="localserver mode or production mode"
-# )
-# args = vars(ap.parse_args())
 
 
 from apps.auth.views import auth
 from apps.home.views import home
 from apps.auth_admin.views import admin
+from apps.error_pages.handlers import error_pages
 
 app.register_blueprint(auth)
 app.register_blueprint(home)
 app.register_blueprint(admin)
+app.register_blueprint(error_pages)
