@@ -5,23 +5,26 @@
     border-radius: 15px;
     padding: 20px;
     width: 100%;
-    height: auto;
+    height: 100%;
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
   }
 </style>
 <main role="main" class="container">
   <div class="row">
-    <div class="col-md-12">
+    <div class="col col-lg-8">
+
       <div class="content-section" id="carding">
         <p class='text-muted'>
           <legend class="border-bottom mb-4"> Detail <strong>Homestay</strong></legend>
         </p>
         <div class="card-body">
           <div class="row">
-            <aside class="col-sm-3">
-              <div class="img-wrap"><img class="rounded float-left" src="{{ form.foto_homestay }}" width="250px">
-              </div>
-            </aside> <!-- col.// -->
+            <div class="table-responsive-md">
+              <aside class="col-sm-3">
+                <div class="img-wrap"><img class="rounded float-left" src="{{ form.foto_homestay }}" width="250px">
+                </div>
+              </aside> <!-- col.// -->
+            </div>
             <article class="col-sm-6">
 
               <h2 class="title"> <strong>{{ form.nama_homestay }}</strong></h2>
@@ -51,101 +54,118 @@
               </h5>
 
             </article> <!-- col.// -->
-            <aside class="col-sm-3 border-left">
-              <div class="action-wrap">
-                <div class="price-wrap h4">
-                  <span class="price"> Rp. {{ diskon }} </span> <br>
-                  <del class="price-old"> Rp. {{ formatrupiah(form.harga) }} </del>
-                </div> <!-- info-price-detail // -->
-                <p class="text-success">potongan 20%</p>
-                <br>
-                <p>
-
-                  <!-- <button type="button" class="btn btn--outline-light" disabled>Terpesan</button> -->
-                  <form action="" method="POST">
-                    <div class="form-group">
-                      <label for="malam" class="form-contol">
-                        <h6>Berapa hari ?</h6>
-                      </label>
-                      <input type="number" class="form-control" name="malam" placeholder="Durasi ditempati">
-                      <label for="kamar" class="form-contol">
-                        <h6>Berapa kamar ?</h6>
-                      </label>
-                      <input type="number" class="form-control" name="kamar" placeholder="Jumlah Kamar yang dibutuhkan">
-                      <label for="check_in" class="form-contol">
-                        <h6>Tanggal Check in ?</h6>
-                      </label>
-                      <input type="date" class="form-control" name="check_in" placeholder="Tanggal Check in">
-                    </div>
-                    <button type="submit" class="btn btn-outline-info btn-block"> <strong> Pesan Homestay </strong>
-                    </button>
-                  </form>
-                </p>
-
-                <!-- <a href="#"><i class="fa fa-heart"></i> Tambah ke favorit</a> -->
+          </div>
 
 
-              </div> <!-- action-wrap.// -->
-            </aside> <!-- col.// -->
-          </div> <!-- row.// -->
-        </div> <!-- card-body .// -->
+        </div> <!-- row.// -->
+      </div> <!-- card-body .// -->
 
-        </article> <!-- product-list.// -->
-      </div>
+      </article> <!-- product-list.// -->
+    </div>
 
+    <div class="col">
       <div class="content-section" id="carding">
-        <!-- <article class="card card-product"> -->
+        <p class='text-muted'>
+          <legend class="border-bottom mb-4"> Pesan Sekarang </legend>
+        </p>
 
-        <div class="card-body">
-          <div class="row">
-            <div class="col-md-10">
-              Atraksi / kegiatan wisata yang bisa dinikmati di <strong> {{ form.nama_homestay }} </strong>
-            </div>
-          </div>
+        <!-- <aside class="col-sm-3 border-left"> -->
+        <div class="action-wrap">
+          <div class="price-wrap h4">
+            <span class="price"> Rp. {{ diskon }} </span> <br>
+            <del class="price-old"> Rp. {{ formatrupiah(form.harga) }} </del>
+          </div> <!-- info-price-detail // -->
+          <p class="text-success">potongan 20%</p>
+          <br>
+          <p>
 
-        </div> <!-- card-body .// -->
-        <!-- </article> -->
-
-        <div class="row">
-          {% for form in form_wisata %}
-          <div class="col-lg-4 col-md-6 mb-4">
-            <div class="card h-100">
-              <a href="#"><img class="card-img-top" src="{{ form.foto_wisata }}" style="width: 200px" alt=""></a>
-              <div class="card-footer">
-                <h5 class="card-title">
-                  Paket Wisata : <strong>{{ form.wisata }}</strong>
-                </h5>
+            <!-- <button type="button" class="btn btn--outline-light" disabled>Terpesan</button> -->
+            <form action="" method="POST">
+              <div class="form-group">
+                <label for="malam" class="form-contol">
+                  <h6>Berapa hari ?</h6>
+                </label>
+                <input type="number" class="form-control" name="malam" placeholder="Durasi ditempati" required>
+                <label for="kamar" class="form-contol">
+                  <h6>Berapa kamar ?</h6>
+                </label>
+                <input type="number" class="form-control" name="kamar" placeholder="Jumlah Kamar yang dibutuhkan"
+                  required>
+                <label for="check_in" class="form-contol">
+                  <h6>Tanggal Check in ?</h6>
+                </label>
+                <input type="date" class="form-control" name="check_in" placeholder="Tanggal Check in" required>
               </div>
-              <div class="card-body">
-                <div class="text-muted">
-                  <h6> <strong> Biaya paket : <br> </strong> Rp. {{ formatrupiah(form.biaya) }} </h6>
-                  <h6><strong> Deskripsi : <br> </strong> {{ form.kegiatan }}</h6>
-                  <h6><strong> Fasilitas : <br> </strong> {{ form.kegiatan }}</h6>
+              <button type="submit" class="btn btn-outline-info btn-block"> <strong> Pesan Homestay </strong>
+              </button>
+            </form>
+          </p>
 
-                </div>
-              </div>
-            </div>
-          </div>
-          {% endfor %}
+          <!-- <a href="#"><i class="fa fa-heart"></i> Tambah ke favorit</a> -->
 
 
+        </div> <!-- action-wrap.// -->
+        <!-- </aside> col.// -->
+      </div>
+    </div>
+  </div>
+
+  <br>
+
+  <div class="content-section" id="carding">
+    <!-- <article class="card card-product"> -->
+
+    <div class="card-body">
+      <div class="row">
+        <div class="col-md-10">
+          Atraksi / kegiatan wisata yang bisa dinikmati di <strong> {{ form.nama_homestay }} </strong>
         </div>
       </div>
 
-
     </div>
 
+    <div class="row">
+      {% for form in form_wisata %}
+      <div class="table-responsive-md">
+        <aside class="col-sm-3">
+          <div class="img-wrap"><img class="rounded float-left" src="{{ form.foto_wisata }}" width="230px">
+          </div>
+        </aside> <!-- col.// -->
+      </div>
+      <article class="col-sm-6">
+        <a href="#" style="color: black"> <strong>{{ form.wisata }}</strong></a>
+        <div class="rating-wrap">
+          <div class="text-muted">
+            <!-- <h6> <strong> lokasi : <br> </strong> # -->
+          </div></strong> </h6>
+          <div class="text-muted">
+            <p> <strong> deskripsi : <br> </strong> {{ form.kegiatan }}
+          </div></strong> </p>
+
+        </div> <!-- rating-wrap.// -->
+      </article> <!-- col.// -->
+      <aside class="col-sm-3 border-left">
+        <div class="action-wrap">
+          <div class="price-wrap h4">
+            <span class="price"> Rp. {{ formatrupiah(form.biaya) }} </span> <br>
+          </div>
+
+          <p>
+            <!-- <a href="#" class="btn btn-outline-success btn-sm"> Favoritkan </a> <a href="#"
+              class="btn btn-outline-info btn-sm"> Detail </a> <br>
+            <span class="badge badge-success">tersedia</span> -->
+
+          </p>
+        </div> <!-- action-wrap.// -->
+      </aside> <!-- col.// -->
+      {% endfor %}
+    </div>
   </div>
   </div>
-
-
-
-
   </div>
-
-
   </div>
-
+  </div>
+  </div>
   </div>
   </div>
 </main>
