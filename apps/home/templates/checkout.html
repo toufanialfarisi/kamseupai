@@ -82,7 +82,8 @@
                     <div class="border-left pl-3">
                         <div class="price-wrap">
                             <span class="h3 price"> Rp. {{ diskon }} <h6> ( {{ malam }} malam )</h6>
-                                <h5><del class="price-old text-danger">Rp. {{ formatrupiah(form_homestay.harga) }}</del>
+                                <h5><del class="price-old text-danger">Rp.
+                                        {{ formatrupiah(form_homestay.harga) }}</del>
                                 </h5>
                         </div> <!-- info-price-detail // -->
                         <p class="text-success"></p>
@@ -91,8 +92,8 @@
                                 class="btn btn-outline-success" data-toggle="tooltip"
                                 data-original-title="Save to Wishlist"><i class="fas fa-heart"></i>
                             </a> -->
-                            <a href="{{ host }}/remove/item/{{ form_homestay.id }}" class="btn btn-outline-danger"> <i
-                                    class="fas fa-trash-alt"></i>
+                            <a href="{{ host }}/remove/item/{{ form_homestay.id }}" class="btn btn-outline-danger">
+                                <i class="fas fa-trash-alt"></i>
                                 Hapus</a>
                         </td>
                     </div> <!-- action-wrap.// -->
@@ -196,10 +197,11 @@
                         <td class="text-right">
                             <p><a href="{{ host }}/pay" class="btn btn-info btn-block"> <i
                                         class="fas fa-paper-plane"></i>
-                                    Bayar Sekarang </a></p>
+                                    Bayar</a></p>
                         </td>
                     </div> <!-- action-wrap.// -->
                 </aside> <!-- col.// -->
+
             </div> <!-- row.// -->
         </article> <!-- itemlist.// -->
     </div>
