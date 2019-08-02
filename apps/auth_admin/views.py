@@ -20,7 +20,7 @@ admin = Blueprint("admin", __name__, template_folder="templates/")
 @admin.route("/admin/index", methods=["POST", "GET", "PUT", "DELETE"])
 def admin_index():
     if "admin" in session:
-        return render_template("index_admin.html", admin=session["admin"])
+        return render_template("index_admin.html", admin=session["admin"], host=host())
     else:
         flash("Silahkan login terlebih dahulu", "danger")
         return redirect(url_for("admin.login_admin"))
@@ -159,7 +159,7 @@ def login_admin():
         try:
             if admin.check_password(form.password.data) and admin is not None:
                 # if check_password_hash(user.password, form.password.data) and user is
-                session["admin"] = admin.username
+                session["admin"] = form.username.data
                 next = request.args.get("next")
                 if next == None or not next[0] == "/admin":
                     next = url_for("admin.admin_index")

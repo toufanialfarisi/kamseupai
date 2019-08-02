@@ -35,9 +35,23 @@ def delete_sessions():
 def index():
     ls_curency = []
     model = models.Homestay.query.all()
+    page_param = request.args.get("page")
+    per_page = 4    
+    if not page_param:
+        page_param = 1
+    paginate = Homestay.query.paginate(page=int(page_param), per_page=per_page)
+    max_page = str(paginate.pages)
+    curr_page = page_param
+    
+    next_page = int(page_param) + 1
+    next_page = str(next_page)
+
+    prev_page = int(page_param) - 1
+    prev_page = str(prev_page)
+
     fav, is_fav_exist = show_fav()
     ls_diskon = []
-    for cur in model:
+    for cur in paginate.items:
         rupiah = formatrupiah(cur.harga)
         ls_curency.append(rupiah)
         real_harga = cur.harga 
@@ -48,29 +62,43 @@ def index():
     
     searchform = searchForm()
     if searchform.validate_on_submit():
-        post = Homestay.query.filter(Homestay.nama_homestay.like('%' + searchform.keyword.data + '%'))
-        post = post.order_by(Homestay.nama_homestay).all()
+        post = Homestay.query.filter(
+                Homestay.nama_homestay.like('%' + searchform.keyword.data + '%')
+                ).order_by(Homestay.nama_homestay).paginate(
+                page=int(page_param), per_page=per_page
+                )
+        
         
         return render_template(
             "home.html", 
             formm=searchform,
-            form=post, 
+            form=post.items, 
             favs=fav, 
             favs_exist=is_fav_exist, 
             rupiah=ls_curency, 
             ls_diskon=ls_diskon,
             host=host(),
+            next_page=next_page,
+            prev_page=prev_page,
+            curr_page=page_param,
+            max_page=max_page,
+            paginate=paginate,
         )
 
     return render_template(
         "home.html", 
         formm=searchform,
-        form=model, 
+        form=paginate.items, 
         favs=fav, 
         favs_exist=is_fav_exist, 
         rupiah=ls_curency, 
         ls_diskon=ls_diskon,
         host=host(),
+        next_page=next_page,
+        prev_page=prev_page,
+        curr_page=page_param,
+        max_page=max_page,
+        paginate=paginate,
         )
 
 
