@@ -71,21 +71,32 @@ def login():
 
     if form.validate_on_submit():
         user = User.query.filter_by(username=form.username.data).first()
-        check_user_confirmed = user.confirmation_status
         try:
+            check_user_confirmed = user.confirmation_status
             if (
                 user.check_password(form.password.data)
                 and user is not None
                 and check_user_confirmed is True
             ):
-                # if check_password_hash(user.password, form.password.data) and user is
+
                 login_user(user)
                 next = request.args.get("next")
                 if next == None or not next[0] == "/":
                     next = url_for("home.index")
                 return redirect(next)
-        except:
-            flash("wrong password or username", "danger")
+            elif (
+                user.check_password(form.password.data)
+                and user is not None
+                and check_user_confirmed is False
+            ):
+                flash("Akun benlum terkonfirmasi, silahkan cek email Anda !", "danger")
+                return redirect(url_for("auth.login"))
+            else:
+                flash("Username / password Anda salah", "danger")
+                return redirect(url_for("auth.login"))
+
+        except AttributeError:
+            flash("Akun anda tidak terdaftar, silahkan register dulu !", "danger")
             return redirect(url_for("auth.login"))
     return render_template("login.html", form=form)
 
