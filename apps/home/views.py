@@ -31,7 +31,7 @@ def delete_sessions():
 
 
 
-@home.route("/", methods=["GET"])
+@home.route("/", methods=["GET", "POST"])
 def index():
     ls_curency = []
     model = models.Homestay.query.all()
@@ -46,8 +46,25 @@ def index():
         thediskon = formatrupiah(disk)
         ls_diskon.append(thediskon)
     
+    searchform = searchForm()
+    if searchform.validate_on_submit():
+        post = Homestay.query.filter(Homestay.nama_homestay.like('%' + searchform.keyword.data + '%'))
+        post = post.order_by(Homestay.nama_homestay).all()
+        
+        return render_template(
+            "home.html", 
+            formm=searchform,
+            form=post, 
+            favs=fav, 
+            favs_exist=is_fav_exist, 
+            rupiah=ls_curency, 
+            ls_diskon=ls_diskon,
+            host=host(),
+        )
+
     return render_template(
         "home.html", 
+        formm=searchform,
         form=model, 
         favs=fav, 
         favs_exist=is_fav_exist, 

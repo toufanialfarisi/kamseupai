@@ -40,3 +40,8 @@ class HomestayForm(FlaskForm):
     diskon = IntegerField("Diskon", validators=[DataRequired()])
     foto_homestay = FileField(validators=[FileRequired()])
     submit = SubmitField("Tambah Homestay")
+
+
+class searchForm(FlaskForm):
+    keyword = StringField("Keyword", render_kw={"placeholder": "Kata kunci"})
+    submit = SubmitField("Cari")

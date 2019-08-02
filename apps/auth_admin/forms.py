@@ -80,3 +80,8 @@ class WisataEditForm(FlaskForm):
     biaya = IntegerField("Biaya", validators=[DataRequired()])
     foto_wisata = FileField(validators=[FileRequired()])
     submit = SubmitField("Edit Atraksi")
+
+
+class searchForm(FlaskForm):
+    keyword = StringField("Keyword", render_kw={"placeholder": "Kata kunci"})
+    submit = SubmitField("Cari")

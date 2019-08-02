@@ -16,8 +16,7 @@ from apps.utils import validasi_type, upload_file
 from apps.home.models import Homestay, Wisata
 
 admin = Blueprint("admin", __name__, template_folder="templates/")
-
-
+    
 @admin.route("/admin/index", methods=["POST", "GET", "PUT", "DELETE"])
 def admin_index():
     if "admin" in session:
@@ -30,12 +29,51 @@ def admin_index():
 @admin.route("/admin/homestay", methods=["POST", "GET", "PUT", "DELETE"])
 def view_homestay():
     if "admin" in session:
-        data = Homestay.query.all()
-        return render_template(
+        page_param = request.args.get("page")
+        per_page = 4    
+        if not page_param:
+            page_param = 1
+        paginate = Homestay.query.paginate(page=int(page_param), per_page=per_page)
+        max_page = str(paginate.pages)
+        curr_page = page_param
+        
+        next_page = int(page_param) + 1
+        next_page = str(next_page)
+
+        prev_page = int(page_param) - 1
+        prev_page = str(prev_page)
+        form = searchForm()
+        if form.validate_on_submit():
+            post = Homestay.query.filter(
+                Homestay.nama_homestay.like('%' + form.keyword.data + '%')
+                ).order_by(Homestay.nama_homestay).paginate(
+                page=int(page_param), per_page=per_page
+                )
+            return render_template(
+                'homestay/view_homestay.html', 
+                forms=post.items, 
+                form=form, 
+                no=range(1, len(post.items) + 1),
+                host=host(),
+                next_page=next_page,
+                prev_page=prev_page,
+                curr_page=page_param,
+                max_page=max_page,
+                paginate=paginate,
+                
+            )
+        else:
+            return render_template(
             "homestay/view_homestay.html",
-            forms=data,
-            no=range(1, len(data) + 1),
+            forms=paginate.items,
+            form=form,
+            no=range(1, len(paginate.items) + 1),
             host=host(),
+            next_page=next_page,
+            prev_page=prev_page,
+            curr_page=page_param,
+            max_page=max_page,
+            paginate=paginate,
         )
     else:
         flash("Silahkan login terlebih dahulu", "danger")
@@ -45,14 +83,50 @@ def view_homestay():
 @admin.route("/admin/wisata", methods=["POST", "GET", "PUT", "DELETE"])
 def view_wisata():
     if "admin" in session:
-        data = Wisata.query.all()
-        home = Homestay()
-        return render_template(
+        page_param = request.args.get("page")
+        per_page = 4    
+        if not page_param:
+            page_param = 1
+        paginate = Wisata.query.paginate(page=int(page_param), per_page=per_page)
+        max_page = str(paginate.pages)
+        curr_page = page_param
+        
+        next_page = int(page_param) + 1
+        next_page = str(next_page)
+        
+        prev_page = int(page_param) - 1
+        prev_page = str(prev_page)
+        form = searchForm()
+        if form.validate_on_submit():
+            post = Wisata.query.filter(
+                Wisata.wisata.like('%' + form.keyword.data + '%')
+                ).order_by(Wisata.wisata).paginate(
+                page=int(page_param), per_page=per_page
+                )
+            return render_template(
+                'homestay/view_wisata.html', 
+                forms=post.items, 
+                form=form, 
+                no=range(1, len(post.items) + 1),
+                host=host(),
+                next_page=next_page,
+                prev_page=prev_page,
+                curr_page=page_param,
+                max_page=max_page,
+                paginate=paginate,
+            )
+        else:
+            return render_template(
             "homestay/view_wisata.html",
-            forms=data,
-            no=range(1, len(data) + 1),
-            home=home,
+            forms=paginate.items,
+            form=form,
+            no=range(1, len(paginate.items) + 1),
             host=host(),
+            next_page=next_page,
+            prev_page=prev_page,
+            curr_page=page_param,
+            max_page=max_page,
+            paginate=paginate,
         )
     else:
         flash("Silahkan login terlebih dahulu", "danger")

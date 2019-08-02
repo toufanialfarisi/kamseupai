@@ -61,20 +61,31 @@
             </button>
 
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                <ul class="navbar-nav mr-auto">
+                {% if formm %}
+                <form action="/" method="POST">
+                    {{ formm.hidden_tag() }}
+                    <ul class="navbar-nav mr-auto">
 
-                    <li class="nav-item">
-                        <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-                    </li>
-                    <li class="nav-item">
-                        <div style="width: 15px;">
 
-                        </div>
-                    </li>
-                    <li>
-                        <button class="btn btn-warning my-2 my-sm-0" type="submit">Search</button>
-                    </li>
-                </ul>
+                        <li class="nav-item">
+                            {{ formm.keyword(class="form-control mr-sm-2") }}
+                            <!-- <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search"> -->
+                        </li>
+                        <li class="nav-item">
+                            <div style="width: 15px;">
+
+                            </div>
+                        </li>
+                        <li>
+                            <!-- <button class="btn btn-warning my-2 my-sm-0" type="submit">Search</button> -->
+                            {{ formm.submit(class="btn btn-warning my-2 my-sm-0") }}
+                        </li>
+
+                    </ul>
+                </form>
+                {% else %}
+                {% endif %}
+
                 <div class="form-inline my-2 my-lg-0">
                     <!--  -->
 
