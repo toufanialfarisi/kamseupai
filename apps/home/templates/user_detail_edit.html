@@ -1,0 +1,135 @@
+{% extends "home_layout.html" %}
+{% block content %}
+<style>
+  #carding {
+    border-radius: 15px;
+    padding: 20px;
+    width: 100%;
+    height: 100%;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  }
+</style>
+<main role="main" class="container">
+  <div class="row">
+    <div class="col"></div>
+    <div class="col col-lg-8">
+
+
+
+      <div class="col">
+        <div class="content-section" id="carding">
+          <div class="content-section">
+            <p class='text-muted'>
+              <legend class="border-bottom mb-4"> Edit User </legend>
+            </p>
+            <form action="" method="POST" enctype="multipart/form-data">
+              {{ form.hidden_tag() }}
+
+              <fieldset class="form-group">
+                {{ form.nama_lengkap.label(class='form-control-label') }}
+                {% if form.nama_lengkap.errors %}
+                {{ form.nama_lengkap(class='form-control form-control-lg is-invalid') }}
+                <div class="invalid-feedback">
+                  {% for error in form.nama_lengkap.errors %}
+                  <span>{{ error }}</span>
+                  {% endfor %}
+                </div>
+                {% else %}
+                {{ form.nama_lengkap(class='form-control form-control-lg') }}
+                {% endif %}
+              </fieldset>
+
+              <fieldset class="form-group">
+                {{ form.jenis_kelamin.label(class='form-control-label') }}
+                {% if form.jenis_kelamin.errors %}
+                {{ form.jenis_kelamin(class='form-control form-control-lg is-invalid') }}
+                <div class="invalid-feedback">
+                  {% for error in form.jenis_kelamin.errors %}
+                  <span>{{ error }}</span>
+                  {% endfor %}
+                </div>
+                {% else %}
+                {{ form.jenis_kelamin(class='form-control form-control-lg') }}
+                {% endif %}
+              </fieldset>
+
+              <fieldset class="form-group">
+                {{ form.nomor_hp.label(class='form-control-label') }}
+                {% if form.nomor_hp.errors %}
+                {{ form.nomor_hp(class='form-control form-control-lg is-invalid') }}
+                <div class="invalid-feedback">
+                  {% for error in form.nomor_hp.errors %}
+                  <span>{{ error }}</span>
+                  {% endfor %}
+                </div>
+                {% else %}
+                {{ form.nomor_hp(class='form-control form-control-lg') }}
+                {% endif %}
+              </fieldset>
+
+              <fieldset class="form-group">
+                {{ form.nomor_hp.label(class='form-control-label') }}
+                {% if form.nomor_hp.errors %}
+                {{ form.nomor_hp(class='form-control form-control-lg is-invalid') }}
+                <div class="invalid-feedback">
+                  {% for error in form.nomor_hp.errors %}
+                  <span>{{ error }}</span>
+                  {% endfor %}
+                </div>
+                {% else %}
+                {{ form.nomor_hp(class='form-control form-control-lg') }}
+                {% endif %}
+              </fieldset>
+
+              <fieldset class="form-group">
+                {{ form.alamat.label(class='form-control-label') }}
+                {% if form.alamat.errors %}
+                {{ form.alamat(class='form-control form-control-lg is-invalid') }}
+                <div class="invalid-feedback">
+                  {% for error in form.alamat.errors %}
+                  <span>{{ error }}</span>
+                  {% endfor %}
+                </div>
+                {% else %}
+                {{ form.alamat(class='form-control form-control-lg') }}
+                {% endif %}
+              </fieldset>
+
+              <fieldset class="form-group">
+                {{ form.foto_user.label(class='form-control-label') }}
+                {% if form.foto_user.errors %}
+                {{ form.foto_user(class='form-control form-control-lg is-invalid') }}
+                <div class="invalid-feedback">
+                  {% for error in form.foto_user.errors %}
+                  <span>{{ error }}</span>
+                  {% endfor %}
+                </div>
+                {% else %}
+                {{ form.foto_user(class='form-control form-control-lg') }}
+                {% endif %}
+              </fieldset>
+
+              <fieldset class="form-group">
+                {{ form.submit(class='btn btn-info btn-block') }}
+              </fieldset>
+            </form>
+            </p>
+          </div> <!-- action-wrap.// -->
+          <!-- </aside> col.// -->
+        </div>
+      </div>
+    </div>
+    <div class="col"></div>
+  </div>
+
+
+
+  </div>
+  </div>
+  </div>
+  </div>
+  </div>
+  </div>
+  </div>
+</main>
+{% endblock %}

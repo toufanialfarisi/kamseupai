@@ -62,7 +62,7 @@ class HomestayEditForm(FlaskForm):
     jumlah_kamar = IntegerField("Jumlah kamar", validators=[DataRequired()])
     harga = IntegerField("Harga", validators=[DataRequired()])
     diskon = IntegerField("Diskon", validators=[DataRequired()])
-    foto_homestay = FileField(validators=[FileRequired()])
+    foto_homestay = FileField("Foto Homestay")
     submit = SubmitField("Edit Homestay")
 
 

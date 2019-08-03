@@ -81,14 +81,15 @@
   </div>
 
   <div class="row">
+
     <div class="col-sm"></div>
     <div class="col-sm">
 
       <!-- pagination -->
       {% if form %}
       <div>
-        <nav aria-label="...">
-          <ul class="pagination">
+        <nav aria-label="page" style="margin-left: 100px;">
+          <ul class="pagination pagination-sm">
             {% if paginate.prev_num == None %}
             <li class="page-item disabled">
               <span class="page-link">Previous</span>
@@ -96,7 +97,7 @@
 
             {% else %}
             <li class="page-item">
-              <a class="page-link" href="{{ host }}?page={{paginate.prev_num}}">Previous</a>
+              <a class="page-link" href="{{ url_for('home.index', page=paginate.prev_num) }}">Previous</a>
             </li>
 
             {% endif %}
@@ -104,7 +105,7 @@
             {% if prev_page == '0' %}
             {% else %}
             <li class="page-item"><a class="page-link"
-                href="{{ host }}?page={{paginate.prev_num}}">{{ paginate.prev_num }}</a>
+                href="{{ url_for('home.index', page=paginate.prev_num) }}">{{ paginate.prev_num }}</a>
             </li>
             {% endif %}
             <li class="page-item active">
@@ -115,14 +116,14 @@
             </li>
             {% if paginate.next_num != None %}
             <li class="page-item"><a class="page-link"
-                href="{{ host }}?page={{paginate.next_num}}">{{paginate.next_num}}</a>
+                href="{{ url_for('home.index', page=paginate.next_num) }}">{{paginate.next_num}}</a>
             </li>
             <li class="page-item">
-              <a class="page-link" href="{{ host }}?page={{paginate.next_num}}">Next</a>
+              <a class="page-link" href="{{ url_for('home.index', page=paginate.next_num) }}">Next</a>
             </li>
             {% else %}
             <li class="page-item disabled">
-              <a class="page-link" href="{{ host }}?page={{paginate.next_num}}">Next</a>
+              <a class="page-link" href="{{ url_for('home.index', page=paginate.next_num) }}">Next</a>
             </li>
             {% endif %}
           </ul>

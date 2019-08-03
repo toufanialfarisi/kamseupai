@@ -8,6 +8,8 @@ import random
 import string
 from datetime import date, time, datetime
 from apps.home.utility import * 
+from apps.auth.models import UserDetail, User
+
 
 home = Blueprint("home", __name__, template_folder="templates/")
 
@@ -29,7 +31,14 @@ def delete_sessions():
     session.pop("total_biaya", None)
     return 'all sessions are clear'
 
-
+def foto_profile_user():
+    try:
+        user_pro = UserDetail.query.get(current_user.get_id())
+        img_user = user_pro.foto_user
+        return img_user
+    except:
+        img_user = None 
+        return img_user
 
 @home.route("/", methods=["GET", "POST"])
 def index():
@@ -84,7 +93,7 @@ def index():
             max_page=max_page,
             paginate=paginate,
         )
-
+    
     return render_template(
         "home.html", 
         formm=searchform,
@@ -99,6 +108,7 @@ def index():
         curr_page=page_param,
         max_page=max_page,
         paginate=paginate,
+        img_user=foto_profile_user(),
         )
 
 
@@ -163,7 +173,7 @@ def detail_homestay(id):
     thediskon = formatrupiah(disk)
     fav, is_fav_exist = show_fav()
     model_wisata = models.Wisata.query.filter_by(id_homestay=id).all()
-    print(model_wisata)
+    searchform = searchForm()
     if request.method == "POST":
 
         if request.form["malam"] and request.form["kamar"] and request.form["malam"] and request.form["check_in"] and request.form["nama_lengkap"] and request.form["no_ktp"] or request.form["no_passport"]:
@@ -218,6 +228,8 @@ def detail_homestay(id):
         formatrupiah=formatrupiah,
         diskon=thediskon, 
         form_wisata=model_wisata,
+        formm=searchform,
+        img_user=foto_profile_user(),
     )
 
 
@@ -244,6 +256,7 @@ def book_homestay(id):
         favs_exist=is_fav_exist,
         host=host(),
         formatrupiah=formatrupiah,
+        img_user=foto_profile_user(),
     )
 
 
@@ -354,6 +367,7 @@ def checkout():
         check_in=tgl_check_in,
         check_out=tgl_check_out,
         diskon=thediskon,
+        img_user=foto_profile_user(),
     )
 
 
@@ -389,6 +403,7 @@ def pay():
         favs_exist=is_fav_exist, 
         formatrupiah=formatrupiah, 
         host=host(),
+        img_user=foto_profile_user(),
     )
 
 
@@ -424,97 +439,53 @@ def pay_confirmed():
     print("done")
     fav, is_fav_exist = show_fav()
 
+    return render_template("pay_confirmed.html", favs=fav, favs_exist=is_fav_exist, host=host(), img_user=foto_profile_user())
+
+
+@home.route("/user-detail", methods=["POST", "GET"])
+def user_detail():
+    user_id = current_user.get_id()
+    user_form = UserDetailForm()
+    query_user = User.query.get(user_id) 
+    user_detail = UserDetail.query.filter_by(id_user=user_id).first()
     
+    return render_template("user_detail.html", form=user_detail, img_user=foto_profile_user())
 
-    return render_template("pay_confirmed.html", favs=fav, favs_exist=is_fav_exist, host=host())
+    
+@home.route("/edit-user", methods=["GET", "POST"])
+def edit_user():
+    user_id = current_user.get_id()
+    user_detail = UserDetail.query.get(user_id)
+    form = UserDetailForm(obj=user_detail)
 
+    if form.validate_on_submit():
+        try:
+            file = request.files["foto_user"]
+            folder = IMAGES_DIR + "/wisata"
+            foto = upload_file(file, folder)  # return random name
+            ip = host()
+            foto = ip + "/" + foto
+        except:
+            foto = user_detail.foto_user
 
-
-
-
-# @home.route("/homestay/add", methods=["GET", "POST", "PUT", "DELETE"])
-# @login_required
-# def add_homestay():
-#     form = forms.HomestayForm()
-#     fav, is_fav_exist = show_fav()
-#     if form.validate_on_submit() and request.method == "POST":
-#         file = request.files["foto_homestay"]
-#         folder = IMAGES_DIR + "/homestay"
-#         foto = upload_file(file, folder)  # return random name
-#         foto = host() + "/" + foto
-
-#         nama_homestay = validasi_type(form.nama_homestay.data, str)
-#         alamat = validasi_type(form.alamat.data, str)
-#         deskripsi = validasi_type(form.deskripsi.data, str)
-#         fasilitas = validasi_type(form.fasilitas.data, str)
-#         jumlah_kamar = validasi_type(form.jumlah_kamar.data, int)
-#         harga = validasi_type(form.harga.data, int)
-#         diskon = validasi_type(form.diskon.data, int)
-
-#         model = models.Homestay(
-#             code_homestay=code_homestay(stringLength=5, gen_for="H"),
-#             nama_homestay=nama_homestay,
-#             alamat=alamat,
-#             deskripsi=deskripsi,
-#             fasilitas=fasilitas,
-#             harga=harga,
-#             diskon=diskon,
-#             foto_homestay=foto,
-#             jumlah_kamar=jumlah_kamar,
-#         )
-#         models.db.session.add(model)
-#         models.db.session.commit()
-#         flash("Homestay berhasil ditambah", "success")
-#         return redirect(url_for("home.add_homestay"))
-#     return render_template(
-#         "add_homestay.html", 
-#         form=form, 
-#         favs=fav, 
-#         favs_exist=is_fav_exist, 
-#         host=host(),
-#     )
+        model = UserDetail.query.get(user_id)
+        model.nama_lengkap = form.nama_lengkap.data
+        model.jenis_kelamin = form.jenis_kelamin.data
+        model.nomor_hp = form.nomor_hp.data
+        model.alamat = form.alamat.data
+        model.foto_user = foto
+        models.db.session.add(model)
+        models.db.session.commit()
+        
+        flash("Profile sukses diedit ", "success")
+        return redirect(url_for('home.user_detail'))
 
 
-# @home.route("/homestay/wisata/add", methods=["GET", "POST", "PUT", "DELETE"])
-# @login_required
-# def add_wisata():
-#     form = forms.WisataForm()
-#     fav, is_fav_exist = show_fav()
-#     model_homestay = models.Homestay.query.all()
-#     if request.method == "POST":
-#         file = request.files["foto_wisata"]
-#         # print(file)
-#         # return "test"
-#         folder = IMAGES_DIR + "/wisata"
-#         foto = upload_file(file, folder)  # return random name
-#         ip = host()
-#         foto = ip + "/" + foto
+    return render_template("user_detail_edit.html", form=form, img_user=foto_profile_user())
 
-#         wisata = validasi_type(form.wisata.data, str)
-#         fasilitas = validasi_type(form.fasilitas.data, str)
-#         biaya = validasi_type(form.biaya.data, str)
-#         kegiatan = validasi_type(form.kegiatan.data, str)
-#         id_homestay = validasi_type(request.form['id_homestay'], int)
 
-#         model = models.Wisata(
-#             code_wisata=code_homestay(stringLength=5, gen_for="W"),
-#             wisata=wisata,
-#             fasilitas=fasilitas,
-#             biaya=biaya,
-#             kegiatan=kegiatan,
-#             id_homestay=id_homestay,
-#             foto_wisata=foto,
-#         )
-#         models.db.session.add(model)
-#         models.db.session.commit()
-#         flash("Wisata berhasil ditambah", "success")
-#         return redirect(url_for("home.add_wisata"))
-#     return render_template(
-#         "add_wisata.html", 
-#         form=form, favs=fav, 
-#         favs_exist=is_fav_exist, 
-#         model_homestay=model_homestay,
-#     )
+
+
 
 
 @home.route("/logout", methods=["GET"])

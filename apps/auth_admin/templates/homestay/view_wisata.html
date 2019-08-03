@@ -50,6 +50,7 @@
                         <th scope="col">Homestay</th>
                         <th scope="col">Code</th>
                         <th scope="col">Aksi</th>
+                        <th scope="col"></th>
                     </tr>
                 </thead>
                 {% for form, id in forms|zip(no) %}
@@ -61,7 +62,8 @@
                         <td>{{form.code_wisata}}</td>
                         <td>
                             <a href="{{ url_for('admin.edit_wisata', id=form.id) }}" class="btn btn-success"> <i
-                                    class="fas fa-edit"></i> Edit</a>
+                                    class="fas fa-edit"></i> Edit</a></td>
+                        <td>
                             <a href="{{ url_for('admin.delete_wisata', id=form.id) }}" class="btn btn-danger"><i
                                     class="fas fa-trash-alt"></i> Hapus</a>
                         </td>

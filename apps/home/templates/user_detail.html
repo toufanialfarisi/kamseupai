@@ -1,0 +1,75 @@
+{% extends "home_layout.html" %}
+{% block content %}
+<style>
+  #carding {
+    border-radius: 15px;
+    padding: 20px;
+    width: 100%;
+    height: 100%;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  }
+
+  .circular--square {
+    border-top-left-radius: 50% 50%;
+    border-top-right-radius: 50% 50%;
+    border-bottom-right-radius: 50% 50%;
+    border-bottom-left-radius: 50% 50%;
+  }
+</style>
+<main role="main" class="container">
+  <div class="row">
+    <div class="col"></div>
+    <div class="col col-lg-8">
+
+      <div class="content-section" id="carding">
+        <p class='text-muted'>
+          <legend class="border-bottom mb-4"> Detail <strong>Homestay</strong></legend>
+        </p>
+        <div class="card-body">
+
+          <div class="row">
+            <div class="table-responsive-md">
+              <aside class="col-sm-3">
+                <div class="img-wrap"><img id="img" class="rounded-circle float-left" src="{{ form.foto_user }}"
+                    width="200px" height="200px;">
+                </div>
+              </aside> <!-- col.// -->
+            </div>
+            <article class="col-sm-6">
+              <dl class="dlist-align">
+                <dt>Nama Lengkap</dt>
+                <dd>{{ form.nama_lengkap }}</dd>
+              </dl> <!-- item-property-hor .// -->
+              <dl class="dlist-align">
+                <dt>Jenis Kelamin</dt>
+                <dd>{{ form.jenis_kelamin }}</dd>
+              </dl> <!-- item-property-hor .// -->
+              <dl class="dlist-align">
+                <dt>Nomor HP</dt>
+                <dd>{{ form.nomor_hp }}</dd>
+              </dl> <!-- item-property-hor .// -->
+              <dl class="dlist-align">
+                <dt>Alamat</dt>
+                <dd>{{ form.alamat }}</dd>
+              </dl> <!-- item-property-hor .// -->
+              <dl class="dlist-align">
+
+                <dd><a href="{{ url_for('home.edit_user') }}" class="btn btn-success">Edit Profil</a></dd>
+              </dl>
+              </h5>
+            </article> <!-- col.// -->
+          </div>
+        </div> <!-- row.// -->
+      </div> <!-- card-body .// -->
+      </article> <!-- product-list.// -->
+    </div>
+    <div class="col"></div>
+  </div>
+  </div>
+  </div>
+  </div>
+  </div>
+  </div>
+  </div>
+</main>
+{% endblock %}

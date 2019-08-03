@@ -34,6 +34,7 @@ class User(db.Model, UserMixin):
     history_belanja = db.relationship(
         "Historybelanja", backref="history_user_berbelanja", uselist=False
     )
+    user_detail = db.relationship("UserDetail", backref="detail_user", uselist=False)
 
     # This connects BlogPosts to a User Author.
     # posts = db.relationship('BlogPost', backref='author', lazy=True)
@@ -59,4 +60,15 @@ class User(db.Model, UserMixin):
 
     def __repr__(self):
         return f"UserName: {self.username}"
+
+
+class UserDetail(db.Model):
+    __tablename__ = "userdetail"
+    id = db.Column(db.Integer, primary_key=True)
+    id_user = db.Column(db.Integer, db.ForeignKey("user.id"))
+    nama_lengkap = db.Column(db.String(100))
+    jenis_kelamin = db.Column(db.String(20))
+    nomor_hp = db.Column(db.String(100))
+    alamat = db.Column(db.TEXT)
+    foto_user = db.Column(db.String(100), default="default_profile.png")
 

@@ -108,8 +108,12 @@
                         </div>
                     </div>
                     {% if current_user.is_authenticated %}
+
+
+                    <img class="rounded-circle" src="{{ img_user }}" alt="" width="35px" height="35px"> &ensp;
+                    <a class="btn btn-primary" href="{{ url_for('home.user_detail') }}"> <i>Toufani1515</i> </a>
+                    &ensp;
                     <a href="{{ host }}/logout" class="btn btn-danger">Logout</a>
-                    <div style="width: 50px;"></div>
                     {% else %}
                     <a href="{{ host }}/login" class="btn btn-outline-light">Login</a>
                     <div style="width: 10px;"></div>
@@ -122,7 +126,16 @@
     </header>
 
     {% block content %}{% endblock %}
+    <style>
+        .bg-4 {
+            background-color: #03A4D2;
+            color: #ffffff;
+        }
+    </style>
 
+    <footer class="container bg-4 text-center" style="width: 100% ; height : 100%;" id="carding">
+        <p>kamseupai [Kampung Seribu Pariwisata]</p>
+    </footer>
 </body>
 <!-- Optional JavaScript -->
 <!-- jQuery first, then Popper.js, then Bootstrap JS -->

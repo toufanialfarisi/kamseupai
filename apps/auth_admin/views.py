@@ -264,10 +264,13 @@ def edit_homestay(id):
 
         form.provinsi.choices = [(nama, nama) for id, nama in prov]
         if form.validate_on_submit() and request.method == "POST":
-            file = request.files["foto_homestay"]
-            folder = IMAGES_DIR + "/homestay"
-            foto = upload_file(file, folder)  # return random name
-            foto = host() + "/" + foto
+            try:
+                file = request.files["foto_homestay"]
+                folder = IMAGES_DIR + "/homestay"
+                foto = upload_file(file, folder)  # return random name
+                foto = host() + "/" + foto
+            except:
+                foto = model.foto_homestay
 
             nama_homestay = validasi_type(form.nama_homestay.data, str)
             alamat = validasi_type(form.alamat.data, str)            

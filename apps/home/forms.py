@@ -45,3 +45,12 @@ class HomestayForm(FlaskForm):
 class searchForm(FlaskForm):
     keyword = StringField("Keyword", render_kw={"placeholder": "Kata kunci"})
     submit = SubmitField("Cari")
+
+
+class UserDetailForm(FlaskForm):
+    nama_lengkap = StringField("Nama Lengkap")
+    jenis_kelamin = StringField("Jenis Kelamin")
+    nomor_hp = StringField("Nomor HP")
+    alamat = TextAreaField("Alamat Lengkap")
+    foto_user = FileField("Foto Profil")
+    submit = SubmitField("Update Profile")
