@@ -111,7 +111,7 @@ def index():
             else:
                 pass 
         else:
-            flash("Selamat Datang di Kamseupai (Kampung Seribu Pariwisata)", "info")
+            pass 
     except:
         pass 
 
