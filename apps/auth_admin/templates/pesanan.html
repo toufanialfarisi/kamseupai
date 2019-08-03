@@ -66,7 +66,7 @@
                         <td>{{form.kamar}}</td>
                         <td>
                             {% if form.status_pesanan == false %}
-                            <a href="{{ url_for('admin.konfirmasi', id=form.id_user) }}" class="btn btn-outline-danger">
+                            <a href="{{ url_for('admin.konfirmasi', id=form.id) }}" class="btn btn-outline-danger">
                                 Konfirmasi </a>
                             {% else %}
                             <a href="#" class="btn btn-danger disabled"> Siap ditempati </a>

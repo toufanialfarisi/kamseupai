@@ -530,12 +530,26 @@ def edit_user():
 
 @home.route("/status-pesanan")
 def status_pesanan():
-    belanja = Historybelanja.query.filter_by(id_user=current_user.get_id()).first()
-    homestay = Homestay.query.get(belanja.id)
+    '''
+    filter semua historybelanja berdasarkan id_usernya
+    id_homestay dan belanja ini saya looping 
+
+    '''
+    id_homestay = []
+    belanja = Historybelanja.query.filter_by(id_user=current_user.get_id()).all()
+
+    for i in belanja:
+        id_homestay.append(i.id_homestay)
+    
+    home = Homestay()
+    print(belanja)
+    print(current_user.get_id())
+    # return "test"
     return render_template(
         "status_pesanan.html", 
-        form_homestay=homestay, 
-        form_belanja=belanja,
+        id_homestay=id_homestay, # satu
+        form_belanja=belanja, # banyak
+        home=home,
         img_user=foto_profile_user(),
         username = current_username(),
     )

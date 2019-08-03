@@ -466,8 +466,7 @@ def pesanan():
 @admin.route("/admin/konfirmasi/<id>")
 def konfirmasi(id):
     print("terkonfirmasi")
-
-    pesanan = Historybelanja.query.filter_by(id_user=id).first()
+    pesanan = Historybelanja.query.get(id)
     pesanan.status_pesanan = True 
     db.session.add(pesanan)
     db.session.commit()
