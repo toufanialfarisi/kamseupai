@@ -95,10 +95,14 @@ def index():
             img_user=foto_profile_user(),
         )
     
-    user_model = UserDetail.query.filter_by(id_user=current_user.get_id()).first()
-    if user_model.nama_lengkap is None:
-        flash("Silahkan lengkapi / perbaharui informasi profil Anda", "info")
-    else:
+    
+    try:
+        user_model = UserDetail.query.filter_by(id_user=current_user.get_id()).first()
+        if user_model.nama_lengkap is None:
+            flash("Silahkan lengkapi / perbaharui informasi profil Anda", "info")
+        else:
+            pass 
+    except:
         pass 
 
     return render_template(
