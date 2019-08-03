@@ -8,6 +8,7 @@ chardet==3.0.4
 Click==7.0
 Flask==1.1.1
 Flask-Cors==3.0.8
+Flask-Ext==0.1
 Flask-Login==0.4.1
 Flask-Mail==0.9.1
 Flask-Migrate==2.5.2
@@ -19,6 +20,7 @@ itsdangerous==1.1.0
 Jinja2==2.10.1
 Mako==1.0.14
 MarkupSafe==1.1.1
+numpy==1.17.0
 python-dateutil==2.8.0
 python-dotenv==0.10.3
 python-editor==1.0.4
