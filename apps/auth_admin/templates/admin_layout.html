@@ -27,7 +27,7 @@
         body {
             background-image: url('{{ url_for('static', filename='background.png') }}');
             font-family: 'Bai Jamjuree';
-            font-size: 22px;
+            font-size: 18px;
 
         }
 
@@ -68,6 +68,12 @@
                     <!--  -->
                     <div>
                         <a href="{{ host }}" class="btn btn-warning">Aplikasi</a>
+                    </div>
+                    <div style="width: 10px;"></div>
+                    <div>
+                        <a href="{{ url_for('admin.pesanan') }}" class="btn btn-light"> <span
+                                class="badge badge-info">{{ n_pesanan }}</span> Pesanan
+                        </a>
                     </div>
                     <div style="width: 10px;"></div>
                     <div class="dropdown">

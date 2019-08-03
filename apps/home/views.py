@@ -14,9 +14,12 @@ from apps.auth.models import UserDetail, User
 home = Blueprint("home", __name__, template_folder="templates/")
 
 def current_username():
-    query = models.User.query.get(current_user.get_id())
-    username = query.username
-    return username
+    try:
+        query = models.User.query.get(current_user.get_id())
+        username = query.username
+        return username
+    except:
+        return redirect(url_for('auth.login'))
 
 @home.route("/clear-session", methods=["GET", "POST"])
 def delete_sessions():
@@ -525,6 +528,17 @@ def edit_user():
 
 
 
+@home.route("/status-pesanan")
+def status_pesanan():
+    belanja = Historybelanja.query.filter_by(id_user=current_user.get_id()).first()
+    homestay = Homestay.query.get(belanja.id)
+    return render_template(
+        "status_pesanan.html", 
+        form_homestay=homestay, 
+        form_belanja=belanja,
+        img_user=foto_profile_user(),
+        username = current_username(),
+    )
 
 
 

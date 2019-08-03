@@ -51,6 +51,7 @@ class Historybelanja(db.Model):
     kamar = db.Column(db.Integer)
     tgl_check_in = db.Column(db.DATE)
     tgl_check_out = db.Column(db.DATE)
+    status_pesanan = db.Column(db.Boolean, default=False)
     create_at = db.Column(db.DateTime, default=datetime.datetime.utcnow())
 
 

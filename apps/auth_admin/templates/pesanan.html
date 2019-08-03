@@ -1,0 +1,150 @@
+{% extends "admin_layout.html" %}
+{% block content %}
+<style>
+    #carding {
+        border-radius: 15px;
+        padding: 20px;
+        width: auto;
+        height: auto;
+        box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    }
+</style>
+<main role="main" class="container">
+    <div class="content-section" id="carding">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+        {% for category, message in messages %}
+        <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert"> {{ message }}
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        {% endfor %}
+        {% endif %}
+        {% endwith %}
+        <p class='text-muted'>
+            <legend class="border-bottom mb-4"> <strong>Status Pesanan Homestay</strong></legend>
+        </p>
+        <form action="" method="POST">
+            {{ form.hidden_tag() }}
+            <div class="form-row">
+                <div class="col-3">
+                    {{ form.keyword(class="form-control mr-sm-2") }}
+                </div>
+                <div class="col">
+                    {{ form.submit(class="btn btn-info") }}
+                </div>
+            </div>
+        </form>
+        <br>
+
+        <div class="table-responsive-md">
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Homestay</th>
+                        <th scope="col">Nama Pemesan</th>
+                        <th scope="col">KTP</th>
+                        <th scope="col">passport</th>
+                        <th scope="col">Check-in</th>
+                        <th scope="col">Durasi</th>
+                        <th scope="col">Kamar</th>
+                        <th scope="col">Aksi</th>
+                    </tr>
+                </thead>
+                {% for form, id in paginate.items|zip(no) %}
+                <tbody>
+                    <tr>
+                        <th scope="row">{{id}}</th>
+                        <td>{{home.query.get(form.id_homestay).nama_homestay}}</td>
+                        <td> {{ form.nama_lengkap }} </td>
+                        <td> {{ form.no_ktp }} </td>
+                        <td> {{ form.no_passport }} </td>
+                        <td>{{form.tgl_check_in}}</td>
+                        <td>{{form.malam}}</td>
+                        <td>{{form.kamar}}</td>
+                        <td>
+                            {% if form.status_pesanan == false %}
+                            <a href="{{ url_for('admin.konfirmasi', id=form.id_user) }}" class="btn btn-outline-danger">
+                                Konfirmasi </a>
+                            {% else %}
+                            <a href="#" class="btn btn-danger disabled"> Siap ditempati </a>
+                            {% endif %}
+                        </td>
+                    </tr>
+                </tbody>
+                {% endfor %}
+            </table>
+
+        </div>
+
+        <!-- <legend class="border-bottom mb-4"></legend> -->
+        <br>
+        <div class="container">
+            <div class="row">
+                <div class="col-sm">
+
+                </div>
+                <div class="col-sm">
+
+                    <!-- pagination -->
+                    <div>
+                        <nav aria-label="...">
+                            <ul class="pagination">
+                                {% if paginate.prev_num == None %}
+                                <li class="page-item disabled">
+                                    <span class="page-link">Previous</span>
+                                </li>
+
+                                {% else %}
+                                <li class="page-item">
+                                    <a class="page-link"
+                                        href="{{ url_for('admin.pesanan', page=paginate.prev_num) }}">Previous</a>
+                                </li>
+
+                                {% endif %}
+
+                                {% if prev_page == '0' %}
+                                {% else %}
+                                <li class="page-item"><a class="page-link"
+                                        href="{{ url_for('admin.pesanan', page=paginate.prev_num) }}">{{ paginate.prev_num }}</a>
+                                </li>
+                                {% endif %}
+                                <li class="page-item active">
+                                    <span class="page-link">
+                                        {{paginate.page}}
+                                        <span class="sr-only">(current)</span>
+                                    </span>
+                                </li>
+                                {% if paginate.next_num != None %}
+                                <li class="page-item"><a class="page-link"
+                                        href="{{ url_for('admin.pesanan', page=paginate.next_num) }}">{{paginate.next_num}}</a>
+                                </li>
+                                <li class="page-item">
+                                    <a class="page-link"
+                                        href="{{ url_for('admin.pesanan', page=paginate.next_num) }}">Next</a>
+                                </li>
+                                {% else %}
+                                <li class="page-item disabled">
+                                    <a class="page-link"
+                                        href="{{ url_for('admin.pesanan', page=paginate.next_num) }}">Next</a>
+                                </li>
+                                {% endif %}
+                            </ul>
+                        </nav>
+                    </div>
+                    <!-- pahination -->
+
+                </div>
+                <div class="col-sm">
+
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+</main>
+
+{% endblock %}

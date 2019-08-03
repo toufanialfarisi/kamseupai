@@ -1,0 +1,157 @@
+{% extends "home_layout.html" %}
+{% block content %}
+<style>
+    #carding {
+        border-radius: 15px;
+        padding: 20px;
+        width: auto;
+        height: auto;
+        box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    }
+</style>
+<main role="main" class="container">
+    <div class="content-section" id="carding">
+
+        <p class='text-muted'>
+            <legend class="border-bottom mb-4"> <strong> Status Pemesanan</strong></legend>
+        </p>
+        <article class="itemlist">
+            <div class="row row-sm">
+                <aside class="col-sm-3">
+                    <figure class="media">
+                        <div class="img-wrap"><img src="{{ form_homestay.foto_homestay }}" width="250px"
+                                class="img-thumbnail img-sm"></div>
+                    </figure>
+                </aside> <!-- col.// -->
+
+                <div class="col-sm-6">
+                    <div class="text-wrap">
+                        <figure class="media">
+                            <figcaption class="media-body">
+                                <h5 class="title text-truncate"> <strong> {{form_homestay.nama_homestay}} </strong>
+                                    &ensp; #{{form_homestay.code_homestay}}
+                                </h5>
+                                <dl class="dlist-inline small">
+
+                                    <table>
+
+                                        <tr>
+                                            <td>{% if form_belanja.status_pesanan == false %}
+                                                <span class="text-primary"> <strong>Status</strong></span>
+                                                {% else %}
+                                                <span class="text-success"> <strong>Status</strong></span>
+                                                {% endif %}
+                                            </td>
+                                            <td style="width: 50px;"></td>
+                                            <td style="width: 25px;"> : </td>
+                                            <td>
+                                                {% if form_belanja.status_pesanan == false %}
+                                                <button class="btn btn-primary">
+                                                    Homestay lagi disiapkan.. <span
+                                                        class="spinner-border spinner-border-sm"></span>
+                                                </button>
+                                                {% else %}
+                                                <button class="btn btn-success disabled">
+                                                    Homestay siap ditempati &ensp; <i class="fas fa-check"></i>
+                                                </button>
+                                                {% endif %}
+                                            </td>
+
+                                        </tr>
+                                    </table>
+
+                                    <dd>
+
+                                    </dd>
+                                </dl>
+                                <dl class="dlist-inline small">
+                                    <table>
+
+                                        <tr>
+                                            <td>Check in</td>
+                                            <td style="width: 25px;"></td>
+                                            <td style="width: 25px;"> :</td>
+                                            <td>{{ form_belanja.tgl_check_out }}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Check out</td>
+                                            <td style="width: 25px;"></td>
+                                            <td style="width: 25px;"> :</td>
+                                            <td> {{ form_belanja.tgl_check_out }}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Alamat</td>
+                                            <td style="width: 25px;"></td>
+                                            <td style="width: 25px;"> :</td>
+                                            <td> {{ form_homestay.alamat }}</td>
+                                        </tr>
+                                    </table>
+                                    <!-- <dt>Check in : </dt>
+                                    <dd>{{ check_in }}</dd>
+                                    <dt>Check out : </dt>
+                                    <dd>{{ check_out }}</dd> -->
+
+                                </dl>
+                            </figcaption>
+                        </figure>
+
+
+
+                        <!-- <p class="rating-wrap my-0 text-muted">
+                            <span class="label-rating">132 reviews</span>
+                            <span class="label-rating">154 orders </span>
+                        </p> rating-wrap.// -->
+                    </div> <!-- text-wrap.// -->
+                </div> <!-- col.// -->
+                <aside class="col-sm-3">
+                    <div class="border-left pl-3">
+
+
+
+                        </td>
+                    </div> <!-- action-wrap.// -->
+                </aside> <!-- col.// -->
+            </div> <!-- row.// -->
+        </article> <!-- itemlist.// -->
+
+        <p class='text-muted'>
+            <legend class="border-bottom mb-4"> <strong></strong></legend>
+        </p>
+        <article class="itemlist">
+            <div class="row row-sm">
+                <aside class="col-sm-3">
+                    <figure class="media">
+
+                    </figure>
+                </aside> <!-- col.// -->
+
+                <div class="col-sm-6">
+                    <div class="text-wrap">
+                        <figure class="media">
+                            <figcaption class="media-body">
+                                <h5 class="title text-truncate"> <strong> </strong>
+                                </h5>
+
+                            </figcaption>
+                        </figure>
+                    </div> <!-- text-wrap.// -->
+                </div> <!-- col.// -->
+                <aside class="col-sm-3">
+                    <div class="border-left pl-3">
+                        <td class="text-right">
+                            <p><a href="{{ url_for('home.index') }}" class="btn btn-outline-primary btn-block">
+                                    <i class="fas fa-home"></i> &ensp; Halaman Utama</a></p>
+                        </td>
+                    </div> <!-- action-wrap.// -->
+                </aside> <!-- col.// -->
+
+            </div> <!-- row.// -->
+        </article> <!-- itemlist.// -->
+    </div>
+
+
+
+
+</main>
+
+{% endblock %}

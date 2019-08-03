@@ -13,7 +13,7 @@ from apps import db
 from apps.home.utility import *
 from apps.config import IMAGES_DIR, MY_IP
 from apps.utils import validasi_type, upload_file
-from apps.home.models import Homestay, Wisata
+from apps.home.models import Homestay, Wisata, Historybelanja
 from apps.api import provinsi, kabupaten, kecamatan 
 import requests
 
@@ -23,7 +23,7 @@ admin = Blueprint("admin", __name__, template_folder="templates/")
 @admin.route("/admin/index", methods=["POST", "GET", "PUT", "DELETE"])
 def admin_index():
     if "admin" in session:
-        return render_template("index_admin.html", admin=session["admin"], host=host())
+        return render_template("index_admin.html", admin=session["admin"], host=host(), n_pesanan=n_pesanan()())
     else:
         flash("Silahkan login terlebih dahulu", "danger")
         return redirect(url_for("admin.login_admin"))
@@ -63,6 +63,7 @@ def view_homestay():
                 curr_page=page_param,
                 max_page=max_page,
                 paginate=paginate,
+                n_pesanan=n_pesanan()(),
                 
             )
         else:
@@ -77,6 +78,7 @@ def view_homestay():
             curr_page=page_param,
             max_page=max_page,
             paginate=paginate,
+            n_pesanan=n_pesanan(), 
         )
     else:
         flash("Silahkan login terlebih dahulu", "danger")
@@ -117,6 +119,7 @@ def view_wisata():
                 curr_page=page_param,
                 max_page=max_page,
                 paginate=paginate,
+                n_pesanan=n_pesanan(), 
             )
         else:
             return render_template(
@@ -130,6 +133,7 @@ def view_wisata():
             curr_page=page_param,
             max_page=max_page,
             paginate=paginate,
+            n_pesanan=n_pesanan(),
         )
     else:
         flash("Silahkan login terlebih dahulu", "danger")
@@ -238,6 +242,7 @@ def add_homestay():
             favs=fav,
             favs_exist=is_fav_exist,
             host=host(),
+            n_pesanan=n_pesanan(),
         )
     else:
         flash("Silahkan login terlebih dahulu", "danger")
@@ -303,6 +308,7 @@ def edit_homestay(id):
             favs_exist=is_fav_exist,
             host=host(),
             model=model,
+            n_pesanan=n_pesanan(),
         )
     else:
         flash("Silahkan login terlebih dahulu", "danger")
@@ -363,6 +369,7 @@ def add_wisata():
             favs=fav,
             favs_exist=is_fav_exist,
             model_homestay=model_homestay,
+            n_pesanan=n_pesanan(),
         )
     else:
         flash("Silahkan login terlebih dahulu", "danger")
@@ -411,6 +418,7 @@ def edit_wisata(id):
             favs=fav,
             favs_exist=is_fav_exist,
             model_homestay=model_homestay,
+            n_pesanan=n_pesanan(),
         )
     else:
         flash("Silahkan login terlebih dahulu", "danger")
@@ -428,3 +436,40 @@ def delete_wisata(id):
     else:
         flash("Silahkan login terlebih dahulu", "danger")
         return redirect(url_for("admin.login_admin"))
+
+import numpy as np 
+
+def n_pesanan():
+    history = Historybelanja.query.all()
+    status = Historybelanja.query.filter_by(status_pesanan=True).all()
+    n_pesanan = len(history) - len(status)
+    return n_pesanan
+
+@admin.route("/admin/pesanan", methods=["GET", "POST"])
+def pesanan():
+    form = searchForm()
+    history = Historybelanja.query.all()
+    home = Homestay()
+    no = np.arange(len(history))
+    status = Historybelanja.query.filter_by(status_pesanan=True).all()
+    n_pesanan = len(history) - len(status)
+
+    page_param = request.args.get("page")
+    per_page = 4    
+    if not page_param:
+        page_param = 1
+    prev_page = int(page_param) - 1
+    prev_page = str(prev_page)
+    paginate = Historybelanja.query.paginate(page=int(page_param), per_page=per_page)
+    return render_template("pesanan.html", form=form, no=no, paginate=paginate, prev_page=prev_page, n_pesanan=n_pesanan, home=home)
+
+@admin.route("/admin/konfirmasi/<id>")
+def konfirmasi(id):
+    print("terkonfirmasi")
+
+    pesanan = Historybelanja.query.filter_by(id_user=id).first()
+    pesanan.status_pesanan = True 
+    db.session.add(pesanan)
+    db.session.commit()
+    print("status : ", pesanan.status_pesanan)
+    return redirect(url_for('admin.pesanan'))
