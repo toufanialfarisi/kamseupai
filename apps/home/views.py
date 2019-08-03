@@ -84,7 +84,6 @@ def index():
                 page=int(page_param), per_page=per_page
                 )
         
-        print(current_username())
         return render_template(
             "home.html", 
             formm=searchform,
@@ -106,10 +105,13 @@ def index():
     
     try:
         user_model = UserDetail.query.filter_by(id_user=current_user.get_id()).first()
-        if user_model.nama_lengkap is None:
-            flash("Silahkan lengkapi / perbaharui informasi profil Anda", "info")
+        if current_user.is_authenticated:
+            if user_model.nama_lengkap is None:
+                flash("Silahkan lengkapi / perbaharui informasi profil Anda", "info")
+            else:
+                pass 
         else:
-            pass 
+            flash("Selamat Datang di Kamseupai (Kampung Seribu Pariwisata)", "info")
     except:
         pass 
 
