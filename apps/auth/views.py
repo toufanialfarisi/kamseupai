@@ -97,7 +97,7 @@ def login():
                 and user is not None
                 and check_user_confirmed is False
             ):
-                flash("Akun benlum terkonfirmasi, silahkan cek email Anda !", "danger")
+                flash("Akun belum terkonfirmasi, silahkan cek email Anda !", "danger")
                 return redirect(url_for("auth.login"))
             else:
                 flash("Username / password Anda salah", "danger")
