@@ -43,6 +43,7 @@ class RegisterForm(FlaskForm):
 class HomestayForm(FlaskForm):
     nama_homestay = StringField("Nama homestay", validators=[DataRequired()])
     alamat = StringField("Alamat", validators=[DataRequired()])
+    provinsi = SelectField("Provinsi", choices=[], validators=[DataRequired()])
     deskripsi = TextAreaField("Deskripsi", validators=[DataRequired()])
     fasilitas = StringField("Fasilitas", validators=[DataRequired()])
     jumlah_kamar = IntegerField("Jumlah kamar", validators=[DataRequired()])
@@ -55,6 +56,7 @@ class HomestayForm(FlaskForm):
 class HomestayEditForm(FlaskForm):
     nama_homestay = StringField("Nama homestay", validators=[DataRequired()])
     alamat = StringField("Alamat", validators=[DataRequired()])
+    provinsi = SelectField("Provinsi", choices=[], validators=[DataRequired()])
     deskripsi = TextAreaField("Deskripsi", validators=[DataRequired()])
     fasilitas = StringField("Fasilitas", validators=[DataRequired()])
     jumlah_kamar = IntegerField("Jumlah kamar", validators=[DataRequired()])
@@ -70,6 +72,7 @@ class WisataForm(FlaskForm):
     kegiatan = TextAreaField("Kegiatan", validators=[DataRequired()])
     biaya = IntegerField("Biaya", validators=[DataRequired()])
     foto_wisata = FileField(validators=[FileRequired()])
+    id_homestay = SelectField("Homestay", choices=[], validators=[DataRequired()])
     submit = SubmitField("Tambah Wisata")
 
 
@@ -79,6 +82,7 @@ class WisataEditForm(FlaskForm):
     kegiatan = TextAreaField("Kegiatan", validators=[DataRequired()])
     biaya = IntegerField("Biaya", validators=[DataRequired()])
     foto_wisata = FileField(validators=[FileRequired()])
+    id_homestay = SelectField("Homestay", choices=[], validators=[DataRequired()])
     submit = SubmitField("Edit Atraksi")
 
 

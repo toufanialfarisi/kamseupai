@@ -95,6 +95,19 @@
                   <h6>Tanggal Check in ?</h6>
                 </label>
                 <input type="date" class="form-control" name="check_in" placeholder="Tanggal Check in" required>
+                <label for="nama_lengkap" class="form-contol">
+                  <h6>Nama Lengkap sesuai KTP</h6>
+                </label>
+                <input type="text" class="form-control" name="nama_lengkap" placeholder="Nama Lengkap" required>
+                <label for="no_ktp" class="form-contol">
+                  <h6>Nomor KTP / E-ID card Number</h6>
+                </label>
+                <input type="text" class="form-control" name="no_ktp" placeholder="Nomor KTP" required>
+                <label for="no_passport" class="form-contol">
+                  <h6>Nomor Passport (opsional)</h6>
+                </label>
+                <input type="text" class="form-control" name="no_passport" placeholder="Nomor Passport" required>
+
               </div>
               <button type="submit" class="btn btn-outline-info btn-block"> <strong> Pesan Homestay </strong>
               </button>
@@ -111,7 +124,7 @@
   </div>
 
   <br>
-
+  {% if form_wisata %}
   <div class="content-section" id="carding">
     <!-- <article class="card card-product"> -->
 
@@ -124,6 +137,7 @@
 
     </div>
 
+
     <div class="row">
       {% for form in form_wisata %}
       <div class="table-responsive-md">
@@ -133,7 +147,7 @@
         </aside> <!-- col.// -->
       </div>
       <article class="col-sm-6">
-        <a href="#" style="color: black"> <strong>{{ form.wisata }}</strong></a>
+        <p style="color: black"> <strong>{{ form.wisata }}</strong></p>
         <div class="rating-wrap">
           <div class="text-muted">
             <!-- <h6> <strong> lokasi : <br> </strong> # -->
@@ -147,6 +161,7 @@
       <aside class="col-sm-3 border-left">
         <div class="action-wrap">
           <div class="price-wrap h4">
+            <h5>Biaya</h5>
             <span class="price"> Rp. {{ formatrupiah(form.biaya) }} </span> <br>
           </div>
 
@@ -160,7 +175,10 @@
       </aside> <!-- col.// -->
       {% endfor %}
     </div>
+
   </div>
+  {% else %}
+  {% endif %}
   </div>
   </div>
   </div>

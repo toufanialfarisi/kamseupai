@@ -56,9 +56,9 @@
                         <td>{{form.nama_homestay}}</td>
                         <td> {{ form.alamat }} </td>
                         <td>
-                            <a href="{{ host }}/admin/homestay/edit/{{ form.id }}" class="btn btn-success"> <i
+                            <a href="{{ url_for('admin.edit_homestay', id=form.id) }}" class="btn btn-success"> <i
                                     class="fas fa-edit"></i> Edit</a>
-                            <a href="{{ host }}/admin/homestay/delete/{{ form.id }}" class="btn btn-danger"><i
+                            <a href="{{ url_for('admin.delete_homestay', id=form.id) }}" class="btn btn-danger"><i
                                     class="fas fa-trash-alt"></i> Hapus</a>
                         </td>
                     </tr>

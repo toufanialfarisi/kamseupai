@@ -50,6 +50,21 @@
                                 {{ form.alamat(class='form-control form-control-lg') }}
                                 {% endif %}
 
+
+                                <fieldset class="form-group">
+                                    {{ form.provinsi.label(class='form-control-label') }}
+                                    {% if form.provinsi.errors %}
+                                    {{ form.provinsi(class='form-control form-control-lg is-invalid') }}
+                                    <div class="invalid-feedback">
+                                        {% for error in form.provinsi.errors %}
+                                        <span>{{ error }}</span>
+                                        {% endfor %}
+                                    </div>
+                                    {% else %}
+                                    {{ form.provinsi(class='form-control form-control-lg') }}
+                                    {% endif %}
+
+                                </fieldset>
                             </fieldset>
                             <fieldset class="form-group">
                                 {{ form.deskripsi.label(class='form-control-label') }}

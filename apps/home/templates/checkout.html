@@ -92,7 +92,8 @@
                                 class="btn btn-outline-success" data-toggle="tooltip"
                                 data-original-title="Save to Wishlist"><i class="fas fa-heart"></i>
                             </a> -->
-                            <a href="{{ host }}/remove/item/{{ form_homestay.id }}" class="btn btn-outline-danger">
+                            <a href="{{ url_for('home.remove_item', id=form_homestay.id) }}"
+                                class="btn btn-outline-danger">
                                 <i class="fas fa-trash-alt"></i>
                                 Hapus</a>
                         </td>
@@ -152,7 +153,7 @@
                         </div> <!-- info-price-detail // -->
                         <p class="text-success"></p>
                         <td class="text-right">
-                            <a href="{{ host }}/remove/item/paket/{{ form.id }}" class="btn btn-outline-danger"> <i
+                            <a href="{{ url_for('home.remove_paket', id=form.id) }}" class="btn btn-outline-danger"> <i
                                     class="fas fa-trash-alt"></i>
                                 hapus paket</a>
                         </td>

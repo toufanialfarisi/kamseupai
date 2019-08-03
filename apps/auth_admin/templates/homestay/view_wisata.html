@@ -60,9 +60,9 @@
                         <td> {{ form.id_homestay }} </td>
                         <td>{{form.code_wisata}}</td>
                         <td>
-                            <a href="{{ host }}/admin/wisata/edit/{{ form.id }}" class="btn btn-success"> <i
+                            <a href="{{ url_for('admin.edit_wisata', id=form.id) }}" class="btn btn-success"> <i
                                     class="fas fa-edit"></i> Edit</a>
-                            <a href="{{ host }}/admin/wisata/delete/{{ form.id }}" class="btn btn-danger"><i
+                            <a href="{{ url_for('admin.delete_wisata', id=form.id) }}" class="btn btn-danger"><i
                                     class="fas fa-trash-alt"></i> Hapus</a>
                         </td>
                     </tr>

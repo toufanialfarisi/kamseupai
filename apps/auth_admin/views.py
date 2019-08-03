@@ -14,6 +14,9 @@ from apps.home.utility import *
 from apps.config import IMAGES_DIR, MY_IP
 from apps.utils import validasi_type, upload_file
 from apps.home.models import Homestay, Wisata
+from apps.api import provinsi, kabupaten, kecamatan 
+import requests
+
 
 admin = Blueprint("admin", __name__, template_folder="templates/")
     
@@ -185,6 +188,19 @@ def add_homestay():
     if "admin" in session:
         form = HomestayForm()
         fav, is_fav_exist = show_fav()
+       
+        nama = []
+        id = []
+        url = "http://dev.farizdotid.com/api/daerahindonesia/provinsi"
+        data = requests.get(url=url)
+        for i in range(len(data.json()["semuaprovinsi"])):
+            out = data.json()["semuaprovinsi"][i]["nama"]
+            out_id = data.json()["semuaprovinsi"][i]["id"]
+            nama.append(out)
+            id.append(out_id)
+        prov = list(zip(id, nama))
+
+        form.provinsi.choices = [(nama, nama) for id, nama in prov]
         if form.validate_on_submit() and request.method == "POST":
             file = request.files["foto_homestay"]
             folder = IMAGES_DIR + "/homestay"
@@ -193,6 +209,7 @@ def add_homestay():
 
             nama_homestay = validasi_type(form.nama_homestay.data, str)
             alamat = validasi_type(form.alamat.data, str)
+            provinsi = validasi_type(form.provinsi.data, str)
             deskripsi = validasi_type(form.deskripsi.data, str)
             fasilitas = validasi_type(form.fasilitas.data, str)
             jumlah_kamar = validasi_type(form.jumlah_kamar.data, int)
@@ -203,6 +220,7 @@ def add_homestay():
                 code_homestay=code_homestay(stringLength=5, gen_for="H"),
                 nama_homestay=nama_homestay,
                 alamat=alamat,
+                provinsi=provinsi,
                 deskripsi=deskripsi,
                 fasilitas=fasilitas,
                 harga=harga,
@@ -232,6 +250,19 @@ def edit_homestay(id):
         fav, is_fav_exist = show_fav()
         model = Homestay.query.get(id)
         form = HomestayEditForm(obj=model)
+
+        nama = []
+        id = []
+        url = "http://dev.farizdotid.com/api/daerahindonesia/provinsi"
+        data = requests.get(url=url)
+        for i in range(len(data.json()["semuaprovinsi"])):
+            out = data.json()["semuaprovinsi"][i]["nama"]
+            out_id = data.json()["semuaprovinsi"][i]["id"]
+            nama.append(out)
+            id.append(out_id)
+        prov = list(zip(id, nama))
+
+        form.provinsi.choices = [(nama, nama) for id, nama in prov]
         if form.validate_on_submit() and request.method == "POST":
             file = request.files["foto_homestay"]
             folder = IMAGES_DIR + "/homestay"
@@ -239,17 +270,18 @@ def edit_homestay(id):
             foto = host() + "/" + foto
 
             nama_homestay = validasi_type(form.nama_homestay.data, str)
-            alamat = validasi_type(form.alamat.data, str)
+            alamat = validasi_type(form.alamat.data, str)            
+            provinsi = validasi_type(form.provinsi.data, str)
             deskripsi = validasi_type(form.deskripsi.data, str)
             fasilitas = validasi_type(form.fasilitas.data, str)
             jumlah_kamar = validasi_type(form.jumlah_kamar.data, int)
             harga = validasi_type(form.harga.data, int)
             diskon = validasi_type(form.diskon.data, int)
 
-            model = Homestay.query.get(id)
             model.code_homestay = code_homestay(stringLength=5, gen_for="H")
             model.nama_homestay = nama_homestay
             model.alamat = alamat
+            model.provinsi = provinsi
             model.deskripsi = deskripsi
             model.fasilitas = fasilitas
             model.modelharga = harga
@@ -292,6 +324,7 @@ def add_wisata():
         form = WisataForm()
         fav, is_fav_exist = show_fav()
         model_homestay = Homestay.query.all()
+        form.id_homestay.choices = [(form.id, form.nama_homestay) for form in model_homestay]
         if request.method == "POST":
             file = request.files["foto_wisata"]
             # print(file)
@@ -305,7 +338,7 @@ def add_wisata():
             fasilitas = validasi_type(form.fasilitas.data, str)
             biaya = validasi_type(form.biaya.data, str)
             kegiatan = validasi_type(form.kegiatan.data, str)
-            id_homestay = validasi_type(request.form["id_homestay"], int)
+            id_homestay = validasi_type(form.id_homestay.data, int)
 
             model = models.Wisata(
                 code_wisata=code_homestay(stringLength=5, gen_for="W"),
@@ -338,6 +371,8 @@ def edit_wisata(id):
     if "admin" in session:
         model = Wisata.query.get(id)
         form = WisataEditForm(formdata=request.form, obj=model)
+        model_homestay = Homestay.query.all()
+        form.id_homestay.choices = [(form.id, form.nama_homestay) for form in model_homestay]
         fav, is_fav_exist = show_fav()
         model_homestay = Homestay.query.all()
         if request.method == "POST":
@@ -351,7 +386,7 @@ def edit_wisata(id):
             fasilitas = validasi_type(form.fasilitas.data, str)
             biaya = validasi_type(form.biaya.data, str)
             kegiatan = validasi_type(form.kegiatan.data, str)
-            id_homestay = validasi_type(request.form["id_homestay"], int)
+            id_homestay = validasi_type(form.id_homestay.data, int)
 
             model = Wisata.query.get(id)
             model.code_wisata = code_homestay(stringLength=5, gen_for="W")

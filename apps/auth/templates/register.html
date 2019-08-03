@@ -30,6 +30,7 @@
           <div class="card-body">
             <form action="" method="POST">
               {{ form.hidden_tag() }}
+
               <fieldset class="form-group">
                 {{ form.username.label(class='form-control-label') }}
                 {% if form.username.errors %}

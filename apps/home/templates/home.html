@@ -44,10 +44,11 @@
               </aside> <!-- col.// -->
             </div>
             <article class="col-sm-6">
-              <a href="#" style="color: black"> <strong>{{ data.nama_homestay.capitalize() }}</strong></a>
+              <a href="{{ url_for('home.detail_homestay', id=data.id) }}" style="color: black">
+                <strong>{{ data.nama_homestay.capitalize() }}</strong></a>
               <div class="rating-wrap">
                 <div class="text-muted">
-                  <h6> <strong> lokasi : <br> </strong> {{ data.alamat }}
+                  <h6> <strong> lokasi : <br> </strong> {{ data.alamat }}, <strong>{{ data.provinsi }}</strong>
                 </div></strong> </h6>
                 <div class="text-muted">
                   <h6> <strong> deskripsi : <br> </strong> {{ data.deskripsi[:200] }}
@@ -64,8 +65,9 @@
                 </div> <!-- info-price-detail // -->
                 <h5 class="text-success">potongan {{data.diskon}} %</h5>
                 <p>
-                  <a href="{{ host }}/favorit/{{ data.id }}" class="btn btn-outline-success btn-sm"> Favoritkan </a> <a
-                    href="{{ host }}/homestay/{{ data.id }}" class="btn btn-outline-info btn-sm"> Detail </a> <br>
+                  <a href="{{ url_for('home.favorit', id=data.id) }}" class="btn btn-outline-success btn-sm"> Favoritkan
+                  </a> <a href="{{ url_for('home.detail_homestay', id=data.id) }}" class="btn btn-outline-info btn-sm">
+                    Detail </a> <br>
                   <span class="badge badge-success">tersedia</span>
 
                 </p>
@@ -83,6 +85,7 @@
     <div class="col-sm">
 
       <!-- pagination -->
+      {% if form %}
       <div>
         <nav aria-label="...">
           <ul class="pagination">
@@ -126,6 +129,8 @@
         </nav>
       </div>
       <!-- pahination -->
+      {% else %}
+      {% endif %}
 
 
     </div>

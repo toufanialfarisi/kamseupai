@@ -36,7 +36,7 @@ def index():
     ls_curency = []
     model = models.Homestay.query.all()
     page_param = request.args.get("page")
-    per_page = 4    
+    per_page = 5    
     if not page_param:
         page_param = 1
     paginate = Homestay.query.paginate(page=int(page_param), per_page=per_page)
@@ -166,15 +166,21 @@ def detail_homestay(id):
     print(model_wisata)
     if request.method == "POST":
 
-        if request.form["malam"] and request.form["kamar"] and request.form["malam"] and request.form["check_in"]:
-
+        if request.form["malam"] and request.form["kamar"] and request.form["malam"] and request.form["check_in"] and request.form["nama_lengkap"] and request.form["no_ktp"] or request.form["no_passport"]:
+            session["no_ktp"] = request.form["no_ktp"]
+            session["save_id_homestay"] = id
+            session["nama_lengkap"] = request.form["nama_lengkap"]
+            if request.form["no_passport"]:
+                session["no_passport"] = request.form["no_passport"]
+            else:
+                session["no_passport"] = None 
+            
             malam = session["malam"] = request.form["malam"]
             tgl_checkin = request.form["check_in"] # session["check_in"] = 
             checkin = tgl_checkin.split('-')
             check_in = checkin[0] + '-' + checkin[1] +'-' + checkin[2]
             session["ci"] = datetime(int(checkin[0]), int(checkin[1]), int(checkin[2]))
             tgl_checkin = session["check_in"] = check_in
-            
 
             kamar = session["kamar"] = request.form["kamar"]
             checkout = tgl_checkin.split('-')
@@ -195,12 +201,14 @@ def detail_homestay(id):
                 check_out = session["check_out"] = checkout[0] + '-' + str(checkout[1]) + '-' +  str(tgl_checkout)        
                 session["co"] = datetime(int(checkout[0]), int(checkout[1]), int(tgl_checkout))
             
-            return redirect(url_for("home.book_homestay", id=id))
+            if model_wisata:
+                return redirect(url_for("home.book_homestay", id=id))
+            else:    
+                return redirect(url_for("home.checkout"))
         else:
             flash("Silahkan isi semua form di bawah ini", "danger")
             redirect(url_for("home.detail_homestay", id=id))
 
-    
     return render_template(
         "home_detail.html", 
         form=cur, 
@@ -395,6 +403,9 @@ def pay_confirmed():
         id_homestay = session["save_id_homestay"]   ,
         id_user = current_user.get_id(),
         id_wisata = session["save_id_wisata"],
+        nama_lengkap = session["nama_lengkap"],
+        no_ktp = session["no_ktp"],
+        no_passport = session["no_passport"],
         malam = session["malam"],
         kamar = session["kamar"],
         tgl_check_in = session["ci"],
