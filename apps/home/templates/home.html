@@ -24,7 +24,8 @@
     {% if messages %}
     {% for category, message in messages %}
     <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
-      <span class="text-muted"> {{ message }} </span> &ensp; <a href="#" class="btn btn-outline-danger"> Update
+      <span class="text-muted"> {{ message }} </span> &ensp; <a href="{{ url_for('home.user_detail') }}"
+        class="btn btn-outline-danger"> Update
         Profile</a>
       <button type="button" class="close" data-dismiss="alert" aria-label="Close">
         <span aria-hidden="true">&times;</span>

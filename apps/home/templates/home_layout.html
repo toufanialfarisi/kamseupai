@@ -121,7 +121,7 @@
                     {% else %}
                     <img class="rounded-circle" src="{{ img_user }}" alt="" width="35px" height="35px"> &ensp;
                     {% endif %}
-                    <a class="btn btn-primary" href="{{ url_for('home.user_detail') }}"> <i>Toufani1515</i> </a>
+                    <a class="btn btn-primary" href="{{ url_for('home.user_detail') }}"> <i>{{ username }}</i> </a>
                     &ensp;
                     <a href="{{ host }}/logout" class="btn btn-danger">Logout</a>
                     {% else %}

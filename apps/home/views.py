@@ -13,6 +13,10 @@ from apps.auth.models import UserDetail, User
 
 home = Blueprint("home", __name__, template_folder="templates/")
 
+def current_username():
+    query = models.User.query.get(current_user.get_id())
+    username = query.username
+    return username
 
 @home.route("/clear-session", methods=["GET", "POST"])
 def delete_sessions():
@@ -77,7 +81,7 @@ def index():
                 page=int(page_param), per_page=per_page
                 )
         
-        
+        print(current_username())
         return render_template(
             "home.html", 
             formm=searchform,
@@ -93,6 +97,7 @@ def index():
             max_page=max_page,
             paginate=paginate,
             img_user=foto_profile_user(),
+            username = current_username(),
         )
     
     
@@ -120,6 +125,7 @@ def index():
         max_page=max_page,
         paginate=paginate,
         img_user=foto_profile_user(),
+        username = current_username(),
         )
 
 
@@ -241,6 +247,7 @@ def detail_homestay(id):
         form_wisata=model_wisata,
         formm=searchform,
         img_user=foto_profile_user(),
+        username = current_username(),
     )
 
 
@@ -268,6 +275,7 @@ def book_homestay(id):
         host=host(),
         formatrupiah=formatrupiah,
         img_user=foto_profile_user(),
+        username = current_username(),
     )
 
 
@@ -379,6 +387,7 @@ def checkout():
         check_out=tgl_check_out,
         diskon=thediskon,
         img_user=foto_profile_user(),
+        username = current_username(),
     )
 
 
@@ -415,6 +424,7 @@ def pay():
         formatrupiah=formatrupiah, 
         host=host(),
         img_user=foto_profile_user(),
+        username = current_username(),
     )
 
 
@@ -450,7 +460,14 @@ def pay_confirmed():
     print("done")
     fav, is_fav_exist = show_fav()
 
-    return render_template("pay_confirmed.html", favs=fav, favs_exist=is_fav_exist, host=host(), img_user=foto_profile_user())
+    return render_template(
+        "pay_confirmed.html", 
+        favs=fav, 
+        favs_exist=is_fav_exist, 
+        host=host(), 
+        img_user=foto_profile_user(), 
+        username = current_username(),
+    )
 
 
 @home.route("/user-detail", methods=["POST", "GET"])
@@ -466,6 +483,7 @@ def user_detail():
         form_user=query_user, 
         img_user=foto_profile_user(),
         formm=searchForm(),
+        username = current_username(),
     )
 
     
@@ -502,6 +520,7 @@ def edit_user():
         form=form, 
         img_user=foto_profile_user(), 
         formm=searchForm(),
+        username = current_username(),
     )
 
 
