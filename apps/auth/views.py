@@ -19,11 +19,14 @@ auth = Blueprint("auth", __name__, template_folder="templates/")
 def confirmation(token):
     try:
         user_unconfirm = session["unconfirmed_user"]
+        print(user_unconfirm)
         email = email_confirm.loads(token, salt="email-confirm")
         user_now = models.User.query.filter_by(username=user_unconfirm).first()
         user_now.confirmation_status = True
         models.db.session.add(user_now)
         models.db.session.commit()
+        session.pop("unconfirmed_user", None)
+        print("session terhapus")
     except:
         return render_template("expired.html")
 
