@@ -42,6 +42,11 @@
             color: #03A4D2;
             font-weight: bold;
         }
+
+        .bg-4 {
+            background-color: rgb(26, 86, 94);
+
+        }
     </style>
 </head>
 
@@ -61,6 +66,7 @@
             </button>
 
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
+
                 {% if formm %}
                 <form action="/" method="POST">
                     {{ formm.hidden_tag() }}
@@ -109,8 +115,12 @@
                     </div>
                     {% if current_user.is_authenticated %}
 
-
+                    {% if img_user is none %}
+                    <img id="img" class="rounded-circle" src="{{ url_for('static', filename='default_profile.png') }}"
+                        width="35px" height="35px"> &ensp;
+                    {% else %}
                     <img class="rounded-circle" src="{{ img_user }}" alt="" width="35px" height="35px"> &ensp;
+                    {% endif %}
                     <a class="btn btn-primary" href="{{ url_for('home.user_detail') }}"> <i>Toufani1515</i> </a>
                     &ensp;
                     <a href="{{ host }}/logout" class="btn btn-danger">Logout</a>
@@ -126,15 +136,15 @@
     </header>
 
     {% block content %}{% endblock %}
-    <style>
-        .bg-4 {
-            background-color: #03A4D2;
-            color: #ffffff;
-        }
-    </style>
 
-    <footer class="container bg-4 text-center" style="width: 100% ; height : 100%;" id="carding">
-        <p>Kamseupai [Kampung Seribu Pariwisata] Platform</p>
+    <br>
+    <footer class="footer mt-auto py-3 text-center bg-4">
+        <div class="container">
+
+            <span style="color: white">Kamseupai.com</span> <br>
+            <span style="color: white">(Kampung Seribu Pariwisata)</span>
+
+        </div>
     </footer>
 </body>
 <!-- Optional JavaScript -->

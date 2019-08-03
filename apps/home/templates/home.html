@@ -18,6 +18,23 @@
 
 
 <main role="main" class="container">
+  <div class="col"></div>
+  <div class="col">
+    {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+    {% for category, message in messages %}
+    <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
+      <span class="text-muted"> {{ message }} </span> &ensp; <a href="#" class="btn btn-outline-danger"> Update
+        Profile</a>
+      <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    {% endfor %}
+    {% endif %}
+    {% endwith %}
+  </div>
+  <div class="col"></div>
   <div class="row">
     <div class="col-md-12">
       <div class="content-selection">

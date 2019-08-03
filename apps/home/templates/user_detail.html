@@ -15,6 +15,16 @@
     border-bottom-right-radius: 50% 50%;
     border-bottom-left-radius: 50% 50%;
   }
+
+  .image-cropper {
+    width: 160px;
+    height: 160px;
+    position: relative;
+    overflow: hidden;
+    border-radius: 50%;
+    display: inline;
+    margin: 0 auto;
+  }
 </style>
 <main role="main" class="container">
   <div class="row">
@@ -30,12 +40,24 @@
           <div class="row">
             <div class="table-responsive-md">
               <aside class="col-sm-3">
-                <div class="img-wrap"><img id="img" class="rounded-circle float-left" src="{{ form.foto_user }}"
-                    width="200px" height="200px;">
+                <div class="image-cropper">
+                  {% if form.foto_user is none %}
+                  <img id="img" class="image-cropper" src="{{ url_for('static', filename='default_profile.png') }}">
+                  {% else %}
+                  <img id="img" class="image-cropper" src="{{ form.foto_user }}">
+                  {% endif %}
                 </div>
               </aside> <!-- col.// -->
             </div>
             <article class="col-sm-6">
+              <dl class="dlist-align">
+                <dt>Username</dt>
+                <dd>{{ form_user.username }}</dd>
+              </dl> <!-- item-property-hor .// -->
+              <dl class="dlist-align">
+                <dt>Email</dt>
+                <dd>{{ form_user.email }}</dd>
+              </dl> <!-- item-property-hor .// -->
               <dl class="dlist-align">
                 <dt>Nama Lengkap</dt>
                 <dd>{{ form.nama_lengkap }}</dd>
@@ -49,7 +71,7 @@
                 <dd>{{ form.nomor_hp }}</dd>
               </dl> <!-- item-property-hor .// -->
               <dl class="dlist-align">
-                <dt>Alamat</dt>
+                <dt>Alamat Lengkap</dt>
                 <dd>{{ form.alamat }}</dd>
               </dl> <!-- item-property-hor .// -->
               <dl class="dlist-align">

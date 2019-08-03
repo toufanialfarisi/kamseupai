@@ -40,10 +40,15 @@ def register():
             username=form.username.data,
             password=form.password.data,
         )
+
         db.session.add(user)
         db.session.commit()
 
         session["unconfirmed_user"] = form.username.data
+        get_user_id = User.query.filter_by(username=form.username.data).first().id
+        user_detail = models.UserDetail(id_user=get_user_id)
+        db.session.add(user_detail)
+        db.session.commit()
 
         email = form.email.data
         token = email_confirm.dumps(email, salt="email-confirm")

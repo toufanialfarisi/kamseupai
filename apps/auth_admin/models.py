@@ -11,9 +11,6 @@ class Admin(db.Model):
     __tablename__ = "admin"
 
     id = db.Column(db.Integer, primary_key=True)
-    profile_image = db.Column(
-        db.String(20), nullable=False, default="default_profile.png"
-    )
     email = db.Column(db.String(64), unique=True, index=True)
     username = db.Column(db.String(64), unique=True, index=True)
     password_hash = db.Column(db.String(128))

@@ -92,8 +92,15 @@ def index():
             curr_page=page_param,
             max_page=max_page,
             paginate=paginate,
+            img_user=foto_profile_user(),
         )
     
+    user_model = UserDetail.query.filter_by(id_user=current_user.get_id()).first()
+    if user_model.nama_lengkap is None:
+        flash("Silahkan lengkapi / perbaharui informasi profil Anda", "info")
+    else:
+        pass 
+
     return render_template(
         "home.html", 
         formm=searchform,
@@ -449,7 +456,13 @@ def user_detail():
     query_user = User.query.get(user_id) 
     user_detail = UserDetail.query.filter_by(id_user=user_id).first()
     
-    return render_template("user_detail.html", form=user_detail, img_user=foto_profile_user())
+    return render_template(
+        "user_detail.html", 
+        form=user_detail, 
+        form_user=query_user, 
+        img_user=foto_profile_user(),
+        formm=searchForm(),
+    )
 
     
 @home.route("/edit-user", methods=["GET", "POST"])
@@ -477,11 +490,15 @@ def edit_user():
         models.db.session.add(model)
         models.db.session.commit()
         
-        flash("Profile sukses diedit ", "success")
         return redirect(url_for('home.user_detail'))
 
 
-    return render_template("user_detail_edit.html", form=form, img_user=foto_profile_user())
+    return render_template(
+        "user_detail_edit.html", 
+        form=form, 
+        img_user=foto_profile_user(), 
+        formm=searchForm(),
+    )
 
 
 

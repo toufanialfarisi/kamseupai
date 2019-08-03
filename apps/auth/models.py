@@ -17,9 +17,6 @@ class User(db.Model, UserMixin):
     __tablename__ = "user"
 
     id = db.Column(db.Integer, primary_key=True)
-    profile_image = db.Column(
-        db.String(20), nullable=False, default="default_profile.png"
-    )
     email = db.Column(db.String(64), unique=True, index=True)
     username = db.Column(db.String(64), unique=True, index=True)
     password_hash = db.Column(db.String(128))
@@ -70,5 +67,5 @@ class UserDetail(db.Model):
     jenis_kelamin = db.Column(db.String(20))
     nomor_hp = db.Column(db.String(100))
     alamat = db.Column(db.TEXT)
-    foto_user = db.Column(db.String(100), default="default_profile.png")
+    foto_user = db.Column(db.String(100))
 

@@ -68,20 +68,6 @@
               </fieldset>
 
               <fieldset class="form-group">
-                {{ form.nomor_hp.label(class='form-control-label') }}
-                {% if form.nomor_hp.errors %}
-                {{ form.nomor_hp(class='form-control form-control-lg is-invalid') }}
-                <div class="invalid-feedback">
-                  {% for error in form.nomor_hp.errors %}
-                  <span>{{ error }}</span>
-                  {% endfor %}
-                </div>
-                {% else %}
-                {{ form.nomor_hp(class='form-control form-control-lg') }}
-                {% endif %}
-              </fieldset>
-
-              <fieldset class="form-group">
                 {{ form.alamat.label(class='form-control-label') }}
                 {% if form.alamat.errors %}
                 {{ form.alamat(class='form-control form-control-lg is-invalid') }}

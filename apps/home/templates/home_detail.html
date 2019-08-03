@@ -66,7 +66,7 @@
     <div class="col">
       <div class="content-section" id="carding">
         <p class='text-muted'>
-          <legend class="border-bottom mb-4"> Pesan Sekarang </legend>
+          <legend class="border-bottom mb-4 text-info"> Pesan Sekarang </legend>
         </p>
 
         <!-- <aside class="col-sm-3 border-left"> -->
@@ -75,10 +75,8 @@
             <span class="price"> Rp. {{ diskon }} </span> <br>
             <del class="price-old"> Rp. {{ formatrupiah(form.harga) }} </del>
           </div> <!-- info-price-detail // -->
-          <p class="text-success">potongan 20%</p>
-          <br>
+          <p class="text-success">potongan {{ form.diskon }}%</p>
           <p>
-
             <!-- <button type="button" class="btn btn--outline-light" disabled>Terpesan</button> -->
             <form action="" method="POST">
               <div class="form-group">
