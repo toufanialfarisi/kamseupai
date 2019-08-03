@@ -474,6 +474,7 @@ def pay_confirmed():
 
 
 @home.route("/user-detail", methods=["POST", "GET"])
+@login_required
 def user_detail():
     user_id = current_user.get_id()
     user_form = UserDetailForm()
@@ -491,6 +492,7 @@ def user_detail():
 
     
 @home.route("/edit-user", methods=["GET", "POST"])
+@login_required
 def edit_user():
     user_id = current_user.get_id()
     user_detail = UserDetail.query.get(user_id)
@@ -529,6 +531,7 @@ def edit_user():
 
 
 @home.route("/status-pesanan")
+@login_required
 def status_pesanan():
     '''
     filter semua historybelanja berdasarkan id_usernya
@@ -557,6 +560,7 @@ def status_pesanan():
 
 
 @home.route("/logout", methods=["GET"])
+@login_required
 def logout():
     logout_user()
     return redirect(url_for("auth.login"))
