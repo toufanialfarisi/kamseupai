@@ -4,8 +4,8 @@
   #carding {
     border-radius: 15px;
     padding: 20px;
-    width: 100%;
-    height: 100%;
+    width: 450px;
+    height: auto;
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
   }
 
@@ -28,9 +28,8 @@
 </style>
 <main role="main" class="container">
   <div class="row">
-    <div class="col"></div>
-    <div class="col col-lg-8">
-
+    <div class="col-sm"></div>
+    <div class="col-sm">
       <div class="content-section" id="carding">
         <p class='text-muted'>
           <legend class="border-bottom mb-4"> Detail <strong>Homestay</strong></legend>
@@ -75,8 +74,7 @@
                 <dd>{{ form.alamat }}</dd>
               </dl> <!-- item-property-hor .// -->
               <dl class="dlist-align">
-
-                <dd><a href="{{ url_for('home.edit_user') }}" class="btn btn-success">Edit Profil</a></dd>
+                <dd><a href="{{ url_for('home.edit_user') }}" class="btn btn-success btn-block">Edit Profil</a></dd>
               </dl>
               </h5>
             </article> <!-- col.// -->
@@ -85,7 +83,7 @@
       </div> <!-- card-body .// -->
       </article> <!-- product-list.// -->
     </div>
-    <div class="col"></div>
+    <div class="col-sm"></div>
   </div>
   </div>
   </div>
