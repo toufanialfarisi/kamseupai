@@ -477,10 +477,9 @@ def pay_confirmed():
             host=host(), 
             img_user=foto_profile_user(), 
             username = current_username(),
-            formm=searchForm(),
         )
     else:
-        return render_template("pay_confirmed.html")
+        return redirect(url_for('home.pay_confirmed'))
 
 
 @home.route("/user-detail", methods=["POST", "GET"])
@@ -568,7 +567,11 @@ def status_pesanan():
 def proses_pembayaran():
     # return redirect(url_for('home.pay_confirmed'))
     progress = url_for('home.pay_confirmed')
-    return render_template("proses_pembayaran.html", progress=progress)
+    return render_template(
+        "proses_pembayaran.html", 
+        progress=progress, 
+        img_user=foto_profile_user(), 
+    )
 
 @home.route("/logout", methods=["GET"])
 @login_required
