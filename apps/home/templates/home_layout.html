@@ -119,10 +119,11 @@
                         </button>
                         <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
                             {% if favs_exist == False %}
-                            <button class="dropdown-item" type="button">"Favorit belum ditambahkan"</button>
+                            <a class="dropdown-item">"Favorit belum ditambahkan"</a>
                             {% else %}
                             {% for data in favs %}
-                            <button class="dropdown-item" type="button">{{ data.fav_homestay }}</button>
+                            <a class="dropdown-item"
+                                href="{{ url_for('home.detail_homestay', id=data.id_homestay) }}">{{ data.fav_homestay }}</a>
                             {% endfor %}
                             {% endif %}
                         </div>
