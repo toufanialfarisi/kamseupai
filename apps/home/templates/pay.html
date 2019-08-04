@@ -20,8 +20,10 @@
                         <div class="row">
 
                             <p>Silahkan Transfer pembayaran Anda melalui bank yang disediakan di bawah ini. Pastikan
-                                total transfernya sesuai dengan jumlah yang tertera di aplikasinya :)</p>
-
+                                total transfernya sesuai dengan jumlah yang tertera. Harap diperhatikan,
+                                setelah transfer dilakukan, harap tekan tombol <span
+                                    class="badge badge-danger">Konfirmasi</span> jika hanya Anda telah melakukan
+                                transfer ke salah satu rekening yang tertera di bawah ini.</p>
                         </div>
                         <p class='text-muted'>
                             <legend class="border-bottom mb-4"> <strong></strong></legend>
@@ -101,7 +103,8 @@
 
                 <br>
                 <article class="col-sm">
-                    <p><a href="{{ host }}/pay/confirmed" class="btn btn-danger btn-block"> Konfirmasi </a></p>
+                    <p><a href="{{ url_for('home.proses_pembayaran') }}" class="btn btn-danger btn-block"> Konfirmasi
+                        </a></p>
                 </article> <!-- col.// -->
             </div>
         </div>

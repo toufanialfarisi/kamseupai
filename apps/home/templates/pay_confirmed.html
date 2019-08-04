@@ -9,31 +9,39 @@
         box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
     }
 </style>
+
 <main role="main" class="container">
 
     <div class="row">
         <div class="col-sm">
             <div class="content-selection">
-                <div class="content-section" id="carding"
-                    style="background-image: url({{ url_for('static', filename='background.png') }});">
+                <div class="content-section" id="carding" style="background-color: #03A4D2 !important;">
                     <div class="card-body">
                         <div class="row">
 
                             <div class="img-wrap"><img class="rounded float-left"
                                     src="{{ url_for('static', filename='sukses-bayar.png') }}" width="250px"></div>
 
-                            <article class="col-sm-6">
+                            <article class="col-sm">
 
-                                <a href="#" style="color: white"> <strong>Berhasil !!!</strong></a>
+                                <h1> <span class="badge badge-warning">Berhasil</span></h1>
+
+
                                 <div class="rating-wrap">
-                                    <div style="color: white"><strong> Pembayaran Anda telah kami konfirmasi </strong>
+                                    <div style="color: white"><strong>Pembayaran Anda telah kami konfirmasi </strong>
                                     </div>
 
                                 </div> <!-- rating-wrap.// -->
                                 <div class="price-wrap h4">
-                                    <h5 class="price" style="color: white"> Terima kasih atas pembayaran Anda, semoga
-                                        bisa membantu
-                                        masyarakan di desa tersebut </h5> <br>
+                                    <h5 class="price" style="color: white"> Terima kasih telah menggunakan layanan kami.
+                                        Untuk mengetahui status pesanan Anda, silahkan pilih menu -> <span
+                                            class="badge badge-warning">Account</span> -> <span
+                                            class="badge badge-warning">Pesanan</span>
+
+                                        , maka
+                                        Anda akan menemukan status pesanan homestay Anda apakah
+                                        sudah siap ditempati atau sedang disiapkan.
+                                    </h5> <br>
 
 
                                 </div> <!-- info-price-detail // -->
