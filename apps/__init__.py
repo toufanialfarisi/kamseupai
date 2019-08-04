@@ -19,7 +19,7 @@ file_path = os.path.abspath(os.path.dirname(__file__))
 basedir = os.path.join(file_path, "data.sqlite")
 app.config[
     "SQLALCHEMY_DATABASE_URI"
-] = "mysql://toufani1515:serigala95@localhost/monolitik"
+] = "mysql://kamseupai:kampungantapisukses@localhost/monolitik"
 app.config["SECRET_KEY"] = "KAMseupai291195"
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 
