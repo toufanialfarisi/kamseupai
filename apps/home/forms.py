@@ -49,7 +49,7 @@ class searchForm(FlaskForm):
 
 class UserDetailForm(FlaskForm):
     nama_lengkap = StringField("Nama Lengkap")
-    jenis_kelamin = StringField("Jenis Kelamin")
+    jenis_kelamin = SelectField("Jenis Kelamin", choices=[])
     nomor_hp = StringField("Nomor HP")
     alamat = TextAreaField("Alamat Lengkap")
     foto_user = FileField("Foto Profil")
