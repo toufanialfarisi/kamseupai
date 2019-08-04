@@ -61,7 +61,7 @@ def register():
         link = url_for("auth.confirmation", token=token, external=True)
 
         host_server = host()
-        msg.html = "<html>Silahkan konfirmasi Akun  anda dengan mengklik link di bawah ini : <br> <strong> <a href='{}{}'> KONFIRMASI </a> </strong></html>".format(
+        msg.html = "<html>Silahkan konfirmasi akun Anda dengan mengklik link di bawah ini : <br> <strong> <a href='{}{}'> KONFIRMASI </a> </strong></html>".format(
             host_server, link
         )
         mail.send(msg)
