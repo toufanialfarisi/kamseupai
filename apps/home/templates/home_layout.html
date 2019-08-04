@@ -15,7 +15,7 @@
 
 
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
 
@@ -34,7 +34,7 @@
         body {
             background-image: url('{{ url_for('static', filename='background.png') }}');
             font-family: 'Bai Jamjuree';
-            font-size: 22px;
+            font-size: 18px;
 
         }
 
@@ -81,7 +81,7 @@
 
 
                         <li class="nav-item">
-                            {{ formm.keyword(class="form-control mr-sm-2") }}
+                            {{ formm.keyword(class="form-control mr-sm-2", size=45) }}
                             <!-- <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search"> -->
                         </li>
                         <li class="nav-item">
@@ -121,16 +121,26 @@
                         </div>
                     </div>
                     {% if current_user.is_authenticated %}
-
                     {% if img_user is none %}
                     <img id="img" class="rounded-circle" src="{{ url_for('static', filename='default_profile.png') }}"
                         width="35px" height="35px"> &ensp;
                     {% else %}
                     <img class="rounded-circle" src="{{ img_user }}" alt="" width="35px" height="35px"> &ensp;
                     {% endif %}
-                    <a class="btn btn-primary" href="{{ url_for('home.user_detail') }}"> <i>{{ username }}</i> </a>
-                    &ensp;
-                    <a href="{{ host }}/logout" class="btn btn-danger">Logout</a>
+                    <div class="dropdown">
+                        <button type="button" class="btn btn-warning dropdown-toggle" data-toggle="dropdown">
+                            Account
+                        </button>
+                        <div class="dropdown-menu">
+                            <h6 class="dropdown-header">Status Pesanan</h6>
+                            <a href="{{ url_for('home.status_pesanan') }}" class="dropdown-item">Pesanan</a>
+                            <div class="dropdown-divider"></div>
+                            <h6 class="dropdown-header">Pengaturan akun</h6>
+                            <a class="dropdown-item" href="{{ url_for('home.user_detail') }}"> Profile</a>
+                            <a href="{{ host }}/logout" class="dropdown-item">Logout</a>
+                        </div>
+                    </div>
+
                     {% else %}
                     <a href="{{ host }}/login" class="btn btn-outline-light">Login</a>
                     <div style="width: 10px;"></div>

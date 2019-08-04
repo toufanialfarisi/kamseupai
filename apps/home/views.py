@@ -482,7 +482,6 @@ def user_detail():
     user_form = UserDetailForm()
     query_user = User.query.get(user_id) 
     user_detail = UserDetail.query.filter_by(id_user=user_id).first()
-    
     return render_template(
         "user_detail.html", 
         form=user_detail, 
@@ -557,6 +556,7 @@ def status_pesanan():
         home=home,
         img_user=foto_profile_user(),
         username = current_username(),
+        formm=searchForm(),
     )
 
 

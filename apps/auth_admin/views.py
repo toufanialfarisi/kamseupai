@@ -23,7 +23,7 @@ admin = Blueprint("admin", __name__, template_folder="templates/")
 @admin.route("/admin/index", methods=["POST", "GET", "PUT", "DELETE"])
 def admin_index():
     if "admin" in session:
-        return render_template("index_admin.html", admin=session["admin"], host=host(), n_pesanan=n_pesanan()())
+        return render_template("index_admin.html", admin=session["admin"], host=host(), n_pesanan=n_pesanan())
     else:
         flash("Silahkan login terlebih dahulu", "danger")
         return redirect(url_for("admin.login_admin"))
