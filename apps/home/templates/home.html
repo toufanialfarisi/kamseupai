@@ -69,7 +69,7 @@
                   <h6> <strong> lokasi : <br> </strong> {{ data.alamat }}, <strong>{{ data.provinsi }}</strong>
                 </div></strong> </h6>
                 <div class="text-muted">
-                  <h6> <strong> deskripsi : <br> </strong> {{ data.deskripsi[:200] }}
+                  <h6> <strong> deskripsi : <br> </strong> {{ data.deskripsi[:200] }} .......
                 </div></strong> </h6>
                 <!-- <h5> {{ data.deskripsi[:145] }} . . . . </h5> -->
               </div> <!-- rating-wrap.// -->
@@ -83,10 +83,17 @@
                 </div> <!-- info-price-detail // -->
                 <h5 class="text-success">potongan {{data.diskon}} %</h5>
                 <p>
-                  <a href="{{ url_for('home.favorit', id=data.id) }}" class="btn btn-outline-success btn-sm"> Favoritkan
-                  </a> <a href="{{ url_for('home.detail_homestay', id=data.id) }}" class="btn btn-outline-info btn-sm">
-                    Detail </a> <br>
-                  <span class="badge badge-success">tersedia</span>
+                  {% if fav == False  %}
+                  <a href="{{ url_for('home.favorit', id=data.id) }}" class="btn btn-outline-success btn-sm">
+                    Favoritkan
+                    {% else %}
+                    <a href="{{ url_for('home.favorit', id=data.id) }}" class="btn btn-outline-success btn-sm disabled">
+                      Favoritkan
+                      {% endif %}
+                    </a> <a href="{{ url_for('home.detail_homestay', id=data.id) }}"
+                      class="btn btn-outline-info btn-sm">
+                      Detail </a> <br>
+                    <span class="badge badge-success">tersedia</span>
 
                 </p>
               </div> <!-- action-wrap.// -->

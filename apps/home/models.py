@@ -103,3 +103,4 @@ class Favorit(db.Model):
     fav_homestay = db.Column(db.String(100))
     id_homestay = db.Column(db.Integer, db.ForeignKey("homestay.id"))
     id_user = db.Column(db.Integer, db.ForeignKey("user.id"))
+    status = db.Column(db.Boolean, default=False)

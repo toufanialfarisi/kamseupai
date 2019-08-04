@@ -114,6 +114,14 @@ def index():
             pass 
     except:
         pass 
+    
+    try:
+        status_favor = models.Favorit.query.filter_by(status=True).first()
+        favor=status_favor.status
+    except:
+        favor=False
+    # print(session["fav_id"])
+    # print(status_favor)
 
     return render_template(
         "home.html", 
@@ -131,15 +139,17 @@ def index():
         paginate=paginate,
         img_user=foto_profile_user(),
         username = current_username(),
+        fav=favor,
         )
 
 
 @home.route("/favorit/<int:id>", methods=["GET"])
 @login_required
 def favorit(id):
+    session["fav_id"] = id
     user_now = current_user.get_id()
     model_homestay = models.Homestay.query.get(id)
-    fav = models.Favorit(fav_homestay=model_homestay.nama_homestay, id_user=user_now)
+    fav = models.Favorit(fav_homestay=model_homestay.nama_homestay, id_homestay=model_homestay.id, id_user=user_now, status=True)
     models.db.session.add(fav)
     models.db.session.commit()
     return redirect(url_for("home.index"))
@@ -149,7 +159,7 @@ def favorit(id):
 def checkout_favorit(id):
     user_now = current_user.get_id()
     model_homestay = models.Homestay.query.get(id)
-    fav = models.Favorit(fav_homestay=model_homestay.nama_homestay, id_user=user_now)
+    fav = models.Favorit(fav_homestay=model_homestay.nama_homestay,id_homestay=model_homestay.id, id_user=user_now)
     models.db.session.add(fav)
     models.db.session.commit()
     return redirect(url_for("home.checkout"))
