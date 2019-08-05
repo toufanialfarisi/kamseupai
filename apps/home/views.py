@@ -9,7 +9,7 @@ import string
 from datetime import date, time, datetime
 from apps.home.utility import * 
 from apps.auth.models import UserDetail, User
-
+from flask_login import login_user
 
 home = Blueprint("home", __name__, template_folder="templates/")
 
@@ -46,6 +46,8 @@ def foto_profile_user():
     except:
         img_user = None 
         return img_user
+
+
 
 @home.route("/", methods=["GET", "POST"])
 def index():
@@ -102,6 +104,35 @@ def index():
             username = current_username(),
         )
     
+    if request.method == "POST":
+        user = User.query.filter_by(username=request.form["username"]).first()
+        try:
+            check_user_confirmed = user.confirmation_status
+            if (
+                user.check_password(request.form["password"])
+                and user is not None
+                and check_user_confirmed is True
+            ):
+
+                login_user(user)
+                next = request.args.get("next")
+                if next == None or not next[0] == "/":
+                    next = url_for("home.index")
+                return redirect(next)
+            elif (
+                user.check_password(request.form["password"])
+                and user is not None
+                and check_user_confirmed is False
+            ):
+                flash("Akun belum terkonfirmasi, silahkan cek email Anda !", "danger")
+                return redirect(url_for("auth.login"))
+            else:
+                flash("Username / password Anda salah", "danger")
+                return redirect(url_for("auth.login"))
+
+        except AttributeError:
+            flash("Akun anda tidak terdaftar, silahkan register dulu !", "danger")
+            return redirect(url_for("auth.login"))
     
     try:
         user_model = UserDetail.query.filter_by(id_user=current_user.get_id()).first()
@@ -140,6 +171,7 @@ def index():
         img_user=foto_profile_user(),
         username = current_username(),
         fav=favor,
+        homestay=Homestay(),
         )
 
 
@@ -153,6 +185,15 @@ def favorit(id):
     models.db.session.add(fav)
     models.db.session.commit()
     return redirect(url_for("home.index"))
+
+@home.route("/remove/favorit/<int:id>", methods=["GET"])
+@login_required
+def remove_favorit(id):
+    data = models.Favorit.query.get(id)
+    models.db.session.delete(data)
+    models.db.session.commit()
+    return redirect(url_for("home.index"))
+
 
 @home.route("/checkout/favorit/<int:id>", methods=["GET"])
 @login_required
