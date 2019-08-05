@@ -1,4 +1,4 @@
-from flask import Flask, render_template, redirect, url_for
+from flask import Flask, render_template, redirect, url_for, session
 from datetime import datetime
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import LoginManager
@@ -9,7 +9,9 @@ from flask_migrate import MigrateCommand
 from flask_cors import CORS
 from itsdangerous import URLSafeTimedSerializer, SignatureExpired
 from flask_mail import Mail, Message
+from datetime import timedelta
 import os
+
 
 app = Flask(__name__)
 
@@ -22,6 +24,12 @@ app.config[
 ] = "mysql://kamseupai:kampungantapisukses@localhost/monolitik"
 app.config["SECRET_KEY"] = "KAMseupai291195"
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
+
+
+# @app.before_request
+# def before_request():
+#     session.permanent = True
+#     app.permanent_session_lifetime = timedelta(minutes=1)
 
 
 app.config.from_pyfile("config.cfg")

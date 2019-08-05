@@ -16,108 +16,110 @@
         <p class='text-muted'>
             <legend class="border-bottom mb-4"> <strong> Status Pemesanan</strong></legend>
         </p>
-        {% for id_home, form in id_homestay|zip(form_belanja) %}
-        <article class="itemlist">
-            <div class="row row-sm">
-                <aside class="col-sm-3">
-                    <figure class="media">
-                        <div class="img-wrap"><img src="{{ home.query.get(id_home).foto_homestay }}" width="250px"
-                                class="img-thumbnail img-sm"></div>
-                    </figure>
-                </aside> <!-- col.// -->
+        <div class="table-responsive-md">
+            {% for id_home, form in id_homestay|zip(form_belanja) %}
+            <article class="itemlist">
 
-                <div class="col-sm-6">
-                    <div class="text-wrap">
+                <div class="row row-sm">
+                    <aside class="col-sm-3">
                         <figure class="media">
-                            <figcaption class="media-body">
-                                <h5 class="title text-truncate"> <strong> {{home.query.get(id_home).nama_homestay}}
-                                    </strong>
-                                    &ensp; #{{home.query.get(id_home).code_homestay}}
-                                </h5>
-                                <dl class="dlist-inline small">
+                            <div class="img-wrap"><img src="{{ home.query.get(id_home).foto_homestay }}" width="250px"
+                                    class="img-thumbnail img-sm"></div>
+                        </figure>
+                    </aside> <!-- col.// -->
 
-                                    <table>
+                    <div class="col-sm-6">
+                        <div class="text-wrap">
+                            <figure class="media">
+                                <figcaption class="media-body">
+                                    <h5 class="title text-truncate"> <strong> {{home.query.get(id_home).nama_homestay}}
+                                        </strong>
+                                        &ensp; #{{home.query.get(id_home).code_homestay}}
+                                    </h5>
+                                    <dl class="dlist-inline small">
 
-                                        <tr>
-                                            <td>{% if form.status_pesanan == false %}
-                                                <span class="text-primary"> <strong>Status</strong></span>
-                                                {% else %}
-                                                <span class="text-success"> <strong>Status</strong></span>
-                                                {% endif %}
-                                            </td>
-                                            <td style="width: 50px;"></td>
-                                            <td style="width: 25px;"> : </td>
-                                            <td>
-                                                {% if form.status_pesanan == false %}
-                                                <button class="btn btn-primary">
-                                                    Homestay sedang disiapkan.. <span
-                                                        class="spinner-border spinner-border-sm"></span>
-                                                </button>
-                                                {% else %}
-                                                <button class="btn btn-success disabled">
-                                                    Homestay siap ditempati &ensp; <i class="fas fa-check"></i>
-                                                </button>
-                                                {% endif %}
-                                            </td>
+                                        <table>
 
-                                        </tr>
-                                    </table>
+                                            <tr>
+                                                <td>{% if form.status_pesanan == false %}
+                                                    <span class="text-primary"> <strong>Status</strong></span>
+                                                    {% else %}
+                                                    <span class="text-success"> <strong>Status</strong></span>
+                                                    {% endif %}
+                                                </td>
+                                                <td style="width: 50px;"></td>
+                                                <td style="width: 25px;"> : </td>
+                                                <td>
+                                                    {% if form.status_pesanan == false %}
+                                                    <button class="btn btn-primary">
+                                                        Homestay sedang disiapkan.. <span
+                                                            class="spinner-border spinner-border-sm"></span>
+                                                    </button>
+                                                    {% else %}
+                                                    <button class="btn btn-success disabled">
+                                                        Homestay siap ditempati &ensp; <i class="fas fa-check"></i>
+                                                    </button>
+                                                    {% endif %}
+                                                </td>
 
-                                    <dd>
+                                            </tr>
+                                        </table>
 
-                                    </dd>
-                                </dl>
-                                <dl class="dlist-inline small">
-                                    <table>
+                                        <dd>
 
-                                        <tr>
-                                            <td>Check in</td>
-                                            <td style="width: 25px;"></td>
-                                            <td style="width: 25px;"> :</td>
-                                            <td>{{ form.tgl_check_out }}</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Check out</td>
-                                            <td style="width: 25px;"></td>
-                                            <td style="width: 25px;"> :</td>
-                                            <td> {{ form.tgl_check_out }}</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Alamat</td>
-                                            <td style="width: 25px;"></td>
-                                            <td style="width: 25px;"> :</td>
-                                            <td> {{ home.query.get(id_home).alamat }}</td>
-                                        </tr>
-                                    </table>
-                                    <!-- <dt>Check in : </dt>
+                                        </dd>
+                                    </dl>
+                                    <dl class="dlist-inline small">
+                                        <table>
+
+                                            <tr>
+                                                <td>Check in</td>
+                                                <td style="width: 25px;"></td>
+                                                <td style="width: 25px;"> :</td>
+                                                <td>{{ form.tgl_check_out }}</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Check out</td>
+                                                <td style="width: 25px;"></td>
+                                                <td style="width: 25px;"> :</td>
+                                                <td> {{ form.tgl_check_out }}</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Alamat</td>
+                                                <td style="width: 25px;"></td>
+                                                <td style="width: 25px;"> :</td>
+                                                <td> {{ home.query.get(id_home).alamat }}</td>
+                                            </tr>
+                                        </table>
+                                        <!-- <dt>Check in : </dt>
                                     <dd>{{ check_in }}</dd>
                                     <dt>Check out : </dt>
                                     <dd>{{ check_out }}</dd> -->
 
-                                </dl>
-                            </figcaption>
-                        </figure>
+                                    </dl>
+                                </figcaption>
+                            </figure>
 
 
 
-                        <!-- <p class="rating-wrap my-0 text-muted">
+                            <!-- <p class="rating-wrap my-0 text-muted">
                             <span class="label-rating">132 reviews</span>
                             <span class="label-rating">154 orders </span>
                         </p> rating-wrap.// -->
-                    </div> <!-- text-wrap.// -->
-                </div> <!-- col.// -->
-                <aside class="col-sm-3">
-                    <div class="border-left pl-3">
+                        </div> <!-- text-wrap.// -->
+                    </div> <!-- col.// -->
+                    <aside class="col-sm-3">
+                        <div class="border-left pl-3">
 
 
 
-                        </td>
-                    </div> <!-- action-wrap.// -->
-                </aside> <!-- col.// -->
-            </div> <!-- row.// -->
-            {% endfor %}
-        </article> <!-- itemlist.// -->
-
+                            </td>
+                        </div> <!-- action-wrap.// -->
+                    </aside> <!-- col.// -->
+                </div> <!-- row.// -->
+                {% endfor %}
+            </article> <!-- itemlist.// -->
+        </div>
 
         <p class='text-muted'>
             <legend class="border-bottom mb-4"> <strong></strong></legend>
