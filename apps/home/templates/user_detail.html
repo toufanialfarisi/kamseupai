@@ -4,7 +4,7 @@
   #carding {
     border-radius: 15px;
     padding: 20px;
-    width: 450px;
+    width: auto;
     height: auto;
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
   }
@@ -28,64 +28,64 @@
 </style>
 <main role="main" class="container">
   <div class="row">
-    <div class="col-sm"></div>
-    <div class="col-sm">
-      <div class="table-responsive-md">
-        <div class="content-section" id="carding">
-          <p class='text-muted'>
-            <legend class="border-bottom mb-4"> Detail <strong>Homestay</strong></legend>
-          </p>
-          <div class="card-body">
 
-            <div class="row">
-              <div class="table-responsive-md">
-                <aside class="col-sm-3">
-                  <div class="image-cropper">
-                    {% if form.foto_user is none %}
-                    <img id="img" class="image-cropper" src="{{ url_for('static', filename='default_profile.png') }}">
-                    {% else %}
-                    <img id="img" class="image-cropper" src="{{ form.foto_user }}">
-                    {% endif %}
-                  </div>
-                </aside> <!-- col.// -->
+    <div class="col">
+
+      <div class="content-section" id="carding">
+        <p class='text-muted'>
+          <legend class="border-bottom mb-4"> Account Profile</legend>
+        </p>
+        <div class="card-body">
+
+          <div class="row">
+
+            <aside class="col-sm-3">
+              <div class="image-cropper">
+                {% if form.foto_user is none %}
+                <img id="img" class="image-cropper" src="{{ url_for('static', filename='default_profile.png') }}">
+                {% else %}
+                <img id="img" class="image-cropper" src="{{ form.foto_user }}">
+                {% endif %}
               </div>
-              <article class="col-sm-6">
-                <dl class="dlist-align">
-                  <dt>Username</dt>
-                  <dd>{{ form_user.username }}</dd>
-                </dl> <!-- item-property-hor .// -->
-                <dl class="dlist-align">
-                  <dt>Email</dt>
-                  <dd>{{ form_user.email }}</dd>
-                </dl> <!-- item-property-hor .// -->
-                <dl class="dlist-align">
-                  <dt>Nama Lengkap</dt>
-                  <dd>{{ form.nama_lengkap }}</dd>
-                </dl> <!-- item-property-hor .// -->
-                <dl class="dlist-align">
-                  <dt>Jenis Kelamin</dt>
-                  <dd>{{ form.jenis_kelamin }}</dd>
-                </dl> <!-- item-property-hor .// -->
-                <dl class="dlist-align">
-                  <dt>Nomor HP</dt>
-                  <dd>{{ form.nomor_hp }}</dd>
-                </dl> <!-- item-property-hor .// -->
-                <dl class="dlist-align">
-                  <dt>Alamat Lengkap</dt>
-                  <dd>{{ form.alamat }}</dd>
-                </dl> <!-- item-property-hor .// -->
-                <dl class="dlist-align">
-                  <dd><a href="{{ url_for('home.edit_user') }}" class="btn btn-success btn-block">Edit Profil</a></dd>
-                </dl>
-                </h5>
-              </article> <!-- col.// -->
-            </div>
-          </div> <!-- row.// -->
-        </div> <!-- card-body .// -->
-      </div>
+            </aside> <!-- col.// -->
+
+            <article class="col-sm-6">
+              <dl class="dlist-align">
+                <dt>Username</dt>
+                <dd>{{ form_user.username }}</dd>
+              </dl> <!-- item-property-hor .// -->
+              <dl class="dlist-align">
+                <dt>Email</dt>
+                <dd>{{ form_user.email }}</dd>
+              </dl> <!-- item-property-hor .// -->
+              <dl class="dlist-align">
+                <dt>Nama Lengkap</dt>
+                <dd>{{ form.nama_lengkap }}</dd>
+              </dl> <!-- item-property-hor .// -->
+              <dl class="dlist-align">
+                <dt>Jenis Kelamin</dt>
+                <dd>{{ form.jenis_kelamin }}</dd>
+              </dl> <!-- item-property-hor .// -->
+              <dl class="dlist-align">
+                <dt>Nomor HP</dt>
+                <dd>{{ form.nomor_hp }}</dd>
+              </dl> <!-- item-property-hor .// -->
+              <dl class="dlist-align">
+                <dt>Alamat Lengkap</dt>
+                <dd>{{ form.alamat }}</dd>
+              </dl> <!-- item-property-hor .// -->
+              <dl class="dlist-align">
+                <dd><a href="{{ url_for('home.edit_user') }}" class="btn btn-success btn-block">Edit Profil</a></dd>
+              </dl>
+              </h5>
+            </article> <!-- col.// -->
+          </div>
+        </div> <!-- row.// -->
+      </div> <!-- card-body .// -->
+
       </article> <!-- product-list.// -->
     </div>
-    <div class="col-sm"></div>
+
   </div>
   </div>
   </div>
