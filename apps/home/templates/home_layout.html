@@ -121,9 +121,7 @@
                             <i class="fas fa-bookmark"></i> Favorit
                         </button>
                         <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
-                            {% if favs_exist == False %}
-                            <a class="dropdown-item">"Favorit belum ditambahkan"</a>
-                            {% else %}
+                            {% if favs_exist == True %}
                             {% for data in favs %}
                             <div class="card-body">
                                 <table>
@@ -147,6 +145,8 @@
                             </div>
 
                             {% endfor %}
+                            {% else %}
+                            <a class="dropdown-item">"Belum ada item yang disukai"</a>
                             {% endif %}
                         </div>
                     </div>

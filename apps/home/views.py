@@ -145,15 +145,14 @@ def index():
             pass 
     except:
         pass 
-    
+
     try:
-        status_favor = models.Favorit.query.filter_by(status=True).first()
+        user_favorit = models.Favorit.query.filter_by(id_user=current_user.get_id()).first()
+        status_favor = user_favorit.query.filter_by(status=True).first()
         favor=status_favor.status
     except:
         favor=False
-    # print(session["fav_id"])
-    # print(status_favor)
-
+        
     return render_template(
         "home.html", 
         formm=searchform,
@@ -162,7 +161,6 @@ def index():
         favs_exist=is_fav_exist, 
         rupiah=ls_curency, 
         ls_diskon=ls_diskon,
-        host=host(),
         next_page=next_page,
         prev_page=prev_page,
         curr_page=page_param,
@@ -172,18 +170,27 @@ def index():
         username = current_username(),
         fav=favor,
         homestay=models.Homestay(),
+        
         )
 
 
 @home.route("/favorit/<int:id>", methods=["GET"])
 @login_required
 def favorit(id):
-    session["fav_id"] = id
+    query_fav = models.Favorit.query.filter_by(id_user=current_user.get_id()).all()
+    try:
+        for dt in query_fav:
+            # lanjutkan program jika id_homestay nggak sama dengan id
+            # kalau sama, maka error kan 
+            assert dt.id_homestay != id 
+    except:
+        return redirect(url_for("home.index"))
     user_now = current_user.get_id()
     model_homestay = models.Homestay.query.get(id)
     fav = models.Favorit(fav_homestay=model_homestay.nama_homestay, id_homestay=model_homestay.id, id_user=user_now, status=True)
     models.db.session.add(fav)
     models.db.session.commit()
+    flash("{} berhasil ditambahkan ke favorit".format(model_homestay.nama_homestay), "success")
     return redirect(url_for("home.index"))
 
 @home.route("/remove/favorit/<int:id>", methods=["GET"])

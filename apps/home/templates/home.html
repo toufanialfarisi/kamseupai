@@ -24,9 +24,7 @@
     {% if messages %}
     {% for category, message in messages %}
     <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
-      <span class="text-muted"> {{ message }} </span> &ensp; <a href="{{ url_for('home.user_detail') }}"
-        class="btn btn-outline-danger"> Update
-        Profile</a>
+      <span class="text-muted"> {{ message }} </span> &ensp;
       <button type="button" class="close" data-dismiss="alert" aria-label="Close">
         <span aria-hidden="true">&times;</span>
       </button>
@@ -83,17 +81,12 @@
                 </div> <!-- info-price-detail // -->
                 <h5 class="text-success">potongan {{data.diskon}} %</h5>
                 <p>
-                  {% if fav == False  %}
-                  <a href="{{ url_for('home.favorit', id=data.id) }}" class="btn btn-success btn-sm">
+
+                  <a href="{{ url_for('home.favorit', id=data.id) }}" class="btn btn-outline-success btn-sm">
                     <i class="fas fa-heart"></i>
-                    {% else %}
-                    <a href="{{ url_for('home.favorit', id=data.id) }}" class="btn btn-outline-success btn-sm disabled">
-                      <i class="fas fa-heart"></i>
-                      {% endif %}
-                    </a> <a href="{{ url_for('home.detail_homestay', id=data.id) }}"
-                      class="btn btn-outline-info btn-sm">
-                      Detail </a> <br>
-                    <span class="badge badge-success">tersedia</span>
+                  </a> <a href="{{ url_for('home.detail_homestay', id=data.id) }}" class="btn btn-outline-info btn-sm">
+                    Detail </a> <br>
+                  <span class="badge badge-success">tersedia</span>
 
                 </p>
               </div> <!-- action-wrap.// -->

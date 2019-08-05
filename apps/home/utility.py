@@ -1,6 +1,7 @@
 from datetime import datetime
 from apps.config import MY_IP
 from apps.home import models
+from flask_login import current_user
 import random
 import string
 import os
@@ -23,7 +24,7 @@ def custom_session_idhomestay(homestay_id):
 
 
 def show_fav():
-    fav = models.Favorit.query.all()
+    fav = models.Favorit.query.filter_by(id_user=current_user.get_id()).all()
     if fav:
         is_fav_exist = True
     else:
