@@ -15,7 +15,11 @@ from apps.config import IMAGES_DIR, MY_IP
 from apps.utils import validasi_type, upload_file
 from apps.home.models import Homestay, Wisata, Historybelanja
 from apps.api import provinsi, kabupaten, kecamatan 
+from sqlalchemy import desc
+
 import requests
+import numpy as np 
+
 
 
 admin = Blueprint("admin", __name__, template_folder="templates/")
@@ -437,12 +441,13 @@ def delete_wisata(id):
         flash("Silahkan login terlebih dahulu", "danger")
         return redirect(url_for("admin.login_admin"))
 
-import numpy as np 
+import copy 
 
 def n_pesanan():
     history = Historybelanja.query.all()
     status = Historybelanja.query.filter_by(status_pesanan=True).all()
     n_pesanan = len(history) - len(status)
+    length_history = len(history)
     return n_pesanan
 
 @admin.route("/admin/pesanan", methods=["GET", "POST"])
@@ -450,7 +455,7 @@ def pesanan():
     form = searchForm()
     history = Historybelanja.query.all()
     home = Homestay()
-    no = np.arange(len(history))
+    no = np.arange(1,len(history)+1)
     status = Historybelanja.query.filter_by(status_pesanan=True).all()
     n_pesanan = len(history) - len(status)
 
@@ -460,15 +465,13 @@ def pesanan():
         page_param = 1
     prev_page = int(page_param) - 1
     prev_page = str(prev_page)
-    paginate = Historybelanja.query.paginate(page=int(page_param), per_page=per_page)
+    paginate = Historybelanja.query.order_by(desc(Historybelanja.create_at)).paginate(page=int(page_param), per_page=per_page)
     return render_template("pesanan.html", form=form, no=no, paginate=paginate, prev_page=prev_page, n_pesanan=n_pesanan, home=home)
 
 @admin.route("/admin/konfirmasi/<id>")
 def konfirmasi(id):
-    print("terkonfirmasi")
     pesanan = Historybelanja.query.get(id)
     pesanan.status_pesanan = True 
     db.session.add(pesanan)
     db.session.commit()
-    print("status : ", pesanan.status_pesanan)
     return redirect(url_for('admin.pesanan'))
