@@ -564,6 +564,7 @@ def status_pesanan():
     )
 
 @home.route("/proses-pembayaran")
+@login_required
 def proses_pembayaran():
     # return redirect(url_for('home.pay_confirmed'))
     progress = url_for('home.pay_confirmed')
