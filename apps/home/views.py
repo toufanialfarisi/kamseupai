@@ -440,51 +440,51 @@ def pay():
 @home.route("/pay/confirmed", methods=["GET"])
 @login_required
 def pay_confirmed():
-    if "save_id_wisata" in session and "save_id_wisata" in session and "nama_lengkap" in session and "no_ktp" in session and "malam" in session and "kamar" in session and "ci" in session and "co" in session:
-        try:
-            id_wisata = session["save_id_wisata"]
-        except:
-            id_wisata = session["save_id_wisata"] = None
-        history = models.Historybelanja(
-            id_homestay = session["save_id_homestay"]   ,
-            id_user = current_user.get_id(),
-            id_wisata = session["save_id_wisata"],
-            nama_lengkap = session["nama_lengkap"],
-            no_ktp = session["no_ktp"],
-            no_passport = session["no_passport"],
-            malam = session["malam"],
-            kamar = session["kamar"],
-            tgl_check_in = session["ci"],
-            tgl_check_out = session["co"]
+    # if "save_id_wisata" in session and "save_id_wisata" in session and "nama_lengkap" in session and "no_ktp" in session and "malam" in session and "kamar" in session and "ci" in session and "co" in session:
+    try:
+        id_wisata = session["save_id_wisata"]
+    except:
+        id_wisata = session["save_id_wisata"] = None
+    history = models.Historybelanja(
+        id_homestay = session["save_id_homestay"]   ,
+        id_user = current_user.get_id(),
+        id_wisata = session["save_id_wisata"],
+        nama_lengkap = session["nama_lengkap"],
+        no_ktp = session["no_ktp"],
+        no_passport = session["no_passport"],
+        malam = session["malam"],
+        kamar = session["kamar"],
+        tgl_check_in = session["ci"],
+        tgl_check_out = session["co"]
 
-        )
-        models.db.session.add(history)
+    )
+    models.db.session.add(history)
+    models.db.session.commit()
+
+    delete_sessions()
+    
+    trans = models.Transaksi.query.all()
+    for data in trans:
+        models.db.session.delete(data)
         models.db.session.commit()
+    
+    fav, is_fav_exist = show_fav()
 
-        delete_sessions()
-        
-        trans = models.Transaksi.query.all()
-        for data in trans:
-            models.db.session.delete(data)
-            models.db.session.commit()
-        
-        fav, is_fav_exist = show_fav()
-
-        return render_template(
-            "pay_confirmed.html", 
-            favs=fav, 
-            favs_exist=is_fav_exist, 
-            host=host(), 
-            img_user=foto_profile_user(), 
-            username = current_username(),
-        )
-    else:
-        return redirect(url_for('home.pay_confirmed'))
+    return render_template(
+        "pay_confirmed.html", 
+        favs=fav, 
+        favs_exist=is_fav_exist, 
+        host=host(), 
+        img_user=foto_profile_user(), 
+        username = current_username(),
+    )
+    
 
 
 @home.route("/user-detail", methods=["POST", "GET"])
 @login_required
 def user_detail():
+    fav, is_fav_exist = show_fav()
     user_id = current_user.get_id()
     user_form = UserDetailForm()
     query_user = User.query.get(user_id) 
@@ -496,12 +496,15 @@ def user_detail():
         img_user=foto_profile_user(),
         formm=searchForm(),
         username = current_username(),
+        favs=fav,
+        
     )
 
     
 @home.route("/edit-user", methods=["GET", "POST"])
 @login_required
 def edit_user():
+    fav, is_fav_exist = show_fav()
     user_id = current_user.get_id()
     user_detail = UserDetail.query.get(user_id)
     form = UserDetailForm(obj=user_detail)
@@ -534,6 +537,7 @@ def edit_user():
         img_user=foto_profile_user(), 
         formm=searchForm(),
         username = current_username(),
+        favs=fav,
     )
 
 
