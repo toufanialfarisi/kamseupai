@@ -36,37 +36,42 @@ def confirmation(token):
 
 @auth.route("/register", methods=["POST", "GET", "PUT" "DELETE"])
 def register():
-    form = forms.RegisterForm()
-    if form.validate_on_submit():
-        user = models.User(
-            email=form.email.data,
-            username=form.username.data,
-            password=form.password.data,
-        )
+    if current_user.is_authenticated:
+        return redirect(url_for("home.index"))
+    else:
+        form = forms.RegisterForm()
+        if form.validate_on_submit():
+            user = models.User(
+                email=form.email.data,
+                username=form.username.data,
+                password=form.password.data,
+            )
 
-        db.session.add(user)
-        db.session.commit()
+            db.session.add(user)
+            db.session.commit()
 
-        session["unconfirmed_user"] = form.username.data
-        get_user_id = User.query.filter_by(username=form.username.data).first().id
-        user_detail = models.UserDetail(id_user=get_user_id)
-        db.session.add(user_detail)
-        db.session.commit()
+            session["unconfirmed_user"] = form.username.data
+            get_user_id = User.query.filter_by(username=form.username.data).first().id
+            user_detail = models.UserDetail(id_user=get_user_id)
+            db.session.add(user_detail)
+            db.session.commit()
 
-        email = form.email.data
-        token = email_confirm.dumps(email, salt="email-confirm")
-        msg = Message(
-            "Konfirmasi Akun", sender="kamseupai@makeitation.com", recipients=[email]
-        )
-        link = url_for("auth.confirmation", token=token, external=True)
+            email = form.email.data
+            token = email_confirm.dumps(email, salt="email-confirm")
+            msg = Message(
+                "Konfirmasi Akun",
+                sender="kamseupai@makeitation.com",
+                recipients=[email],
+            )
+            link = url_for("auth.confirmation", token=token, external=True)
 
-        host_server = host()
-        msg.html = "<html>Silahkan konfirmasi akun Anda dengan mengklik link di bawah ini : <br> <strong> <a href='{}{}'> KONFIRMASI </a> </strong></html>".format(
-            host_server, link
-        )
-        mail.send(msg)
-        return render_template("confirmation.html")
-    return render_template("register.html", form=form)
+            host_server = host()
+            msg.html = "<html>Silahkan konfirmasi akun Anda dengan mengklik link di bawah ini : <br> <strong> <a href='{}{}'> KONFIRMASI </a> </strong></html>".format(
+                host_server, link
+            )
+            mail.send(msg)
+            return render_template("confirmation.html")
+        return render_template("register.html", form=form)
 
 
 @auth.route("/login", methods=["POST", "GET"])
