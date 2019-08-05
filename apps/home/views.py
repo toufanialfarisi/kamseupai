@@ -171,7 +171,7 @@ def index():
         img_user=foto_profile_user(),
         username = current_username(),
         fav=favor,
-        homestay=Homestay(),
+        homestay=models.Homestay(),
         )
 
 
@@ -304,6 +304,7 @@ def detail_homestay(id):
         formm=searchform,
         img_user=foto_profile_user(),
         username = current_username(),
+        homestay=models.Homestay(),
     )
 
 
@@ -329,6 +330,7 @@ def book_homestay(id):
         formatrupiah=formatrupiah,
         img_user=foto_profile_user(),
         username = current_username(),
+        homestay=models.Homestay(),
     )
 
 
@@ -438,6 +440,7 @@ def checkout():
         diskon=thediskon,
         img_user=foto_profile_user(),
         username = current_username(),
+        homestay=models.Homestay(),
     )
 
 
@@ -475,6 +478,7 @@ def pay():
         host=host(),
         img_user=foto_profile_user(),
         username = current_username(),
+        homestay=models.Homestay(),
     )
 
 
@@ -518,6 +522,7 @@ def pay_confirmed():
         host=host(), 
         img_user=foto_profile_user(), 
         username = current_username(),
+        homestay=models.Homestay(),
     )
     
 
@@ -538,6 +543,7 @@ def user_detail():
         formm=searchForm(),
         username = current_username(),
         favs=fav,
+        homestay=models.Homestay(),
         
     )
 
@@ -579,6 +585,7 @@ def edit_user():
         formm=searchForm(),
         username = current_username(),
         favs=fav,
+        homestay=models.Homestay(),
     )
 
 
@@ -606,6 +613,7 @@ def status_pesanan():
         img_user=foto_profile_user(),
         username = current_username(),
         formm=searchForm(),
+        homestay=models.Homestay(),
     )
 
 @home.route("/proses-pembayaran")
@@ -617,6 +625,7 @@ def proses_pembayaran():
         "proses_pembayaran.html", 
         progress=progress, 
         img_user=foto_profile_user(), 
+        homestay=models.Homestay(),
     )
 
 @home.route("/logout", methods=["GET"])
