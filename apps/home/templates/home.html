@@ -87,7 +87,7 @@
                   <a href="{{ url_for('home.favorit', id=data.id) }}" class="btn btn-outline-success btn-sm">
                     Favoritkan
                     {% else %}
-                    <a href="{{ url_for('home.favorit', id=data.id) }}" class="btn btn-outline-success btn-sm disabled">
+                    <a href="{{ url_for('home.favorit', id=data.id) }}" class="btn btn-success btn-sm disabled">
                       Favoritkan
                       {% endif %}
                     </a> <a href="{{ url_for('home.detail_homestay', id=data.id) }}"
