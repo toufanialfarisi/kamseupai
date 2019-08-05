@@ -84,11 +84,11 @@
                 <h5 class="text-success">potongan {{data.diskon}} %</h5>
                 <p>
                   {% if fav == False  %}
-                  <a href="{{ url_for('home.favorit', id=data.id) }}" class="btn btn-outline-success btn-sm">
-                    Favoritkan
+                  <a href="{{ url_for('home.favorit', id=data.id) }}" class="btn btn-success btn-sm">
+                    <i class="fas fa-heart"></i>
                     {% else %}
-                    <a href="{{ url_for('home.favorit', id=data.id) }}" class="btn btn-success btn-sm disabled">
-                      Favoritkan
+                    <a href="{{ url_for('home.favorit', id=data.id) }}" class="btn btn-outline-success btn-sm disabled">
+                      <i class="fas fa-heart"></i>
                       {% endif %}
                     </a> <a href="{{ url_for('home.detail_homestay', id=data.id) }}"
                       class="btn btn-outline-info btn-sm">
