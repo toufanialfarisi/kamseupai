@@ -493,44 +493,48 @@ def pay():
 @login_required
 def pay_confirmed():
     # if "save_id_wisata" in session and "save_id_wisata" in session and "nama_lengkap" in session and "no_ktp" in session and "malam" in session and "kamar" in session and "ci" in session and "co" in session:
-    try:
-        id_wisata = session["save_id_wisata"]
-    except:
-        id_wisata = session["save_id_wisata"] = None
-    history = models.Historybelanja(
-        id_homestay = session["save_id_homestay"]   ,
-        id_user = current_user.get_id(),
-        id_wisata = session["save_id_wisata"],
-        nama_lengkap = session["nama_lengkap"],
-        no_ktp = session["no_ktp"],
-        no_passport = session["no_passport"],
-        malam = session["malam"],
-        kamar = session["kamar"],
-        tgl_check_in = session["ci"],
-        tgl_check_out = session["co"]
+    if "malam" in session:
+        try:
+            id_wisata = session["save_id_wisata"]
+        except:
+            id_wisata = session["save_id_wisata"] = None
+        history = models.Historybelanja(
+            id_homestay = session["save_id_homestay"]   ,
+            id_user = current_user.get_id(),
+            id_wisata = session["save_id_wisata"],
+            nama_lengkap = session["nama_lengkap"],
+            no_ktp = session["no_ktp"],
+            no_passport = session["no_passport"],
+            malam = session["malam"],
+            kamar = session["kamar"],
+            tgl_check_in = session["ci"],
+            tgl_check_out = session["co"]
 
-    )
-    models.db.session.add(history)
-    models.db.session.commit()
-
-    delete_sessions()
-    
-    trans = models.Transaksi.query.all()
-    for data in trans:
-        models.db.session.delete(data)
+        )
+        models.db.session.add(history)
         models.db.session.commit()
-    
-    fav, is_fav_exist = show_fav()
 
-    return render_template(
-        "pay_confirmed.html", 
-        favs=fav, 
-        favs_exist=is_fav_exist, 
-        host=host(), 
-        img_user=foto_profile_user(), 
-        username = current_username(),
-        homestay=models.Homestay(),
-    )
+        delete_sessions()
+        
+        trans = models.Transaksi.query.all()
+        for data in trans:
+            models.db.session.delete(data)
+            models.db.session.commit()
+        
+        fav, is_fav_exist = show_fav()
+
+        return render_template(
+            "pay_confirmed.html", 
+            favs=fav, 
+            favs_exist=is_fav_exist, 
+            host=host(), 
+            img_user=foto_profile_user(), 
+            username = current_username(),
+            homestay=models.Homestay(),
+        )
+    else:
+        progress = url_for("home.index")
+        return render_template("kembali.html", progress=progress)
     
 
 

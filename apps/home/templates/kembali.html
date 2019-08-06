@@ -1,0 +1,55 @@
+{% extends "home_layout.html" %}
+{% block content %}
+<style>
+    #carding {
+        border-radius: 15px;
+        padding: 20px;
+        width: 100%;
+        height: auto;
+        box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    }
+</style>
+
+<main role="main" class="container">
+
+    <div class="row">
+        <div class="col-sm">
+            <div class="content-selection">
+                <div class="content-section" id="carding" style="background-color: #03A4D2 !important; height: 300px;">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-sm"></div>
+                            <div class="col-sm">
+                                <center>
+                                    <p><span style="text-align: center; color: white">Maaf, Anda tidak bisa kembali ke
+                                            halaman sebelumnya. silahkan menuju ke beranda !</span>
+                                    </p>
+                                    <a href="{{ url_for('home.index') }}" class="btn btn-outline-light">Beranda</a>
+                                </center>
+
+                                <div class="d-flex justify-content-center">
+                                    <div class="spinner-grow text-light" style="width: 3rem; height: 3rem;"
+                                        role="status">
+                                        <span class="sr-only">Loading...</span>
+                                    </div>
+                                    <script>
+                                        setTimeout(function () {
+                                            window.location.href = '{{progress}}';
+                                        }, 10000);
+                                    </script>
+                                </div>
+                            </div>
+                            <div class="col-sm"></div>
+
+                        </div> <!-- row.// -->
+                    </div> <!-- card-body .// -->
+
+                </div>
+
+            </div>
+            <!-- TAMBAHKAN CONTENT LAGI DI SINI -->
+        </div>
+
+
+    </div>
+</main {% endblock %}
