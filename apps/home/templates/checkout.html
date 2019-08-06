@@ -15,157 +15,158 @@
         <p class='text-muted'>
             <legend class="border-bottom mb-4"> <strong>Homestay</strong></legend>
         </p>
-        <article class="itemlist">
-            <div class="row row-sm">
-                <aside class="col-sm-3">
-                    <figure class="media">
-                        <div class="img-wrap"><img src="{{ form_homestay.foto_homestay }}" width="250px"
-                                class="img-thumbnail img-sm"></div>
-                    </figure>
-                </aside> <!-- col.// -->
-
-                <div class="col-sm-6">
-                    <div class="text-wrap">
+        <div class="table-responsive-md">
+            <article class="itemlist">
+                <div class="row row-sm">
+                    <aside class="col-sm-3">
                         <figure class="media">
-                            <figcaption class="media-body">
-                                <h5 class="title text-truncate"> <strong> {{form_homestay.nama_homestay}} </strong>
-                                    &ensp; #{{form_homestay.code_homestay}}
-                                </h5>
-                                <dl class="dlist-inline small">
+                            <div class="img-wrap"><img src="{{ form_homestay.foto_homestay }}" width="250px"
+                                    class="img-thumbnail img-sm"></div>
+                        </figure>
+                    </aside> <!-- col.// -->
 
-                                    <table>
+                    <div class="col-sm-6">
+                        <div class="text-wrap">
+                            <figure class="media">
+                                <figcaption class="media-body">
+                                    <h5 class="title text-truncate"> <strong> {{form_homestay.nama_homestay}} </strong>
+                                        &ensp; #{{form_homestay.code_homestay}}
+                                    </h5>
+                                    <dl class="dlist-inline small">
 
-                                        <tr>
-                                            <td>Alamat</td>
-                                            <td style="width: 50px;"></td>
-                                            <td style="width: 25px;"> :</td>
+                                        <table>
 
-                                        </tr>
-                                    </table>
+                                            <tr>
+                                                <td>Alamat</td>
+                                                <td style="width: 50px;"></td>
+                                                <td style="width: 25px;"> :</td>
 
-                                    <dd>{{form_homestay.alamat}}</dd>
-                                </dl>
-                                <dl class="dlist-inline small">
-                                    <table>
+                                            </tr>
+                                        </table>
 
-                                        <tr>
-                                            <td>Check in</td>
-                                            <td style="width: 25px;"></td>
-                                            <td style="width: 25px;"> :</td>
-                                            <td>{{ check_in }}</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Check out</td>
-                                            <td style="width: 25px;"></td>
-                                            <td style="width: 25px;"> :</td>
-                                            <td> {{ check_out }}</td>
-                                        </tr>
-                                    </table>
-                                    <!-- <dt>Check in : </dt>
+                                        <dd>{{form_homestay.alamat}}</dd>
+                                    </dl>
+                                    <dl class="dlist-inline small">
+                                        <table>
+
+                                            <tr>
+                                                <td>Check in</td>
+                                                <td style="width: 25px;"></td>
+                                                <td style="width: 25px;"> :</td>
+                                                <td>{{ check_in }}</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Check out</td>
+                                                <td style="width: 25px;"></td>
+                                                <td style="width: 25px;"> :</td>
+                                                <td> {{ check_out }}</td>
+                                            </tr>
+                                        </table>
+                                        <!-- <dt>Check in : </dt>
                                     <dd>{{ check_in }}</dd>
                                     <dt>Check out : </dt>
                                     <dd>{{ check_out }}</dd> -->
 
-                                </dl>
-                            </figcaption>
-                        </figure>
+                                    </dl>
+                                </figcaption>
+                            </figure>
 
 
 
-                        <!-- <p class="rating-wrap my-0 text-muted">
+                            <!-- <p class="rating-wrap my-0 text-muted">
                             <span class="label-rating">132 reviews</span>
                             <span class="label-rating">154 orders </span>
                         </p> rating-wrap.// -->
-                    </div> <!-- text-wrap.// -->
-                </div> <!-- col.// -->
-                <aside class="col-sm-3">
-                    <div class="border-left pl-3">
-                        <div class="price-wrap">
-                            <span class="h3 price"> Rp. {{ diskon }} <h6> ( {{ malam }} malam )</h6>
-                                <h5><del class="price-old text-danger">Rp.
-                                        {{ formatrupiah(form_homestay.harga) }}</del>
-                                </h5>
-                        </div> <!-- info-price-detail // -->
-                        <p class="text-success"></p>
-                        <td class="text-right">
-                            <!-- <a title="" href="{{ host }}/checkout/favorit/{{ form_homestay.id }}"
+                        </div> <!-- text-wrap.// -->
+                    </div> <!-- col.// -->
+                    <aside class="col-sm-3">
+                        <div class="border-left pl-3">
+                            <div class="price-wrap">
+                                <span class="h3 price"> Rp. {{ diskon }} <h6> ( {{ malam }} malam )</h6>
+                                    <h5><del class="price-old text-danger">Rp.
+                                            {{ formatrupiah(form_homestay.harga) }}</del>
+                                    </h5>
+                            </div> <!-- info-price-detail // -->
+                            <p class="text-success"></p>
+                            <td class="text-right">
+                                <!-- <a title="" href="{{ host }}/checkout/favorit/{{ form_homestay.id }}"
                                 class="btn btn-outline-success" data-toggle="tooltip"
                                 data-original-title="Save to Wishlist"><i class="fas fa-heart"></i>
                             </a> -->
-                            <a href="{{ url_for('home.remove_item', id=form_homestay.id) }}"
-                                class="btn btn-outline-danger">
-                                <i class="fas fa-trash-alt"></i>
-                                Hapus</a>
-                        </td>
-                    </div> <!-- action-wrap.// -->
-                </aside> <!-- col.// -->
-            </div> <!-- row.// -->
-        </article> <!-- itemlist.// -->
-        {% if form_wisata %}
+                                <a href="{{ url_for('home.remove_item', id=form_homestay.id) }}"
+                                    class="btn btn-outline-danger">
+                                    <i class="fas fa-trash-alt"></i>
+                                    Hapus</a>
+                            </td>
+                        </div> <!-- action-wrap.// -->
+                    </aside> <!-- col.// -->
+                </div> <!-- row.// -->
+            </article> <!-- itemlist.// -->
+            {% if form_wisata %}
 
-        <p class='text-muted'>
-            <legend class="border-bottom mb-4">
-                <p> Paket atraksi atau wisata </p>
-            </legend>
-        </p>
+            <p class='text-muted'>
+                <legend class="border-bottom mb-4">
+                    <p> Paket atraksi atau wisata </p>
+                </legend>
+            </p>
 
-        {% for form in form_wisata %}
-        <article class="itemlist">
-            <div class="row row-sm">
-                <aside class="col-sm-3">
-                    <figure class="media">
-                        <div class="img-wrap"><img src="{{ form.foto_wisata }}" width="250px"
-                                class="img-thumbnail img-sm"></div>
-                    </figure>
-                </aside> <!-- col.// -->
-
-                <div class="col-sm-6">
-                    <div class="text-wrap">
+            {% for form in form_wisata %}
+            <article class="itemlist">
+                <div class="row row-sm">
+                    <aside class="col-sm-3">
                         <figure class="media">
-                            <figcaption class="media-body">
-                                <h5 class="title text-truncate"> <strong> </strong>
-                                </h5>
-                                <dl class="dlist-inline small">
-                                    <dt> {{ form.wisata }} &ensp; </dt> #{{ form.code_wisata }}
-
-                                </dl>
-                                <dl class="dlist-inline small">
-                                    <table>
-
-                                        <tr>
-                                            <td>Kegiatan</td>
-                                            <td style="width: 30px;"></td>
-                                            <td style="width: 25px;"> :</td>
-
-                                        </tr>
-                                    </table>
-
-                                    <dd>{{form.kegiatan}}</dd>
-                                </dl>
-                            </figcaption>
+                            <div class="img-wrap"><img src="{{ form.foto_wisata }}" width="250px"
+                                    class="img-thumbnail img-sm"></div>
                         </figure>
-                    </div> <!-- text-wrap.// -->
-                </div> <!-- col.// -->
-                <aside class="col-sm-3">
-                    <div class="border-left pl-3">
-                        <div class="price-wrap">
-                            <span class="h3 price"> Rp. {{ formatrupiah(form.biaya) }} <h6></h6>
-                        </div> <!-- info-price-detail // -->
-                        <p class="text-success"></p>
-                        <td class="text-right">
-                            <a href="{{ url_for('home.remove_paket', id=form.id) }}" class="btn btn-outline-danger"> <i
-                                    class="fas fa-trash-alt"></i>
-                                hapus paket</a>
-                        </td>
-                    </div> <!-- action-wrap.// -->
-                </aside> <!-- col.// -->
-            </div> <!-- row.// -->
-        </article> <!-- itemlist.// -->
+                    </aside> <!-- col.// -->
 
-        {% endfor %}
-        {% else %}
-        {% endif %}
+                    <div class="col-sm-6">
+                        <div class="text-wrap">
+                            <figure class="media">
+                                <figcaption class="media-body">
+                                    <h5 class="title text-truncate"> <strong> </strong>
+                                    </h5>
+                                    <dl class="dlist-inline small">
+                                        <dt> {{ form.wisata }} &ensp; </dt> #{{ form.code_wisata }}
 
+                                    </dl>
+                                    <dl class="dlist-inline small">
+                                        <table>
+
+                                            <tr>
+                                                <td>Kegiatan</td>
+                                                <td style="width: 30px;"></td>
+                                                <td style="width: 25px;"> :</td>
+
+                                            </tr>
+                                        </table>
+
+                                        <dd>{{form.kegiatan}}</dd>
+                                    </dl>
+                                </figcaption>
+                            </figure>
+                        </div> <!-- text-wrap.// -->
+                    </div> <!-- col.// -->
+                    <aside class="col-sm-3">
+                        <div class="border-left pl-3">
+                            <div class="price-wrap">
+                                <span class="h3 price"> Rp. {{ formatrupiah(form.biaya) }} <h6></h6>
+                            </div> <!-- info-price-detail // -->
+                            <p class="text-success"></p>
+                            <td class="text-right">
+                                <a href="{{ url_for('home.remove_paket', id=form.id) }}" class="btn btn-outline-danger">
+                                    <i class="fas fa-trash-alt"></i>
+                                    hapus paket</a>
+                            </td>
+                        </div> <!-- action-wrap.// -->
+                    </aside> <!-- col.// -->
+                </div> <!-- row.// -->
+            </article> <!-- itemlist.// -->
+
+            {% endfor %}
+            {% else %}
+            {% endif %}
+        </div>
         <p class='text-muted'>
             <legend class="border-bottom mb-4"> <strong></strong></legend>
         </p>
@@ -206,8 +207,6 @@
             </div> <!-- row.// -->
         </article> <!-- itemlist.// -->
     </div>
-
-
 
 
 </main>
