@@ -289,14 +289,13 @@ def edit_homestay(id):
             jumlah_kamar = validasi_type(form.jumlah_kamar.data, int)
             harga = validasi_type(form.harga.data, int)
             diskon = validasi_type(form.diskon.data, int)
-
             model.code_homestay = code_homestay(stringLength=5, gen_for="H")
             model.nama_homestay = nama_homestay
             model.alamat = alamat
             model.provinsi = provinsi
             model.deskripsi = deskripsi
             model.fasilitas = fasilitas
-            model.modelharga = harga
+            model.harga = harga
             model.diskon = diskon
             model.foto_homestay = foto
             model.jumlah_kamar = jumlah_kamar
