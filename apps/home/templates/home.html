@@ -75,11 +75,17 @@
             </article> <!-- col.// -->
             <aside class="col-sm-3 border-left">
               <div class="action-wrap">
+                {% if data.diskon != 0 %}
                 <div class="price-wrap h4">
-                  <span class="price"> Rp. {{ diskon }} </span> <br>
+                  <span class="price"> Rp. {{ diskon }} </span> <span style="font-size: 14px;">/ malam</span> <br>
                   <del class="price-old"> Rp. {{ idr }} </del>
                 </div> <!-- info-price-detail // -->
                 <h5 class="text-success">potongan {{data.diskon}} %</h5>
+                {% else %}
+                <div class="price-wrap h4">
+                  <span class="price"> Rp. {{ diskon }}</span> <span style="font-size: 14px;">/ malam</span> <br>
+                </div>
+                {% endif %}
                 <p>
 
                   <a href="{{ url_for('home.favorit', id=data.id) }}" class="btn btn-outline-success btn-sm">

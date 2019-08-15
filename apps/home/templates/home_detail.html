@@ -71,11 +71,18 @@
 
         <!-- <aside class="col-sm-3 border-left"> -->
         <div class="action-wrap">
+          {% if form.diskon != 0 %}
           <div class="price-wrap h4">
-            <span class="price"> Rp. {{ diskon }} </span> <br>
+            <span class="price"> Rp. {{ diskon }}</span> <span style="font-size: 14px;">/ malam</span> <br>
             <del class="price-old"> Rp. {{ formatrupiah(form.harga) }} </del>
           </div> <!-- info-price-detail // -->
           <p class="text-success">potongan {{ form.diskon }}%</p>
+          {% else %}
+
+          <div class="price-wrap h4">
+            <span class="price"> Rp. {{ diskon }}</span> <span style="font-size: 14px;">/ malam</span> <br>
+          </div> <!-- info-price-detail // -->
+          {% endif %}
           <p>
             <!-- <button type="button" class="btn btn--outline-light" disabled>Terpesan</button> -->
             <form action="" method="POST">

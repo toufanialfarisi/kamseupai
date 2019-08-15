@@ -62,10 +62,13 @@
                         <td>{{form.code_wisata}}</td>
                         <td>
                             <a href="{{ url_for('admin.edit_wisata', id=form.id) }}" class="btn btn-success"> <i
-                                    class="fas fa-edit"></i> Edit</a></td>
-                        <td>
+                                    class="fas fa-edit"></i> Edit</a>
                             <a href="{{ url_for('admin.delete_wisata', id=form.id) }}" class="btn btn-danger"><i
                                     class="fas fa-trash-alt"></i> Hapus</a>
+
+                        </td>
+                        <td>
+
                         </td>
                     </tr>
                 </tbody>
