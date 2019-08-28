@@ -19,9 +19,17 @@ app.jinja_env.filters["zip"] = zip
 db = SQLAlchemy(app)
 file_path = os.path.abspath(os.path.dirname(__file__))
 basedir = os.path.join(file_path, "data.sqlite")
-app.config[
-    "SQLALCHEMY_DATABASE_URI"
-] = "mysql://kamseupai:kampungantapisukses@localhost/monolitik"
+
+db_dev = "sqlite"
+if db_dev == "mysql":
+    app.config[
+        "SQLALCHEMY_DATABASE_URI"
+    ] = "mysql://kamseupai:kampungantapisukses@localhost/monolitik"
+
+else:
+    app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///" + basedir
+
+
 app.config["SECRET_KEY"] = "KAMseupai291195"
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 
