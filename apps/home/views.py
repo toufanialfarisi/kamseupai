@@ -255,50 +255,86 @@ def detail_homestay(id):
     model_wisata = models.Wisata.query.filter_by(id_homestay=id).all()
     searchform = searchForm()
     if request.method == "POST":
+        try:
+            '''
+            try dan except ini digunakan karena ada dua request form dalam halaman detail_homestay yaitu
+            login dan fitur pesan homestay, nahh ini harus dilakukan try dan exeption soalnya
+            variable session 'malam' tidak ditemukan ketika request form nya berupa fitur login, sehingga
+            harus sedikit dimanipulasi agar ketika user login di halaman ini, dia bisa memanggil kode untuk 
+            login di bagian exception 
+            '''
+            if request.form["malam"] and request.form["kamar"] and request.form["malam"] and request.form["check_in"] and request.form["nama_lengkap"] and request.form["no_ktp"] or request.form["no_passport"]:
+                session["no_ktp"] = request.form["no_ktp"]
+                session["save_id_homestay"] = id
+                session["nama_lengkap"] = request.form["nama_lengkap"]
+                if request.form["no_passport"]:
+                    session["no_passport"] = request.form["no_passport"]
+                else:
+                    session["no_passport"] = None 
+                
+                malam = session["malam"] = request.form["malam"]
+                tgl_checkin = request.form["check_in"] # session["check_in"] = 
+                checkin = tgl_checkin.split('-')
+                check_in = checkin[0] + '-' + checkin[1] +'-' + checkin[2]
+                session["ci"] = datetime(int(checkin[0]), int(checkin[1]), int(checkin[2]))
+                tgl_checkin = session["check_in"] = check_in
 
-        if request.form["malam"] and request.form["kamar"] and request.form["malam"] and request.form["check_in"] and request.form["nama_lengkap"] and request.form["no_ktp"] or request.form["no_passport"]:
-            session["no_ktp"] = request.form["no_ktp"]
-            session["save_id_homestay"] = id
-            session["nama_lengkap"] = request.form["nama_lengkap"]
-            if request.form["no_passport"]:
-                session["no_passport"] = request.form["no_passport"]
+                kamar = session["kamar"] = request.form["kamar"]
+                checkout = tgl_checkin.split('-')
+                # tgl_checkout = int(checkout[2]) + int(malam)
+
+                '''
+                checkin[0] = tahun
+                checkin[1] = bulan
+                checkin[2] = tanggal 
+                '''
+
+                try:
+                    tgl_checkout, bulan = tanggal_checkout(int(malam), int(checkin[2]), int(checkin[1]))
+                    check_out = session["check_out"] = checkout[0] + '-' + str(bulan) + '-' +  str(tgl_checkout)  
+                    session["co"] = datetime(int(checkout[0]), int(bulan), int(tgl_checkout))      
+                except:
+                    tgl_checkout = tanggal_checkout(int(malam), int(checkin[2]), int(checkin[1]))        
+                    check_out = session["check_out"] = checkout[0] + '-' + str(checkout[1]) + '-' +  str(tgl_checkout)        
+                    session["co"] = datetime(int(checkout[0]), int(checkout[1]), int(tgl_checkout))
+                
+                if model_wisata:
+                    return redirect(url_for("home.book_homestay", id=id))
+                else:    
+                    return redirect(url_for("home.checkout"))
             else:
-                session["no_passport"] = None 
-            
-            malam = session["malam"] = request.form["malam"]
-            tgl_checkin = request.form["check_in"] # session["check_in"] = 
-            checkin = tgl_checkin.split('-')
-            check_in = checkin[0] + '-' + checkin[1] +'-' + checkin[2]
-            session["ci"] = datetime(int(checkin[0]), int(checkin[1]), int(checkin[2]))
-            tgl_checkin = session["check_in"] = check_in
-
-            kamar = session["kamar"] = request.form["kamar"]
-            checkout = tgl_checkin.split('-')
-            # tgl_checkout = int(checkout[2]) + int(malam)
-
-            '''
-            checkin[0] = tahun
-            checkin[1] = bulan
-            checkin[2] = tanggal 
-            '''
-
+                flash("Silahkan isi semua form di bawah ini", "danger")
+                redirect(url_for("home.detail_homestay", id=id))
+        except:
+            user = User.query.filter_by(username=request.form["username"]).first()
             try:
-                tgl_checkout, bulan = tanggal_checkout(int(malam), int(checkin[2]), int(checkin[1]))
-                check_out = session["check_out"] = checkout[0] + '-' + str(bulan) + '-' +  str(tgl_checkout)  
-                session["co"] = datetime(int(checkout[0]), int(bulan), int(tgl_checkout))      
-            except:
-                tgl_checkout = tanggal_checkout(int(malam), int(checkin[2]), int(checkin[1]))        
-                check_out = session["check_out"] = checkout[0] + '-' + str(checkout[1]) + '-' +  str(tgl_checkout)        
-                session["co"] = datetime(int(checkout[0]), int(checkout[1]), int(tgl_checkout))
-            
-            if model_wisata:
-                return redirect(url_for("home.book_homestay", id=id))
-            else:    
-                return redirect(url_for("home.checkout"))
-        else:
-            flash("Silahkan isi semua form di bawah ini", "danger")
-            redirect(url_for("home.detail_homestay", id=id))
+                check_user_confirmed = user.confirmation_status
+                if (
+                    user.check_password(request.form["password"])
+                    and user is not None
+                    and check_user_confirmed is True
+                ):
 
+                    login_user(user)
+                    next = request.args.get("next")
+                    if next == None or not next[0] == "/":
+                        next = url_for("home.detail_homestay", id=id)
+                    return redirect(next)
+                elif (
+                    user.check_password(request.form["password"])
+                    and user is not None
+                    and check_user_confirmed is False
+                ):
+                    flash("Akun belum terkonfirmasi, silahkan cek email Anda !", "danger")
+                    return redirect(url_for("auth.login"))
+                else:
+                    flash("Username / password Anda salah", "danger")
+                    return redirect(url_for("auth.login"))
+
+            except AttributeError:
+                flash("Akun anda tidak terdaftar, silahkan register dulu !", "danger")
+                return redirect(url_for("auth.login"))
+            
     return render_template(
         "home_detail.html", 
         form=cur, 
