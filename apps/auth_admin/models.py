@@ -37,3 +37,9 @@ class Admin(db.Model):
     def __repr__(self):
         return f"UserName: {self.username}"
 
+
+class Slider(db.Model):
+    __tablename__ = "slider_img"
+    id = db.Column(db.Integer, primary_key=True)
+    image = db.Column(db.String)
+
