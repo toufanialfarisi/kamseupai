@@ -89,3 +89,8 @@ class WisataEditForm(FlaskForm):
 class searchForm(FlaskForm):
     keyword = StringField("Keyword", render_kw={"placeholder": "Kata kunci"})
     submit = SubmitField("Cari")
+
+
+class SliderForm(FlaskForm):
+    image = FileField("Tambah Image slider", validators=[FileRequired()])
+    submit = SubmitField("Tambah")
