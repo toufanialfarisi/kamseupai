@@ -9,6 +9,7 @@ import string
 from datetime import date, time, datetime
 from apps.home.utility import * 
 from apps.auth.models import UserDetail, User
+from apps.auth_admin.models import * 
 from flask_login import login_user
 
 home = Blueprint("home", __name__, template_folder="templates/")
@@ -152,7 +153,8 @@ def index():
         favor=status_favor.status
     except:
         favor=False
-        
+
+    data_slider = Slider.query.all()
     return render_template(
         "home.html", 
         formm=searchform,
@@ -170,7 +172,7 @@ def index():
         username = current_username(),
         fav=favor,
         homestay=models.Homestay(),
-        
+        sliders=data_slider
         )
 
 
