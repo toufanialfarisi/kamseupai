@@ -474,3 +474,36 @@ def konfirmasi(id):
     db.session.add(pesanan)
     db.session.commit()
     return redirect(url_for('admin.pesanan'))
+
+@admin.route("/admin/slider/add", methods=["POST", "GET"])
+def add_slider():
+    form = SliderForm()
+    if form.validate_on_submit() or request.method == "POST":
+        file = request.files["image"]
+        folder = IMAGES_DIR + "/slider"
+        foto = upload_file(file, folder)  # return random name
+        foto = host() + "/" + foto
+
+        model = Slider(image=foto)
+        models.db.session.add(model)
+        models.db.session.commit()
+        flash("Slider berhasil ditambahkan", "success")
+        return redirect(url_for("admin.view_slider"))
+
+    return render_template("slider/add_slider.html", form=form)
+
+@admin.route("/admin/slider", methods=["GET"])
+def view_slider():
+    form = SliderForm()
+    page_param = request.args.get("page")
+    per_page = 4    
+    paginate = Slider.query.paginate(page=page_param, per_page=per_page)
+    no=range(1, len(paginate.items) + 1)
+    return render_template("slider/view_slider.html", forms=paginate.items, no=no)
+
+@admin.route("/admin/slider/<int:id>", methods=["GET"])
+def delete_slider(id):
+    data = Slider.query.get(id)
+    db.session.delete(data)
+    db.session.commit()
+    return redirect(url_for("admin.view_slider"))
