@@ -27,7 +27,7 @@
             </div>
             <article class="col-sm-6">
 
-              <h2 class="title"> <strong>{{ form.nama_homestay }}</strong></h2>
+              <h2 class="title">{{ form.nama_homestay }}</h2>
               <!-- <div class="rating-wrap">
                 <strong>
                   <div class="label-rating">132 reviews</div>
@@ -37,19 +37,27 @@
               <h5>
                 <dl class="dlist-align">
                   <dt>Lokasi</dt>
-                  <dd>{{ form.alamat }}</dd>
+                  <dd>
+                    <h6>{{ form.alamat }}</h6>
+                  </dd>
                 </dl> <!-- item-property-hor .// -->
                 <dl class="dlist-align">
                   <dt>Jumlah Kamar</dt>
-                  <dd>{{ form.jumlah_kamar }}</dd>
+                  <dd>
+                    <h6>{{ form.jumlah_kamar }}</h6>
+                  </dd>
                 </dl> <!-- item-property-hor .// -->
                 <dl class="dlist-align">
                   <dt>Fasilitas</dt>
-                  <dd>{{ form.fasilitas }}</dd>
+                  <dd>
+                    <h6> {{ form.fasilitas }} </h6>
+                  </dd>
                 </dl> <!-- item-property-hor .// -->
                 <dl class="dlist-align">
                   <dt>Deskripsi</dt>
-                  <dd>{{ form.deskripsi }}</dd>
+                  <dd>
+                    <h6> {{ form.deskripsi }} </h6>
+                  </dd>
                 </dl> <!-- item-property-hor .// -->
               </h5>
 
