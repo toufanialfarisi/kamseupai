@@ -225,7 +225,10 @@ def remove_item(id):
 @login_required
 def remove_item_notif():
     flash("Item Berhasil dihapus","success")
-    return render_template("checkout_notif.html")
+    return render_template(
+        "checkout_notif.html", 
+        img_user=foto_profile_user(),
+    )
 
 @home.route("/remove/item/paket/<int:id>", methods=["GET"])
 @login_required
