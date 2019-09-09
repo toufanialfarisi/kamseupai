@@ -1,14 +1,15 @@
 #!/bin/bash
 # Activate the virtual environment
 #cd $(pwd)
-DIR=/home/ubuntu/monolitik
-cd ${DIR}
-source  /home/ubuntu/monolitik/env/bin/activate
-pip install -r requirements.txt  
-flask run
+DIR=$(cd -P -- "$(dirname -- "$0")" && pwd -P)
 
-#exec /home/ubuntu/monolitik/env/bin/gunicorn app:app -b 0.0.0.0:5000 \
-#  --reload \
-#  --workers 2 \
-#  --log-level=debug \
-#  --log-file=-
+cd ${DIR}
+source  ${DIR}/env/bin/activate
+pip install -r requirements.txt  
+# flask run
+exec ${DIR}/env/bin/gunicorn app:app -b 0.0.0.0:5000 \
+ --reload \
+ --workers 2 \
+ --log-level=false \
+ --access-logfile history/logs \
+ --log-file=-
