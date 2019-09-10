@@ -11,187 +11,248 @@
 </style>
 <main role="main" class="container">
   <div class="row">
-    <div class="col col-lg-8">
+    <div class="col-md-2"></div>
+    <div class="col-md-8">
 
       <div class="content-section" id="carding">
         <p class='text-muted'>
           <legend class="border-bottom mb-4"> Detail <strong>Homestay</strong></legend>
         </p>
         <div class="card-body">
+
           <div class="row">
             <div class="table-responsive-md">
-              <aside class="col-sm-3">
-                <div class="img-wrap"><img class="rounded float-left" src="{{ form.foto_homestay }}" width="250px">
+              <div class="col">
+                <div class="row">
+                  <aside class="col-sm-3">
+                    <div class="img-wrap"><img class="rounded float-left" src="{{ form.foto_homestay }}" width="250px">
+                    </div>
+                  </aside>
+
                 </div>
-              </aside> <!-- col.// -->
+                <div class="row" style="margin-left: 1px; margin-top: 5px;">
+
+                  <!-- deskripsi gambar dan harga -->
+                  {% if form.diskon != 0 %}
+                  <div class="price-wrap h4">
+                    <span class="price"> Rp.{{ diskon }}</span> <span style="font-size: 14px;">/ malam</span> <br>
+                    <del class="price-old"> Rp. {{ formatrupiah(form.harga) }} </del>
+                    <h6 class="text-success">potongan {{ form.diskon }}%</h6>
+
+                  </div> <!-- info-price-detail // --> <br>
+                  <div>
+
+                  </div>
+
+                  {% else %}
+
+                  <div class="price-wrap h4">
+                    <span class="price"> Rp. {{ diskon }}</span> <span style="font-size: 14px;">/ malam</span> <br>
+                  </div> <!-- info-price-detail // -->
+                  {% endif %}
+                </div>
+              </div>
+
+
             </div>
-            <article class="col-sm-6">
+            <div class="col">
 
-              <h2 class="title">{{ form.nama_homestay }}</h2>
-              <!-- <div class="rating-wrap">
-                <strong>
-                  <div class="label-rating">132 reviews</div>
-                </strong>
+              <article>
 
-              </div> rating-wrap.// -->
-              <h5>
+                <h2 class="title">{{ form.nama_homestay }}</h2>
+                <!-- <div class="rating-wrap">
+                    <strong>
+                      <div class="label-rating">132 reviews</div>
+                    </strong>
+    
+                  </div> rating-wrap.// -->
+                <h5>
+                  <dl class="dlist-align">
+                    <dt>Lokasi</dt>
+                    <dd>
+                      <h6>{{ form.alamat }}</h6>
+                    </dd>
+                  </dl> <!-- item-property-hor .// -->
+                  <dl class="dlist-align">
+                    <dt>Jumlah Kamar</dt>
+                    <dd>
+                      <h6>{{ form.jumlah_kamar }}</h6>
+                    </dd>
+                  </dl> <!-- item-property-hor .// -->
+                  <dl class="dlist-align">
+                    <dt>Fasilitas</dt>
+                    <dd>
+                      <h6> {{ form.fasilitas }} </h6>
+                    </dd>
+                  </dl> <!-- item-property-hor .// -->
+                  <dl class="dlist-align">
+                    <dt>Deskripsi</dt>
+                    <dd>
+                      <h6> {{ form.deskripsi }} </h6>
+                    </dd>
+                  </dl> <!-- item-property-hor .// -->
+                </h5>
                 <dl class="dlist-align">
-                  <dt>Lokasi</dt>
-                  <dd>
-                    <h6>{{ form.alamat }}</h6>
-                  </dd>
-                </dl> <!-- item-property-hor .// -->
-                <dl class="dlist-align">
-                  <dt>Jumlah Kamar</dt>
-                  <dd>
-                    <h6>{{ form.jumlah_kamar }}</h6>
-                  </dd>
-                </dl> <!-- item-property-hor .// -->
-                <dl class="dlist-align">
-                  <dt>Fasilitas</dt>
-                  <dd>
-                    <h6> {{ form.fasilitas }} </h6>
-                  </dd>
-                </dl> <!-- item-property-hor .// -->
-                <dl class="dlist-align">
-                  <dt>Deskripsi</dt>
-                  <dd>
-                    <h6> {{ form.deskripsi }} </h6>
-                  </dd>
-                </dl> <!-- item-property-hor .// -->
-              </h5>
+                  <dt>
+                    <button type="button" class="btn btn-info" data-toggle="modal" data-target="#exampleModal"
+                      data-whatever="@mdo">Pesan sekarang</button>
 
-            </article> <!-- col.// -->
+                    <!-- MODAL -->
+                    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog"
+                      aria-labelledby="exampleModalLabel" aria-hidden="true">
+                      <div class="modal-dialog" role="document">
+                        <div class="modal-content" id='carding'>
+                          <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Pesan Homestay</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                              <span aria-hidden="true">&times;</span>
+                            </button>
+                          </div>
+
+                          <div class="modal-body">
+                            <form action="" method="POST">
+                              <div class="form-group">
+                                <label for="malam" class="form-contol">
+                                  <h6>Berapa hari ?</h6>
+                                </label>
+                                <input type="number" class="form-control" name="malam" placeholder="Durasi ditempati"
+                                  required>
+                                <label for="kamar" class="form-contol">
+                                  <h6>Berapa kamar ?</h6>
+                                </label>
+                                <input type="number" class="form-control" name="kamar"
+                                  placeholder="Jumlah Kamar yang dibutuhkan" required>
+                                <label for="check_in" class="form-contol">
+                                  <h6>Tanggal Check in ?</h6>
+                                </label>
+                                <input type="date" class="form-control" name="check_in" placeholder="Tanggal Check in"
+                                  required>
+                                <label for="nama_lengkap" class="form-contol">
+                                  <h6>Nama Lengkap sesuai KTP</h6>
+                                </label>
+                                <input type="text" class="form-control" name="nama_lengkap" placeholder="Nama Lengkap"
+                                  required>
+                                <label for="no_ktp" class="form-contol">
+                                  <h6>Nomor KTP / E-ID card Number</h6>
+                                </label>
+                                <input type="text" class="form-control" name="no_ktp" placeholder="Nomor KTP" required>
+                                <label for="no_passport" class="form-contol">
+                                  <h6>Nomor Passport (opsional)</h6>
+                                </label>
+                                <input type="text" class="form-control" name="no_passport" placeholder="Nomor Passport">
+
+                              </div>
+                              <!-- <button type="submit" class="btn btn-outline-info btn-block"> <strong> Pesan Homestay
+                                </strong>
+                              </button> -->
+
+                          </div>
+
+                          <div class="modal-footer">
+                            <button type="submit" class="btn btn-info btn-block">Pesan Homestay</button>
+                          </div>
+                          </form>
+                        </div>
+                      </div>
+                    </div>
+                    <!-- MODAL -->
+
+                  </dt>
+
+                </dl>
+
+              </article> <!-- col.// -->
+
+            </div>
           </div>
-
-
         </div> <!-- row.// -->
       </div> <!-- card-body .// -->
 
       </article> <!-- product-list.// -->
     </div>
 
-    <div class="col">
-      <div class="content-section" id="carding">
-        <p class='text-muted'>
-          <legend class="border-bottom mb-4 text-info"> Pesan Sekarang </legend>
-        </p>
-
-        <!-- <aside class="col-sm-3 border-left"> -->
-        <div class="action-wrap">
-          {% if form.diskon != 0 %}
-          <div class="price-wrap h4">
-            <span class="price"> Rp. {{ diskon }}</span> <span style="font-size: 14px;">/ malam</span> <br>
-            <del class="price-old"> Rp. {{ formatrupiah(form.harga) }} </del>
-          </div> <!-- info-price-detail // -->
-          <p class="text-success">potongan {{ form.diskon }}%</p>
-          {% else %}
-
-          <div class="price-wrap h4">
-            <span class="price"> Rp. {{ diskon }}</span> <span style="font-size: 14px;">/ malam</span> <br>
-          </div> <!-- info-price-detail // -->
-          {% endif %}
-          <p>
-            <!-- <button type="button" class="btn btn--outline-light" disabled>Terpesan</button> -->
-            <form action="" method="POST">
-              <div class="form-group">
-                <label for="malam" class="form-contol">
-                  <h6>Berapa hari ?</h6>
-                </label>
-                <input type="number" class="form-control" name="malam" placeholder="Durasi ditempati" required>
-                <label for="kamar" class="form-contol">
-                  <h6>Berapa kamar ?</h6>
-                </label>
-                <input type="number" class="form-control" name="kamar" placeholder="Jumlah Kamar yang dibutuhkan"
-                  required>
-                <label for="check_in" class="form-contol">
-                  <h6>Tanggal Check in ?</h6>
-                </label>
-                <input type="date" class="form-control" name="check_in" placeholder="Tanggal Check in" required>
-                <label for="nama_lengkap" class="form-contol">
-                  <h6>Nama Lengkap sesuai KTP</h6>
-                </label>
-                <input type="text" class="form-control" name="nama_lengkap" placeholder="Nama Lengkap" required>
-                <label for="no_ktp" class="form-contol">
-                  <h6>Nomor KTP / E-ID card Number</h6>
-                </label>
-                <input type="text" class="form-control" name="no_ktp" placeholder="Nomor KTP" required>
-                <label for="no_passport" class="form-contol">
-                  <h6>Nomor Passport (opsional)</h6>
-                </label>
-                <input type="text" class="form-control" name="no_passport" placeholder="Nomor Passport">
-
-              </div>
-              <button type="submit" class="btn btn-outline-info btn-block"> <strong> Pesan Homestay </strong>
-              </button>
-            </form>
-          </p>
-
-          <!-- <a href="#"><i class="fa fa-heart"></i> Tambah ke favorit</a> -->
+    <div class="col-md-2"></div>
+    <!-- penampungan pesan sekarang -->
+    <!--  -->
 
 
-        </div> <!-- action-wrap.// -->
-        <!-- </aside> col.// -->
-      </div>
-    </div>
+
   </div>
 
   <br>
   {% if form_wisata %}
-  <div class="content-section" id="carding">
-    <!-- <article class="card card-product"> -->
+  <div class="row">
+    <div class="col-md-2"></div>
+    <div class="col-md-8">
+      <!-- isi -->
 
-    <div class="card-body">
-      <div class="row">
-        <div class="col-md-10">
-          Atraksi / kegiatan wisata yang bisa dinikmati di <strong> {{ form.nama_homestay }} </strong>
+
+      <div class="content-section" id="carding">
+        <!-- <article class="card card-product"> -->
+
+        <div class="card-body">
+
+
+          <div class="row">
+            <div class="col">
+              Atraksi / kegiatan wisata yang bisa dinikmati di <strong> {{ form.nama_homestay }} </strong>
+            </div>
+          </div>
+
         </div>
-      </div>
-
-    </div>
 
 
-    <div class="row">
-      {% for form in form_wisata %}
-      <div class="table-responsive-md">
-        <aside class="col-sm-3">
-          <div class="img-wrap"><img class="rounded float-left" src="{{ form.foto_wisata }}" width="230px">
+        <div class="row">
+          {% for form in form_wisata %}
+          <div class="table-responsive-md">
+            <aside class="col-sm-3">
+              <div class="img-wrap"><img class="rounded float-left" src="{{ form.foto_wisata }}" width="230px">
+              </div>
+            </aside> <!-- col.// -->
           </div>
-        </aside> <!-- col.// -->
+          <article class="col-sm-6">
+            <p style="color: black"> <strong>{{ form.wisata }}</strong></p>
+            <div class="rating-wrap">
+              <div class="text-muted">
+                <!-- <h6> <strong> lokasi : <br> </strong> # -->
+              </div></strong> </h6>
+              <div>
+                <p> <strong> deskripsi : <br> </strong> {{ form.kegiatan }}
+              </div></strong> </p>
+
+            </div> <!-- rating-wrap.// -->
+            <div class="action-wrap">
+              <div class="price-wrap h4">
+                <h5><strong>Biaya</strong></h5>
+                <span class="price"> Rp. {{ formatrupiah(form.biaya) }} </span> <br>
+              </div>
+
+              <p>
+                <!-- <a href="#" class="btn btn-outline-success btn-sm"> Favoritkan </a> <a href="#"
+                      class="btn btn-outline-info btn-sm"> Detail </a> <br>
+                    <span class="badge badge-success">tersedia</span> -->
+
+              </p>
+            </div> <!-- action-wrap.// -->
+          </article> <!-- col.// -->
+          <aside class="col-sm-3 border-left">
+
+          </aside> <!-- col.// -->
+          {% endfor %}
+        </div>
+
       </div>
-      <article class="col-sm-6">
-        <p style="color: black"> <strong>{{ form.wisata }}</strong></p>
-        <div class="rating-wrap">
-          <div class="text-muted">
-            <!-- <h6> <strong> lokasi : <br> </strong> # -->
-          </div></strong> </h6>
-          <div class="text-muted">
-            <p> <strong> deskripsi : <br> </strong> {{ form.kegiatan }}
-          </div></strong> </p>
+      {% else %}
+      {% endif %}
 
-        </div> <!-- rating-wrap.// -->
-      </article> <!-- col.// -->
-      <aside class="col-sm-3 border-left">
-        <div class="action-wrap">
-          <div class="price-wrap h4">
-            <h5>Biaya</h5>
-            <span class="price"> Rp. {{ formatrupiah(form.biaya) }} </span> <br>
-          </div>
 
-          <p>
-            <!-- <a href="#" class="btn btn-outline-success btn-sm"> Favoritkan </a> <a href="#"
-              class="btn btn-outline-info btn-sm"> Detail </a> <br>
-            <span class="badge badge-success">tersedia</span> -->
-
-          </p>
-        </div> <!-- action-wrap.// -->
-      </aside> <!-- col.// -->
-      {% endfor %}
+      <!-- isi -->
     </div>
-
+    <div class="col-md-2"></div>
   </div>
-  {% else %}
-  {% endif %}
+
+
+
   </div>
   </div>
   </div>
