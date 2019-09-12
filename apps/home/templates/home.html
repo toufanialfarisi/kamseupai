@@ -81,9 +81,10 @@
       <!-- SLIDE SHOW -->
 
 
-      {% for data, idr, diskon in form | zip(rupiah, ls_diskon) %}
+
       <div class="content-section" id="carding">
         <div class="card-body">
+          {% for data, idr, diskon in form | zip(rupiah, ls_diskon) %}
           <div class="row">
             <div class="table-responsive-md">
               <aside class="col-sm-3">
@@ -130,9 +131,12 @@
               </div> <!-- action-wrap.// -->
             </aside> <!-- col.// -->
           </div> <!-- row.// -->
+          <br>
+          <legend class="border-bottom mb-4"></legend>
+          {% endfor %}
         </div> <!-- card-body .// -->
       </div>
-      {% endfor %}
+
     </div>
   </div>
 
