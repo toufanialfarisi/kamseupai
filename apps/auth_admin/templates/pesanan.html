@@ -44,26 +44,144 @@
                     <tr>
                         <th scope="col">#</th>
                         <th scope="col">Homestay</th>
-                        <th scope="col">Nama Pemesan</th>
-                        <th scope="col">KTP</th>
-                        <th scope="col">passport</th>
                         <th scope="col">Check-in</th>
                         <th scope="col">Durasi</th>
-                        <th scope="col">Kamar</th>
+                        <th scope="col"></th>
+                        <th scope="col"></th>
                         <th scope="col">Aksi</th>
                     </tr>
                 </thead>
-                {% for form, id in paginate.items|zip(no) %}
+                {% for form, id, form_b in paginate.items|zip(no, data_bukti) %}
                 <tbody>
                     <tr>
                         <th scope="row">{{id}}</th>
                         <td>{{home.query.get(form.id_homestay).nama_homestay}}</td>
-                        <td> {{ form.nama_lengkap }} </td>
-                        <td> {{ form.no_ktp }} </td>
-                        <td> {{ form.no_passport }} </td>
+                        <!-- <td> {{ form.no_ktp }} </td> -->
+                        <!-- <td> {{ form.no_passport }} </td> -->
                         <td>{{form.tgl_check_in}}</td>
-                        <td>{{form.malam}}</td>
-                        <td>{{form.kamar}}</td>
+                        <td>{{form.malam}} malam</td>
+                        <td>
+
+                            <!-- MODAL -->
+
+                            <!-- Button trigger modal -->
+                            <button type="button" class="btn btn-light" data-toggle="modal"
+                                data-target="#exampleModalLong{{ id }}">
+                                Detail
+                            </button>
+
+                            <!-- Modal -->
+                            <div class="modal fade" id="exampleModalLong{{ id }}" tabindex="-1" role="dialog"
+                                aria-labelledby="exampleModalLong{{ id }}Title" aria-hidden="true">
+                                <div class="modal-dialog" role="document">
+                                    <div class="modal-content" id="carding">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="exampleModalLong{{ id }}Title">Detail Pemesan
+                                            </h5>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <!-- BODY -->
+                                            <article class="col-sm-12">
+                                                <dl class="dlist-align">
+                                                    <dt>Nama Lengkap</dt>
+                                                    <dd>{{ form.nama_lengkap }}</dd>
+                                                </dl> <!-- item-property-hor .// -->
+                                                <dl class="dlist-align">
+                                                    <dt>Nomor KTP</dt>
+                                                    <dd>{{ form.no_ktp }}</dd>
+                                                </dl> <!-- item-property-hor .// -->
+                                                <dl class="dlist-align">
+                                                    <dt>Nomor Passport</dt>
+                                                    <dd>{{ form.no_passport }}</dd>
+                                                </dl> <!-- item-property-hor .// -->
+                                                <dl class="dlist-align">
+                                                    <dt>Tanggal Check in</dt>
+                                                    <dd>{{form.tgl_check_in}}</dd>
+                                                </dl> <!-- item-property-hor .// -->
+                                                <dl class="dlist-align">
+                                                    <dt>Tanggal Check out</dt>
+                                                    <dd>{{form.tgl_check_out}}</dd>
+                                                </dl> <!-- item-property-hor .// -->
+
+                                                <dl class="dlist-align">
+                                                    <dt>Jumlah kamar</dt>
+                                                    <dd> {{form.kamar}} kamar</dd>
+                                                </dl> <!-- item-property-hor .// -->
+                                                <dl class="dlist-align">
+                                                    <dt>Tanggal Transaksi</dt>
+                                                    <dd> {{ form.create_at.date() }} </dd>
+                                                </dl> <!-- item-property-hor .// -->
+                                                <!-- BODY -->
+
+
+
+
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary"
+                                                data-dismiss="modal">Close</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- MODAL -->
+
+                        </td>
+                        <td>
+
+                            <!-- MODAL -->
+
+                            <!-- Button trigger modal -->
+                            <button type="button" class="btn btn-light" data-toggle="modal" data-target="#resi{{ id }}">
+                                Bukti
+                            </button>
+
+                            <!-- Modal -->
+                            <div class="modal fade" id="resi{{ id }}" tabindex="-1" role="dialog"
+                                aria-labelledby="resi{{ id }}Title" aria-hidden="true">
+                                <div class="modal-dialog" role="document">
+                                    <div class="modal-content" id="carding">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="resi{{ id }}Title">Bukti Transaksi</h5>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <!-- BODY -->
+                                            <article class="col-sm-12">
+                                                <dl class="dlist-align">
+                                                    <dt>Nama Rekening</dt>
+                                                    <dd>{{ form_b.nama_rek }}</dd>
+                                                </dl> <!-- item-property-hor .// -->
+                                                <dl class="dlist-align">
+                                                    <dt>Bank Tujuan Transfer</dt>
+                                                    <dd>{{ form_b.bank_tujuan }}</dd>
+                                                </dl> <!-- item-property-hor .// -->
+                                                <dl class="dlist-align">
+                                                    <dt>Foto bukti transaksi</dt>
+                                                    <dd>
+                                                        <a href="{{ form_b.foto_bukti }}">
+                                                            <img src="{{ form_b.foto_bukti }}" alt="" width="250px">
+                                                        </a>
+                                                    </dd>
+                                                </dl> <!-- item-property-hor .// -->
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary"
+                                                data-dismiss="modal">Close</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- MODAL -->
+
+                        </td>
                         <td>
                             {% if form.status_pesanan == false %}
                             <a href="{{ url_for('admin.konfirmasi', id=form.id) }}" class="btn btn-outline-danger">

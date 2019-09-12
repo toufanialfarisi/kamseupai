@@ -54,3 +54,14 @@ class UserDetailForm(FlaskForm):
     alamat = TextAreaField("Alamat Lengkap")
     foto_user = FileField("Foto Profil")
     submit = SubmitField("Update Profile")
+
+
+class BuktiBayarForm(FlaskForm):
+    nama_rek = StringField("Nama Pemilik Rekening", validators=[DataRequired()])
+    bank_tujuan = SelectField(
+        "Bank Tujuan Transfer",
+        choices=[("", ""), ("mandiri", "mandiri"), ("BNI", "BNI")],
+        validators=[FileRequired()],
+    )
+    foto_bukti = FileField("Foto Bukti Pembayaran")
+    submit = SubmitField("Konfirmasi")

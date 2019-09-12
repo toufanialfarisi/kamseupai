@@ -9,11 +9,12 @@ from flask_login import (
 from flask import redirect, url_for, flash, render_template, request, Blueprint, session
 from apps.auth_admin.forms import *
 from apps.auth_admin.models import *
+from apps.auth.models import *
 from apps import db
 from apps.home.utility import *
 from apps.config import IMAGES_DIR, MY_IP
 from apps.utils import validasi_type, upload_file
-from apps.home.models import Homestay, Wisata, Historybelanja
+from apps.home.models import Homestay, Wisata, Historybelanja, BuktiBayar
 from apps.api import provinsi, kabupaten, kecamatan 
 from sqlalchemy import desc
 
@@ -459,13 +460,15 @@ def pesanan():
     n_pesanan = len(history) - len(status)
 
     page_param = request.args.get("page")
-    per_page = 4    
+    per_page = 10
     if not page_param:
         page_param = 1
     prev_page = int(page_param) - 1
     prev_page = str(prev_page)
+    # user = User.query.get(current_user.get_id)
+    data_bukti = BuktiBayar.query.all()
     paginate = Historybelanja.query.order_by(desc(Historybelanja.create_at)).paginate(page=int(page_param), per_page=per_page)
-    return render_template("pesanan.html", form=form, no=no, paginate=paginate, prev_page=prev_page, n_pesanan=n_pesanan, home=home)
+    return render_template("pesanan.html", data_bukti=data_bukti,form=form, no=no, paginate=paginate, prev_page=prev_page, n_pesanan=n_pesanan, home=home)
 
 @admin.route("/admin/konfirmasi/<id>")
 def konfirmasi(id):

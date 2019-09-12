@@ -22,6 +22,8 @@ def current_username():
     except:
         return redirect(url_for('auth.login'))
 
+
+
 @home.route("/clear-session", methods=["GET", "POST"])
 def delete_sessions():
     trans = models.Transaksi.query.all()
@@ -492,9 +494,19 @@ def checkout():
     )
 
 
-@home.route("/pay", methods=["GET"])
+@home.route("/pay", methods=["GET", "POST"])
 @login_required
 def pay():
+    
+    '''
+    simpan history belanja dari home.checkout (yang telah disimpan di session)
+    ke database.
+    '''
+    
+    
+    # id_history = Historybelanja.query.get(current_user.get_id())
+    # session["id_history"] = id_history.id
+    
     user_now = current_user.get_id()
     id_homestay = session["save_id_homestay"]
     try:
@@ -517,24 +529,21 @@ def pay():
     
     total_biaya = session["total_biaya"]
     fav, is_fav_exist = show_fav()
-    return render_template(
-        "pay.html", 
-        total=total_biaya, 
-        favs=fav, 
-        favs_exist=is_fav_exist, 
-        formatrupiah=formatrupiah, 
-        host=host(),
-        img_user=foto_profile_user(),
-        username = current_username(),
-        homestay=models.Homestay(),
-    )
 
+    # REQUEST FORM
+    form = BuktiBayarForm()
+    if request.method == "POST":
+        file = request.files["foto_bukti"]
+        folder = IMAGES_DIR + "/resi"
+        foto = upload_file(file, folder)  # return random name
+        foto = host() + "/" + foto
 
-@home.route("/pay/confirmed", methods=["GET"])
-@login_required
-def pay_confirmed():
-    # if "save_id_wisata" in session and "save_id_wisata" in session and "nama_lengkap" in session and "no_ktp" in session and "malam" in session and "kamar" in session and "ci" in session and "co" in session:
-    if "malam" in session:
+        nama_rek = validasi_type(form.nama_rek.data, str)
+        bank_tujuan = validasi_type(form.bank_tujuan.data, str)
+
+        id_history = session["id_history"]
+        data_bayar = BuktiBayar(nama_rek=nama_rek, bank_tujuan=bank_tujuan, foto_bukti=foto)
+
         try:
             id_wisata = session["save_id_wisata"]
         except:
@@ -552,8 +561,50 @@ def pay_confirmed():
             tgl_check_out = session["co"]
 
         )
-        models.db.session.add(history)
-        models.db.session.commit()
+        db.session.add_all([data_bayar, history])
+        db.session.commit()
+        return redirect(url_for('home.proses_pembayaran'))
+
+    # REQUEST FORM
+
+    return render_template(
+        "pay.html", 
+        total=total_biaya, 
+        favs=fav, 
+        favs_exist=is_fav_exist, 
+        formatrupiah=formatrupiah, 
+        host=host(),
+        img_user=foto_profile_user(),
+        username = current_username(),
+        homestay=models.Homestay(),
+        form=form 
+    )
+
+
+@home.route("/pay/confirmed", methods=["GET"])
+@login_required
+def pay_confirmed():
+    # if "save_id_wisata" in session and "save_id_wisata" in session and "nama_lengkap" in session and "no_ktp" in session and "malam" in session and "kamar" in session and "ci" in session and "co" in session:
+    if "malam" in session:
+        # try:
+        #     id_wisata = session["save_id_wisata"]
+        # except:
+        #     id_wisata = session["save_id_wisata"] = None
+        # history = models.Historybelanja(
+        #     id_homestay = session["save_id_homestay"]   ,
+        #     id_user = current_user.get_id(),
+        #     id_wisata = session["save_id_wisata"],
+        #     nama_lengkap = session["nama_lengkap"],
+        #     no_ktp = session["no_ktp"],
+        #     no_passport = session["no_passport"],
+        #     malam = session["malam"],
+        #     kamar = session["kamar"],
+        #     tgl_check_in = session["ci"],
+        #     tgl_check_out = session["co"]
+
+        # )
+        # models.db.session.add(history)
+        # models.db.session.commit()
 
         delete_sessions()
         
@@ -655,7 +706,7 @@ def status_pesanan():
 
     for i in belanja:
         id_homestay.append(i.id_homestay)
-    
+    print("id_homestay : ", id_homestay)
     home = Homestay()
     return render_template(
         "status_pesanan.html", 
@@ -667,6 +718,11 @@ def status_pesanan():
         formm=searchForm(),
         homestay=models.Homestay(),
     )
+
+@home.route("/bukti-bayar", methods=["POST", "GET"])
+def bukti_bayar():
+    pass 
+    return ""
 
 @home.route("/proses-pembayaran")
 @login_required

@@ -93,7 +93,7 @@
                             <!-- <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search"> -->
                         </li>
                         <li class="nav-item">
-                            <div style="width: 15px;">
+                            <div style="width: 5px;">
 
                             </div>
                         </li>
@@ -153,12 +153,6 @@
                     </div>
                     &ensp;
                     {% if current_user.is_authenticated %}
-                    {% if img_user is none %}
-                    <img id="img" class="rounded-circle" src="{{ url_for('static', filename='default_profile.png') }}"
-                        width="35px" height="35px"> &ensp;
-                    {% else %}
-                    <img class="rounded-circle" src="{{ img_user }}" alt="" width="35px" height="35px"> &ensp;
-                    {% endif %}
                     <div class="dropdown">
                         <button type="button" class="btn btn-outline-light dropdown-toggle" data-toggle="dropdown">
                             Account
@@ -172,6 +166,16 @@
                             <a href="{{ host }}/logout" class="dropdown-item">Logout</a>
                         </div>
                     </div>
+                    &ensp;
+                    {% if img_user is none %}
+                    <img id="img" class="rounded-circle" src="{{ url_for('static', filename='default_profile.png') }}"
+                        width="35px" height="35px"> &ensp;
+                    {% else %}
+                    <a href="{{ url_for('home.user_detail') }}">
+                        <img class="rounded-circle" src="{{ img_user }}" alt="" width="35px" height="35px">
+                    </a>
+
+                    {% endif %}
 
                     {% else %}
                     <!-- login -->

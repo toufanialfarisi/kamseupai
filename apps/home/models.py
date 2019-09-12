@@ -53,6 +53,7 @@ class Historybelanja(db.Model):
     tgl_check_out = db.Column(db.DATE)
     status_pesanan = db.Column(db.Boolean, default=False)
     create_at = db.Column(db.DateTime, default=datetime.datetime.utcnow())
+    bukti_resi = db.relationship("BuktiBayar", backref="bukti_pembayaran")
 
 
 class BelanjaUser(db.Model):
@@ -104,3 +105,12 @@ class Favorit(db.Model):
     id_homestay = db.Column(db.Integer, db.ForeignKey("homestay.id"))
     id_user = db.Column(db.Integer, db.ForeignKey("user.id"))
     status = db.Column(db.Boolean, default=False)
+
+
+class BuktiBayar(db.Model):
+    __tablename__ = "bukti_bayar"
+    id = db.Column(db.Integer, primary_key=True)
+    id_history_belanja = db.Column(db.Integer, db.ForeignKey("historybelanja.id"))
+    nama_rek = db.Column(db.String(100))
+    bank_tujuan = db.Column(db.String(100))
+    foto_bukti = db.Column(db.String(100))

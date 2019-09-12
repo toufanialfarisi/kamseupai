@@ -28,8 +28,8 @@
 </style>
 <main role="main" class="container">
   <div class="row">
-
-    <div class="col">
+    <div class="col-md-2"></div>
+    <div class="col-md-8">
 
       <div class="content-section" id="carding">
         <p class='text-muted'>
@@ -39,7 +39,7 @@
 
           <div class="row">
 
-            <aside class="col-sm-3">
+            <aside class="col-sm-3" style="margin-right: 30px">
               <div class="image-cropper">
                 {% if form.foto_user is none %}
                 <img id="img" class="image-cropper" src="{{ url_for('static', filename='default_profile.png') }}">
@@ -85,6 +85,8 @@
 
       </article> <!-- product-list.// -->
     </div>
+    <div class="col-md-2"></div>
+
 
   </div>
   </div>

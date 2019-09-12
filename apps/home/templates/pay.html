@@ -103,10 +103,86 @@
 
                 <br>
                 <article class="col-sm">
-                    <p><a href="{{ url_for('home.proses_pembayaran') }}" class="btn btn-danger btn-block"> Konfirmasi
-                        </a></p>
+                    <p>
+                        <!-- <a href="{{ url_for('home.proses_pembayaran') }}" class="btn btn-danger btn-block"> Konfirmasi
+                        </a> -->
+                        <button type="button" class="btn btn-danger btn-block" data-toggle="modal"
+                            data-target="#exampleModal" data-whatever="@mdo">Konfirmasi</button>
+                    </p>
                 </article> <!-- col.// -->
+
+                <!-- MODAL -->
+                <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog"
+                    aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content" id='carding'>
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLabel">Pesan Homestay</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+
+                            <div class="modal-body">
+                                <form action="" method="POST" enctype="multipart/form-data">
+                                    {{ form.hidden_tag() }}
+                                    <fieldset class="form-group">
+                                        {{ form.nama_rek.label(class='form-control-label') }}
+                                        {% if form.nama_rek.errors %}
+                                        {{ form.nama_rek(class='form-control form-control-lg is-invalid') }}
+                                        <div class="invalid-feedback">
+                                            {% for error in form.nama_rek.errors %}
+                                            <span>{{ error }}</span>
+                                            {% endfor %}
+                                        </div>
+                                        {% else %}
+                                        {{ form.nama_rek(class='form-control form-control-lg') }}
+                                        {% endif %}
+
+                                    </fieldset>
+                                    <fieldset class="form-group">
+                                        {{ form.bank_tujuan.label(class='form-control-label') }}
+                                        {% if form.bank_tujuan.errors %}
+                                        {{ form.bank_tujuan(class='form-control form-control-lg is-invalid') }}
+                                        <div class="invalid-feedback">
+                                            {% for error in form.bank_tujuan.errors %}
+                                            <span>{{ error }}</span>
+                                            {% endfor %}
+                                        </div>
+                                        {% else %}
+                                        {{ form.bank_tujuan(class='form-control form-control-lg') }}
+                                        {% endif %}
+                                    </fieldset>
+
+                                    </fieldset>
+                                    <fieldset class="form-group">
+                                        {{ form.foto_bukti.label(class='form-control-label') }}
+                                        {% if form.foto_bukti.errors %}
+                                        {{ form.foto_bukti(class='form-control form-control-lg is-invalid') }}
+                                        <div class="invalid-feedback">
+                                            {% for error in form.foto_bukti.errors %}
+                                            <span>{{ error }}</span>
+                                            {% endfor %}
+                                        </div>
+                                        {% else %}
+                                        {{ form.foto_bukti(class='form-control form-control-lg') }}
+                                        {% endif %}
+                                    </fieldset>
+                                    <div class="modal-footer">
+                                        <!-- <button type="submit" class="btn btn-info btn-block">Pesan Homestay</button> -->
+                                        <!-- <fieldset class="form-group"> -->
+                                        {{ form.submit(class='btn btn-info btn-block') }}
+                                        <!-- </fieldset> -->
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- MODAL -->
+
+
+
+                </div>
             </div>
         </div>
-    </div>
 </main {% endblock %}
