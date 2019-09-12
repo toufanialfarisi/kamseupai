@@ -541,7 +541,7 @@ def pay():
         nama_rek = validasi_type(form.nama_rek.data, str)
         bank_tujuan = validasi_type(form.bank_tujuan.data, str)
 
-        id_history = session["id_history"]
+        # id_history = session["id_history"]
         data_bayar = BuktiBayar(nama_rek=nama_rek, bank_tujuan=bank_tujuan, foto_bukti=foto)
 
         try:
