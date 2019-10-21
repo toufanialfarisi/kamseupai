@@ -20,11 +20,27 @@ db = SQLAlchemy(app)
 file_path = os.path.abspath(os.path.dirname(__file__))
 basedir = os.path.join(file_path, "data.sqlite")
 
-db_dev = "mysql"
+db_dev = "psql"
 if db_dev == "mysql":
     app.config[
         "SQLALCHEMY_DATABASE_URI"
     ] = "mysql://kamseupai:kampungantapisukses@localhost/monolitik"
+elif db_dev == "psql":
+    POSTGRES = {
+        "user": "toufani",
+        "pw": "postgres",
+        "db": "kamseupai",
+        "host": "localhost",
+        "port": "5432",
+    }
+
+    app.config[
+        "SQLALCHEMY_DATABASE_URI"
+    ] = "postgresql://toufani:postgres@localhost/kamseupai"
+
+    # app.config[
+    #         "SQLALCHEMY_DATABASE_URI"
+    #     ] = "psql://kamseupai:kampungantapisukses@localhost/monolitik"
 
 else:
     app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///" + basedir
