@@ -14,11 +14,11 @@ def host(localhost=host_mode):
         host = "http://localhost"
         return host
 
-    elif localhost == "production_to_heroku":
-        host = "http://kamseupai.herokuapp.com"
-        return host
+    # elif localhost == "production_to_heroku":
+    #     host = "http://kamseupai.herokuapp.com"
+    #     return host
     else:
-        host = MY_IP
+        host = "http://kamseupai.herokuapp.com"
         return host
 
 
