@@ -20,7 +20,7 @@ db = SQLAlchemy(app)
 file_path = os.path.abspath(os.path.dirname(__file__))
 basedir = os.path.join(file_path, "data.sqlite")
 
-db_dev = "mysql"
+db_dev = "psql"
 if db_dev == "mysql":
     app.config[
         "SQLALCHEMY_DATABASE_URI"
