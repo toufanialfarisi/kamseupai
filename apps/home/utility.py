@@ -13,8 +13,12 @@ def host(localhost=host_mode):
     if localhost == "localhost":
         host = "http://localhost"
         return host
-    else:
+
+    elif localhost == "production_to_heroku":
         host = "http://kamseupai.herokuapp.com"
+        return host
+    else:
+        host = MY_IP
         return host
 
 
