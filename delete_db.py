@@ -1,7 +1,7 @@
-from apps.home import models
+from apps.auth import models
 from apps import db
 
-trans = models.Historybelanja.query.all()
+trans = models.User.query.all()
 for data in trans:
     db.session.delete(data)
     db.session.commit()
