@@ -9,4 +9,3 @@ apps/auth/__pycache__/*
 templates/*
 .vscode/*
 # migrations/*
-.env
