@@ -8,5 +8,5 @@ apps/home/__pycache__/*
 apps/auth/__pycache__/*
 templates/*
 .vscode/*
-migrations/*
+# migrations/*
 .env
