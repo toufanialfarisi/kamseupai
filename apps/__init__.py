@@ -26,9 +26,21 @@ if db_dev == "mysql":
         "SQLALCHEMY_DATABASE_URI"
     ] = "mysql://kamseupai:kampungantapisukses@localhost/monolitik"
 elif db_dev == "psql":
+    POSTGRES = {
+        "user": "toufani",
+        "pw": "postgres",
+        "db": "kamseupai",
+        "host": "localhost",
+        "port": "5432",
+    }
+
     app.config[
         "SQLALCHEMY_DATABASE_URI"
-    ] = "postgresql://toufani:postgres@localhost/kamseupai"
+    ] = "postgres://rqjlcbouwdptml:140d296ff6a2103213affa9eaeaa8b3f2d24cb15c1b9a321ce77277db35bca55@ec2-54-197-238-238.compute-1.amazonaws.com:5432/da3kp68t3m2lui"
+
+    # app.config[
+    #         "SQLALCHEMY_DATABASE_URI"
+    #     ] = "psql://kamseupai:kampungantapisukses@localhost/monolitik"
 
 else:
     app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///" + basedir
