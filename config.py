@@ -13,6 +13,8 @@ class Config(object):
 
 class ProductionConfig(Config):
     DEBUG = False
+    DEVELOPMENT = False
+    PRODUCTION = True
 
 
 class StaggingConfig(Config):
