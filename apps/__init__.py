@@ -11,24 +11,65 @@ from itsdangerous import URLSafeTimedSerializer, SignatureExpired
 from flask_mail import Mail, Message
 from datetime import timedelta
 import os
+import logging
+
+log = logging.getLogger("werkzeug")
+log.setLevel(logging.ERROR)
 
 
 app = Flask(__name__)
+app.config.from_object(os.getenv("APP_SETTINGS"))
 
 app.jinja_env.filters["zip"] = zip
 db = SQLAlchemy(app)
 file_path = os.path.abspath(os.path.dirname(__file__))
 basedir = os.path.join(file_path, "data.sqlite")
 
-db_dev = "psql"
-if db_dev == "mysql":
-    app.config[
-        "SQLALCHEMY_DATABASE_URI"
-    ] = "mysql://kamseupai:kampungantapisukses@localhost/monolitik"
-elif db_dev == "psql":
-    app.config[
-        "SQLALCHEMY_DATABASE_URI"
-    ] = "postgres://rqjlcbouwdptml:140d296ff6a2103213affa9eaeaa8b3f2d24cb15c1b9a321ce77277db35bca55@ec2-54-197-238-238.compute-1.amazonaws.com:5432/da3kp68t3m2lui"
+
+db_config = {
+    "production": {
+        "db_type": "postgresql",
+        "username": "rqjlcbouwdptml",
+        "password": "140d296ff6a2103213affa9eaeaa8b3f2d24cb15c1b9a321ce77277db35bca55",
+        "host": "ec2-54-197-238-238.compute-1.amazonaws.com",
+        "port": "5432",
+        "database": "da3kp68t3m2lui",
+    },
+    "development": {
+        "db_type": "mysql",
+        "username": "kamseupai",
+        "password": "kampungantapisukses",
+        "host": "localhost",
+        "port": "5432",
+        "database": "monolitik",
+    },
+}
+
+db_dev = os.getenv("HOST_MODE")
+if db_dev == "development":
+    app.config["SQLALCHEMY_DATABASE_URI"] = "{}://{}:{}@{}:{}/{}".format(
+        db_config["development"]["db_type"],
+        db_config["development"]["username"],
+        db_config["development"]["password"],
+        db_config["development"]["host"],
+        db_config["development"]["port"],
+        db_config["development"]["database"],
+    )
+
+elif db_dev == "production":
+
+    app.config["SQLALCHEMY_DATABASE_URI"] = "{}://{}:{}@{}:{}/{}".format(
+        db_config["production"]["db_type"],
+        db_config["production"]["username"],
+        db_config["production"]["password"],
+        db_config["production"]["host"],
+        db_config["production"]["port"],
+        db_config["production"]["database"],
+    )
+
+    # app.config[
+    #     "SQLALCHEMY_DATABASE_URI"
+    # ] = "postgres://rqjlcbouwdptml:140d296ff6a2103213affa9eaeaa8b3f2d24cb15c1b9a321ce77277db35bca55@ec2-54-197-238-238.compute-1.amazonaws.com:5432/da3kp68t3m2lui"
 
     # app.config[
     #         "SQLALCHEMY_DATABASE_URI"
@@ -47,6 +88,11 @@ app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 #     session.permanent = True
 #     app.permanent_session_lifetime = timedelta(minutes=1)
 
+# Note
+# ===========================================================
+print(" * DATABASE MODE : {}".format(db_dev))
+print(" * CONFIG_MODE : {}".format(os.getenv("APP_SETTINGS")))
+# ===========================================================
 
 app.config.from_pyfile("config.cfg")
 email_confirm = URLSafeTimedSerializer("KAMseupai291195")
