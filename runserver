@@ -2,14 +2,25 @@
 # Activate the virtual environment
 #cd $(pwd)
 DIR=$(cd -P -- "$(dirname -- "$0")" && pwd -P)
-
+# DIR=/media/toufani/ff85958c-12be-4b50-a77e-624eef81360d/Projects/kamseupai/monolitik
 cd ${DIR}
 source  ${DIR}/env/bin/activate
-pip install -r requirements.txt  
-# flask run
+pip install -r requirements.txt
+
+
+# GUNICORN SERVER
 exec ${DIR}/env/bin/gunicorn app:app -b 0.0.0.0:5000 \
  --reload \
  --workers 2 \
  --log-level=false \
  --access-logfile history/logs \
  --log-file=-
+
+
+# FLASK SERVER
+# export APP_SETTINGS=config.productionConfig  
+# export HOST_MODE=production
+# export FLASK_ENV=production
+
+# exec ${DIR}/env/bin/python app.py --ho
+

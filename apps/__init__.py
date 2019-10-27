@@ -10,6 +10,7 @@ from flask_cors import CORS
 from itsdangerous import URLSafeTimedSerializer, SignatureExpired
 from flask_mail import Mail, Message
 from datetime import timedelta
+from flask_cors import CORS
 import os
 import logging
 
@@ -18,7 +19,8 @@ log.setLevel(logging.ERROR)
 
 
 app = Flask(__name__)
-app.config.from_object(os.getenv("APP_SETTINGS"))
+CORS(app)
+
 
 app.jinja_env.filters["zip"] = zip
 db = SQLAlchemy(app)
