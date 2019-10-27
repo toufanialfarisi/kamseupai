@@ -91,7 +91,7 @@ app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 # Note
 # ===========================================================
 print(" * DATABASE MODE : {}".format(db_dev))
-print(" * CONFIG_MODE : {}".format(os.getenv("APP_SETTINGS")))
+print(" * CONFIG_MODE : {}".format(os.environ.get("APP_SETTINGS")))
 # ===========================================================
 
 app.config.from_pyfile("config.cfg")

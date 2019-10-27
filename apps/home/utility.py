@@ -10,7 +10,7 @@ host_mode = os.getenv("HOST_MODE")
 
 
 def host(localhost=host_mode):
-    if localhost == "localhost":
+    if localhost == "development":
         host = "http://localhost"
         return host
 
