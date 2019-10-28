@@ -1,0 +1,36 @@
+
+# DATABASE CONFIGURATION
+
+
+# db_dev = os.getenv("HOST_MODE")
+# if db_dev == "development":
+#     app.config["SQLALCHEMY_DATABASE_URI"] = "{}://{}:{}@{}:{}/{}".format(
+#         db_config["development"]["db_type"],
+#         db_config["development"]["username"],
+#         db_config["development"]["password"],
+#         db_config["development"]["host"],
+#         db_config["development"]["port"],
+#         db_config["development"]["database"],
+#     )
+
+# elif db_dev == "production":
+
+#     app.config["SQLALCHEMY_DATABASE_URI"] = "{}://{}:{}@{}:{}/{}".format(
+#         db_config["production"]["db_type"],
+#         db_config["production"]["username"],
+#         db_config["production"]["password"],
+#         db_config["production"]["host"],
+#         db_config["production"]["port"],
+#         db_config["production"]["database"],
+#     )
+
+# app.config[
+#     "SQLALCHEMY_DATABASE_URI"
+# ] = "postgres://rqjlcbouwdptml:140d296ff6a2103213affa9eaeaa8b3f2d24cb15c1b9a321ce77277db35bca55@ec2-54-197-238-238.compute-1.amazonaws.com:5432/da3kp68t3m2lui"
+
+# app.config[
+#         "SQLALCHEMY_DATABASE_URI"
+#     ] = "psql://kamseupai:kampungantapisukses@localhost/monolitik"
+
+# else:
+#     app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///" + basedir

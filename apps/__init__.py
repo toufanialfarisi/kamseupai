@@ -14,103 +14,40 @@ from flask_cors import CORS
 import os
 import logging
 
+# HANDLING WARNING IN TERMINAL
 log = logging.getLogger("werkzeug")
 log.setLevel(logging.ERROR)
 
-
+# ================================================
+# APP CONFIGURATION
 app = Flask(__name__)
-CORS(app)
-
-
+app.config.from_object(os.environ["APP_SETTINGS"])
 app.jinja_env.filters["zip"] = zip
-db = SQLAlchemy(app)
-file_path = os.path.abspath(os.path.dirname(__file__))
-basedir = os.path.join(file_path, "data.sqlite")
+db = SQLAlchemy(app)  # DATABASE SQLALCHEMY
+CORS(app)  # HEADER ALLOW ORIGIN ALL
+Migrate(app, db)  # DATABASE MIGRATION
 
+# EMAIL PURPOSE
+email_confirm = URLSafeTimedSerializer("KAMseupai291195")
+mail = Mail(app)
 
-db_config = {
-    "production": {
-        "db_type": "postgresql",
-        "username": "rqjlcbouwdptml",
-        "password": "140d296ff6a2103213affa9eaeaa8b3f2d24cb15c1b9a321ce77277db35bca55",
-        "host": "ec2-54-197-238-238.compute-1.amazonaws.com",
-        "port": "5432",
-        "database": "da3kp68t3m2lui",
-    },
-    "development": {
-        "db_type": "mysql",
-        "username": "kamseupai",
-        "password": "kampungantapisukses",
-        "host": "localhost",
-        "port": "5432",
-        "database": "monolitik",
-    },
-}
-
-db_dev = os.getenv("HOST_MODE")
-if db_dev == "development":
-    app.config["SQLALCHEMY_DATABASE_URI"] = "{}://{}:{}@{}:{}/{}".format(
-        db_config["development"]["db_type"],
-        db_config["development"]["username"],
-        db_config["development"]["password"],
-        db_config["development"]["host"],
-        db_config["development"]["port"],
-        db_config["development"]["database"],
-    )
-
-elif db_dev == "production":
-
-    app.config["SQLALCHEMY_DATABASE_URI"] = "{}://{}:{}@{}:{}/{}".format(
-        db_config["production"]["db_type"],
-        db_config["production"]["username"],
-        db_config["production"]["password"],
-        db_config["production"]["host"],
-        db_config["production"]["port"],
-        db_config["production"]["database"],
-    )
-
-    # app.config[
-    #     "SQLALCHEMY_DATABASE_URI"
-    # ] = "postgres://rqjlcbouwdptml:140d296ff6a2103213affa9eaeaa8b3f2d24cb15c1b9a321ce77277db35bca55@ec2-54-197-238-238.compute-1.amazonaws.com:5432/da3kp68t3m2lui"
-
-    # app.config[
-    #         "SQLALCHEMY_DATABASE_URI"
-    #     ] = "psql://kamseupai:kampungantapisukses@localhost/monolitik"
-
-else:
-    app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///" + basedir
-
-
-app.config["SECRET_KEY"] = "KAMseupai291195"
-app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
-
-
+# Login session timeout
 # @app.before_request
 # def before_request():
 #     session.permanent = True
 #     app.permanent_session_lifetime = timedelta(minutes=1)
 
-# Note
-# ===========================================================
-print(" * DATABASE MODE : {}".format(db_dev))
-print(" * CONFIG_MODE : {}".format(os.environ.get("APP_SETTINGS")))
-# ===========================================================
-
-app.config.from_pyfile("config.cfg")
-email_confirm = URLSafeTimedSerializer("KAMseupai291195")
-mail = Mail(app)
-
+# COMMAND MANAGER TO TRIGGER PYTHON MANAGE.PY RUNSERVER/SHELL/DB
 manager = Manager(app)
 manager.add_command("db", MigrateCommand)
 
+# LOGIN CONFIGURATION PURPOSE
 login_manager = LoginManager()
 login_manager.init_app(app)
 login_manager.login_view = "auth.login"
 
-Migrate(app, db)
-CORS(app)
 
-
+# BLUEPRINT CONFIGURATION PURPOSE
 from apps.auth.views import auth
 from apps.home.views import home
 from apps.auth_admin.views import admin

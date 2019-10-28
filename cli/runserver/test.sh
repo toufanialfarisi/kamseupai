@@ -1,6 +1,6 @@
 export FLASK_ENV=development
 export FLASK_APP=app.py
-export APP_SETTINGS="config.DevelopmentConfig"
+export APP_SETTINGS="config.TestingConfig"
 export HOST_MODE=development 
 . env/bin/activate
 echo "==========================="
