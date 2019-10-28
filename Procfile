@@ -1,1 +1,1 @@
-web: gunicorn app:app --reload --workers 2 --log-level=false --access-logfile history/logs --log-file=-
+web: export FLASK_ENV=production export APP_SETTINGS=config.ProductionConfig export HOST_MODE=production export SECRET_KEY=kamseupai2019onfire17081945 gunicorn app:app --reload --workers 2 --log-level=false --access-logfile history/logs --log-file=-
