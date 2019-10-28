@@ -1,5 +1,6 @@
 import os
 
+# CONFIG FILE
 file_path = os.path.abspath(os.path.dirname(__file__))
 basedir = os.path.join(file_path, "data.sqlite")
 # database
