@@ -8,6 +8,7 @@ chardet==3.0.4
 Click==7.0
 Flask==1.1.1
 Flask-Cors==3.0.8
+Flask-Dance==3.0.0
 Flask-Ext==0.1
 Flask-Login==0.4.1
 Flask-Mail==0.9.1
