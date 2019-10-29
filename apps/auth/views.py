@@ -56,6 +56,7 @@ def google_auth():
     password = str(resp.json()["id"]) + str(resp.json()["family_name"])
     user_picture = str(resp.json()["picture"])
     user_google_id = str(resp.json()["id"])
+    session["user_id"] = user_google_id
     """
     cek terlebih dahulu apakah user email pada google auth sudah didaftarkan atau belum.
     jika sudah ada, maka hanya login biasa tanpa melakukan penulisan data ke dalam db. jika

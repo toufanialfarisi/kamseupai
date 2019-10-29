@@ -637,7 +637,7 @@ def user_detail():
     user_id = current_user.get_id()
     user_form = UserDetailForm()
     query_user = User.query.get(user_id) 
-    user_detail = UserDetail.query.filter_by(id_user=user_id).first()
+    user_detail = UserDetail.query.get(user_id)
     return render_template(
         "user_detail.html", 
         form=user_detail, 
