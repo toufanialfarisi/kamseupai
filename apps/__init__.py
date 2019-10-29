@@ -48,11 +48,13 @@ login_manager.login_view = "auth.login"
 
 
 # BLUEPRINT CONFIGURATION PURPOSE
-from apps.auth.views import auth
+from apps.auth.views import auth, google_bp
 from apps.home.views import home
 from apps.auth_admin.views import admin
 from apps.error_pages.handlers import error_pages
 
+
+app.register_blueprint(google_bp, url_prefix="/login")
 app.register_blueprint(auth)
 app.register_blueprint(home)
 app.register_blueprint(admin)
