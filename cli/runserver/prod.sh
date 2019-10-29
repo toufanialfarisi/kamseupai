@@ -1,8 +1,8 @@
-DIR=$(cd -P -- "$(dirname -- "$0")" && pwd -P)
-echo ${DIR}
-cd ../../${DIR}
+# DIR=$(cd -P -- "$(dirname -- "$0")" && pwd -P)
+# echo ${DIR}
+# cd ../../${DIR}
 
-source  ${DIR}/env/bin/activate
+. env/bin/activate
 echo "=========================="
 echo "ENVIRONMENT WAS ACTIVATED"
 echo "=========================="
