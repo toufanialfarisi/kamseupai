@@ -17,7 +17,7 @@ from flask_dance.contrib.google import make_google_blueprint, google
 auth = Blueprint("auth", __name__, template_folder="templates/")
 google_bp = make_google_blueprint(
     scope=["profile", "email"],
-    redirect_url="{}".format("http://localhost" + "/google-auth"),
+    redirect_url="{}".format(host() + "/google-auth"),
 )
 
 
