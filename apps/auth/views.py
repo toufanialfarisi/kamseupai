@@ -11,8 +11,14 @@ from apps.auth import forms, models
 from apps import db, email_confirm, Message, mail
 from apps.auth.models import User
 from apps.home.utility import host_mode, host
+from flask_dance.contrib.google import make_google_blueprint, google
+
 
 auth = Blueprint("auth", __name__, template_folder="templates/")
+google_bp = make_google_blueprint(
+    scope=["profile", "email"],
+    redirect_url="{}".format("http://localhost" + "/google-auth"),
+)
 
 
 @auth.route("/confirmation/<token>")
@@ -32,6 +38,72 @@ def confirmation(token):
 
     print("Token bekerja")
     return redirect(url_for("auth.login"))
+
+
+@auth.route("/google-auth", methods=["POST", "GET"])
+def google_auth():
+    """
+    menambahkan google auth pada aplikasi kamseupai. jadi user bisa 
+    registrasi ataupun log in dengan menggunakan akun googlenya masing
+    masing. hal ini akan menjadi lebih mudah
+    """
+    if not google.authorized:
+        return redirect(url_for("google.login"))
+    # return "sukses"
+    resp = google.get("/oauth2/v1/userinfo")
+    email = str(resp.json()["email"])
+    username = str(resp.json()["name"])
+    password = str(resp.json()["id"]) + str(resp.json()["family_name"])
+    user_picture = str(resp.json()["picture"])
+    user_google_id = str(resp.json()["id"])
+    """
+    cek terlebih dahulu apakah user email pada google auth sudah didaftarkan atau belum.
+    jika sudah ada, maka hanya login biasa tanpa melakukan penulisan data ke dalam db. jika
+    belum ada, maka ambil data / info dari google auth lalu tulis ke dalam db. 
+    """
+    if resp.json()["email"] in [data.email for data in models.User.query.all()]:
+        print("email google sudah ada dan siap untuk login")
+        user = models.User.query.filter_by(username=username).first()
+        # memasukan foto profile dari api google auth dengan membuat session
+        session["user_picture"] = user_picture
+        login_user(user)  # masukan user ke dalam login manager nya
+        next = request.args.get("next")
+        if next == None or not next[0] == "/":
+            next = url_for("home.index")
+        return redirect(next)
+    else:
+        print("email google tidak tersedia, sehingga regist automatis")
+        print(resp.json())
+        # assert resp.ok, resp.text
+        session["user_picture"] = user_picture
+        user_google = models.User(email=email, username=username, password=password)
+        models.db.session.add(user_google)
+        models.db.session.commit()
+        user_detail = models.UserDetail(
+            id_user=user_google_id, foto_user=session["user_picture"]
+        )
+        models.db.session.add(user_detail)
+        models.db.session.commit()
+        user = models.User.query.filter_by(username=username).first()
+
+        login_user(user)
+        next = request.args.get("next")
+        if next == None or not next[0] == "/":
+            next = url_for("home.index")
+        return redirect(next)
+        # return "email {}, username {}, password {}".format(email, username, password)
+
+    # return "berhasil login dengan google"
+
+    # return "You are {email} on Google, here your detail login {user_info}".format(
+    #     email=resp.json()["email"], user_info=resp.json()
+    # )
+
+
+# @auth.route("/google")
+# def google_page():
+
+# return "berhasil"
 
 
 @auth.route("/register", methods=["POST", "GET", "PUT" "DELETE"])
@@ -119,5 +191,21 @@ def login():
 
 @auth.route("/logout")
 def logout():
-    logout_user()
-    return redirect(url_for("auth.login"))
+
+    token = google_bp.token["access_token"]
+    if token is not None:
+        resp = google.post(
+            "https://accounts.google.com/o/oauth2/revoke",
+            params={"token": token},
+            headers={"Content-Type": "application/x-www-form-urlencoded"},
+        )
+        assert resp.ok, resp.text
+        logout_user()
+        del google_bp.token
+        print("ada token google auth nya")
+        return redirect(url_for("auth.login"))
+    else:
+        logout_user()
+        print("tidak ada token google auth nya")
+        return redirect(url_for("auth.login"))
+

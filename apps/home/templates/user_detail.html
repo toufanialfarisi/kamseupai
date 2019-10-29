@@ -44,7 +44,7 @@
                 {% if form.foto_user is none %}
                 <img id="img" class="image-cropper" src="{{ url_for('static', filename='default_profile.png') }}">
                 {% else %}
-                <img id="img" class="image-cropper" src="{{ form.foto_user }}">
+                <img id="img" class="image-cropper" src="{{ img_user }}">
                 {% endif %}
               </div>
             </aside> <!-- col.// -->

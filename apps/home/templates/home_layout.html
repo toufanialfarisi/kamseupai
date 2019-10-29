@@ -199,10 +199,19 @@
                                 <label for="exampleDropdownFormPassword2">Password</label>
                                 <input type="password" class="form-control" name="password" placeholder="Password">
                             </div>
+
                             <h6 class="text-muted">Atau register <a href="{{ url_for('auth.register') }}">di
                                     sini</a></h6>
 
+
                             <button type="submit" class="btn btn-info btn-block">Masuk</button>
+
+                            <fieldset style="margin-top: 10px">
+                                <a class="btn btn-outline-danger btn-block" href="{{ url_for('auth.google_auth') }}">
+                                    <img src="{{ url_for('static', filename='icons/search.png') }}"
+                                        style="margin-bottom: 3px" width="20px" />
+                                    Log in with Google</a>
+                            </fieldset>
                         </form>
                     </div>
                     <!-- login -->
