@@ -61,7 +61,7 @@ class BuktiBayarForm(FlaskForm):
     bank_tujuan = SelectField(
         "Bank Tujuan Transfer",
         choices=[("", ""), ("mandiri", "mandiri"), ("BNI", "BNI")],
-        validators=[FileRequired()],
+        validators=[DataRequired()],
     )
-    foto_bukti = FileField("Foto Bukti Pembayaran")
+    foto_bukti = FileField("Foto Bukti Pembayaran", validators=[FileRequired()])
     submit = SubmitField("Konfirmasi")
