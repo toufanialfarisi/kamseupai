@@ -14,11 +14,6 @@ def host(localhost=host_mode):
     if localhost == "development":
         host = "http://localhost"
         return host
-
-    elif localhost == "stagging":
-        host = "http://127.0.0.1"
-        return host
-
     else:
         host = "https://kamseupai.herokuapp.com"
         return host
