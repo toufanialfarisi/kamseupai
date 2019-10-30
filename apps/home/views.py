@@ -637,7 +637,7 @@ def user_detail():
     user_id = current_user.get_id()
     user_form = UserDetailForm()
     query_user = User.query.get(user_id) 
-    user_detail = UserDetail.query.get(user_id)
+    user_detail = UserDetail.query.filter_by(id_user=current_user.get_id()).first()
     return render_template(
         "user_detail.html", 
         form=user_detail, 
@@ -656,7 +656,7 @@ def user_detail():
 def edit_user():
     fav, is_fav_exist = show_fav()
     user_id = current_user.get_id()
-    user_detail = UserDetail.query.get(user_id)
+    user_detail = UserDetail.query.filter_by(id_user=current_user.get_id()).first()
     form = UserDetailForm(obj=user_detail)
     form.jenis_kelamin.choices = [("Pria", "Pria"), ("Wanita", "Wanita")]
     if form.validate_on_submit():
@@ -669,7 +669,7 @@ def edit_user():
         except:
             foto = user_detail.foto_user
 
-        model = UserDetail.query.get(user_id)
+        model = UserDetail.query.filter_by(id_user=current_user.get_id()).first()
         model.nama_lengkap = form.nama_lengkap.data
         model.jenis_kelamin = form.jenis_kelamin.data
         model.nomor_hp = form.nomor_hp.data
