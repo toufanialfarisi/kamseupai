@@ -42,7 +42,6 @@ class Config(object):
     GOOGLE_OAUTH_CLIENT_SECRET = os.getenv("GOOGLE_OAUTH_CLIENT_SECRET")
     OAUTHLIB_RELAX_TOKEN_SCOPE = os.getenv("OAUTHLIB_RELAX_TOKEN_SCOPE")
     OAUTHLIB_INSECURE_TRANSPORT = os.getenv("OAUTHLIB_INSECURE_TRANSPORT")
-    SERVER_NAME = "localhost"
 
 
 class ProductionConfig(Config):
@@ -55,7 +54,7 @@ class ProductionConfig(Config):
         db_config["production"]["port"],
         db_config["production"]["database"],
     )
-    SERVER_NAME = "kamseupai.herokuapp.com"
+    # SERVER_NAME = "kamseupai.herokuapp.com"
 
 
 class StaggingConfig(Config):
@@ -69,7 +68,6 @@ class StaggingConfig(Config):
         db_config["stagging"]["port"],
         db_config["stagging"]["database"],
     )
-    SERVER_NAME = "127.0.0.1"
 
 
 class DevelopmentConfig(Config):
