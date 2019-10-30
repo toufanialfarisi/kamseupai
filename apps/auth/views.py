@@ -49,7 +49,7 @@ def google_auth():
     """
     if not google.authorized:
         return redirect(url_for("google.login"))
-    # return "sukses"
+
     resp = google.get("/oauth2/v1/userinfo")
     email = str(resp.json()["email"])
     username = str(resp.json()["name"])
@@ -60,7 +60,7 @@ def google_auth():
     """
     cek terlebih dahulu apakah user email pada google auth sudah didaftarkan atau belum.
     jika sudah ada, maka hanya login biasa tanpa melakukan penulisan data ke dalam db. jika
-    belum ada, maka ambil data / info dari google auth lalu tulis ke dalam db. 
+    belum ada, maka ambil data / info dari google auth lalu tulis ke dalam db.
     """
     if resp.json()["email"] in [data.email for data in models.User.query.all()]:
         print("email google sudah ada dan siap untuk login")
@@ -92,7 +92,7 @@ def google_auth():
         if next == None or not next[0] == "/":
             next = url_for("home.index")
         return redirect(next)
-        # return "email {}, username {}, password {}".format(email, username, password)
+    # return "email {}, username {}, password {}".format(email, username, password)
 
     # return "berhasil login dengan google"
 
@@ -194,19 +194,25 @@ def login():
 def logout():
 
     token = google_bp.token["access_token"]
-    if token is not None:
-        resp = google.post(
-            "https://accounts.google.com/o/oauth2/revoke",
-            params={"token": token},
-            headers={"Content-Type": "application/x-www-form-urlencoded"},
-        )
-        assert resp.ok, resp.text
+    try:
+        print("token expired")
         logout_user()
-        del google_bp.token
-        print("ada token google auth nya")
         return redirect(url_for("auth.login"))
-    else:
-        logout_user()
-        print("tidak ada token google auth nya")
-        return redirect(url_for("auth.login"))
+    except:
+        print("token belum expired")
+        if token is not None:
+            resp = google.post(
+                "https://accounts.google.com/o/oauth2/revoke",
+                params={"token": token},
+                headers={"Content-Type": "application/x-www-form-urlencoded"},
+            )
+            assert resp.ok, resp.text
+            logout_user()
+            del google_bp.token
+            print("ada token google auth nya")
+            return redirect(url_for("auth.login"))
+        else:
+            logout_user()
+            print("tidak ada token google auth nya")
+            return redirect(url_for("auth.login"))
 
