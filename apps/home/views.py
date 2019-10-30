@@ -174,7 +174,8 @@ def index():
         username = current_username(),
         fav=favor,
         homestay=models.Homestay(),
-        sliders=data_slider
+        sliders=data_slider,
+        len_sliders=len(data_slider)
         )
 
 
