@@ -169,7 +169,7 @@
                             <div class="dropdown-divider"></div>
                             <h6 class="dropdown-header">Pengaturan akun</h6>
                             <a class="dropdown-item" href="{{ url_for('home.user_detail') }}"> Profile</a>
-                            <a href="{{ host }}/logout" class="dropdown-item">Logout</a>
+                            <!-- <a href="{{ host }}/logout" class="dropdown-item">Logout</a> -->
                         </div>
                     </div>
                     &ensp;
@@ -207,7 +207,8 @@
                             <button type="submit" class="btn btn-info btn-block">Masuk</button>
 
                             <fieldset style="margin-top: 10px">
-                                <a class="btn btn-outline-danger btn-block" href="{{ url_for('auth.google_auth') }}">
+                                <a class="btn btn-outline-danger btn-block"
+                                    href="{{ url_for('auth.google_auth_login') }}">
                                     <img src="{{ url_for('static', filename='icons/search.png') }}"
                                         style="margin-bottom: 3px" width="20px" />
                                     Log in with Google</a>
