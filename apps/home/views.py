@@ -155,7 +155,7 @@ def index():
         favor=status_favor.status
     except:
         favor=False
-
+    
     data_slider = Slider.query.all()
     return render_template(
         "home.html", 
