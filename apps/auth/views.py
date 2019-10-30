@@ -95,7 +95,7 @@ def google_auth():
                 next = url_for("home.index")
             return redirect(next)
     except:
-        return "TOKEN EXPIRED"
+        return redirect(url_for("google.login"))
 
 
 @auth.route("/register", methods=["POST", "GET", "PUT" "DELETE"])
