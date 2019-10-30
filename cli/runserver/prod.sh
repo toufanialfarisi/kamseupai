@@ -18,7 +18,10 @@ export FLASK_ENV=production
 export APP_SETTINGS=config.ProductionConfig
 export HOST_MODE=production 
 export SECRET_KEY=kamseupai2019onfire17081945
-
+export GOOGLE_OAUTH_CLIENT_ID=1010640175796-vnp220hj8ceepbniguvrvifju99bi398.apps.googleusercontent.com
+export GOOGLE_OAUTH_CLIENT_SECRET=5VBRMSPo32XiuL4N5h481zqJ
+export OAUTHLIB_RELAX_TOKEN_SCOPE=true
+export OAUTHLIB_INSECURE_TRANSPORT=true
 # GUNICORN SERVER
 exec gunicorn app:app -b 0.0.0.0:5000 \
  --reload \

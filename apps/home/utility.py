@@ -7,6 +7,7 @@ import string
 import os
 
 host_mode = os.getenv("HOST_MODE")
+print("HOST_MODE ", host_mode)
 
 
 def host(localhost=host_mode):
@@ -14,9 +15,10 @@ def host(localhost=host_mode):
         host = "http://localhost"
         return host
 
-    # elif localhost == "production_to_heroku":
-    #     host = "http://kamseupai.herokuapp.com"
-    #     return host
+    elif localhost == "stagging":
+        host = "http://127.0.0.1"
+        return host
+
     else:
         host = "https://kamseupai.herokuapp.com"
         return host

@@ -15,11 +15,19 @@ db_config = {
     },
     "development": {
         "db_type": "mysql",
-        "username": "kamseupai",
-        "password": "kampungantapisukses",
+        "username": "root",
+        "password": "2911",
         "host": "localhost",
         "port": "5432",
-        "database": "monolitik",
+        "database": "kamseupai",
+    },
+    "stagging": {
+        "db_type": "postgresql",
+        "username": "admin",
+        "password": "admin",
+        "host": "localhost",
+        "port": "5432",
+        "database": "kamseupai",
     },
 }
 
@@ -34,6 +42,7 @@ class Config(object):
     GOOGLE_OAUTH_CLIENT_SECRET = os.getenv("GOOGLE_OAUTH_CLIENT_SECRET")
     OAUTHLIB_RELAX_TOKEN_SCOPE = os.getenv("OAUTHLIB_RELAX_TOKEN_SCOPE")
     OAUTHLIB_INSECURE_TRANSPORT = os.getenv("OAUTHLIB_INSECURE_TRANSPORT")
+    SERVER_NAME = "localhost"
 
 
 class ProductionConfig(Config):
@@ -46,19 +55,21 @@ class ProductionConfig(Config):
         db_config["production"]["port"],
         db_config["production"]["database"],
     )
+    SERVER_NAME = "kamseupai.herokuapp.com"
 
 
 class StaggingConfig(Config):
     DEVELOPMENT = True
     DEBUG = True
     SQLALCHEMY_DATABASE_URI = "{}://{}:{}@{}:{}/{}".format(
-        db_config["development"]["db_type"],
-        db_config["development"]["username"],
-        db_config["development"]["password"],
-        db_config["development"]["host"],
-        db_config["development"]["port"],
-        db_config["development"]["database"],
+        db_config["stagging"]["db_type"],
+        db_config["stagging"]["username"],
+        db_config["stagging"]["password"],
+        db_config["stagging"]["host"],
+        db_config["stagging"]["port"],
+        db_config["stagging"]["database"],
     )
+    SERVER_NAME = "127.0.0.1"
 
 
 class DevelopmentConfig(Config):
