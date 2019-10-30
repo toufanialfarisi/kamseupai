@@ -23,7 +23,6 @@ def current_username():
         return redirect(url_for('auth.login'))
 
 
-
 @home.route("/clear-session", methods=["GET", "POST"])
 def delete_sessions():
     trans = models.Transaksi.query.all()
@@ -43,7 +42,7 @@ def delete_sessions():
 
 def foto_profile_user():
     try:
-        user_pro = UserDetail.query.get(current_user.get_id())
+        user_pro = UserDetail.query.filter_by(id_user=current_user.get_id()).first()
         img_user = user_pro.foto_user
         return img_user
     except:
