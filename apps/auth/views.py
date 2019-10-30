@@ -16,7 +16,7 @@ from flask_dance.contrib.google import make_google_blueprint, google
 
 auth = Blueprint("auth", __name__, template_folder="templates/")
 google_bp = make_google_blueprint(
-    scope=["profile", "email"], redirect_url="{}".format(host() + "/google-auth")
+    scope=["profile", "email"], redirect_url="{}".format(host() + "/google-auth-login")
 )
 
 
@@ -39,63 +39,60 @@ def confirmation(token):
     return redirect(url_for("auth.login"))
 
 
-@auth.route("/google-auth", methods=["POST", "GET"])
-def google_auth():
-    """
-    menambahkan google auth pada aplikasi kamseupai. jadi user bisa 
-    registrasi ataupun log in dengan menggunakan akun googlenya masing
-    masing. hal ini akan menjadi lebih mudah
-    """
-
-    try:
-        if not google.authorized:
-            return redirect(url_for("google.login"))
-
-        resp = google.get("/oauth2/v1/userinfo")
-        email = str(resp.json()["email"])
-        username = str(resp.json()["name"])
-        password = str(resp.json()["family_name"])
-        user_picture = str(resp.json()["picture"])
-        user_google_id = str(resp.json()["id"])
-        session["user_id"] = user_google_id
-        """
-        cek terlebih dahulu apakah user email pada google auth sudah didaftarkan atau belum.
-        jika sudah ada, maka hanya login biasa tanpa melakukan penulisan data ke dalam db. jika
-        belum ada, maka ambil data / info dari google auth lalu tulis ke dalam db.
-        """
-        print("RESPONSE DATA %s" % resp.json())
-        if resp.json()["email"] in [data.email for data in models.User.query.all()]:
-            print("email google sudah ada dan siap untuk login")
-            user = models.User.query.filter_by(username=username).first()
-            # memasukan foto profile dari api google auth dengan membuat session
-            session["user_picture"] = user_picture
-            login_user(user)  # masukan user ke dalam login manager nya
-            next = request.args.get("next")
-            if next == None or not next[0] == "/":
-                next = url_for("home.index")
-            return redirect(next)
-        else:
-            print("email google tidak tersedia, sehingga regist automatis")
-            print(resp.json())
-            # assert resp.ok, resp.text
-            session["user_picture"] = user_picture
-            user_google = models.User(email=email, username=username, password=password)
-            models.db.session.add(user_google)
-            models.db.session.commit()
-            user_detail = models.UserDetail(
-                id_user=user_google_id, foto_user=session["user_picture"]
-            )
-            models.db.session.add(user_detail)
-            models.db.session.commit()
-            user = models.User.query.filter_by(username=username).first()
-
-            login_user(user)
-            next = request.args.get("next")
-            if next == None or not next[0] == "/":
-                next = url_for("home.index")
-            return redirect(next)
-    except:
+@auth.route("/google-auth-login")
+def google_auth_login():
+    # cek apakah user authorized, klo tidak maka redirect ke google.login auth
+    if not google.authorized:
         return redirect(url_for("google.login"))
+
+    # ambil respon json google authnya jika sudah authentication
+    respon = google.get("/oauth2/v1/userinfo")
+    email = respon.json()["email"]
+    username = respon.json()["name"]
+    session["username"] = username
+    password = respon.json()["family_name"]
+    picture = respon.json()["picture"]
+    user_google_id = respon.json()["id"]
+
+    """ 
+        jika pertama kali query write data, maka tulis/masukan data json google ke db 
+        Ini yang disebut sebagai REGISTER
+    """
+    try:
+        print("REGISTER")
+        print("REGISTER")
+        print("REGISTER")
+        print("REGISTER")
+        print("REGISTER")
+
+        user = models.User(email, username, password)
+        models.db.session.add(user)
+        models.db.session.commit()
+
+        user = models.User.query.filter_by(username=username).first()
+        login_user(user)  # masukan user ke dalam login manager nya
+        user_detail = models.UserDetail(id_user=user.id, foto_user=picture)
+        models.db.session.add(user_detail)
+        models.db.session.commit()
+        next = request.args.get("next")
+        if next == None or not next[0] == "/":
+            next = url_for("home.index")
+        return redirect(next)
+
+    except:
+        print("LOGIN")
+        print("LOGIN")
+        print("LOGIN")
+        print("LOGIN")
+        print("LOGIN")
+
+        """ 
+            jika sudah query / write data yg sama sebelumnya, 
+            maka lakukan pass supaya tidak terjadi duplikasi. 
+            ini yang disebut sebagai LOGIN
+         """
+        pass
+    return redirect(url_for("home.index"))
 
 
 @auth.route("/register", methods=["POST", "GET", "PUT" "DELETE"])
@@ -181,6 +178,10 @@ def login():
         return render_template("login.html", form=form)
 
 
+"""
+SEMENTARA WAKTU, FITUR LOGOUT SAYA DISABLE DULU.
+KARENA ADA LOGIC YANG BELUM TERSELESAIKAN
+
 @auth.route("/logout")
 def logout():
 
@@ -207,3 +208,4 @@ def logout():
             print("tidak ada token google auth nya")
             return redirect(url_for("auth.login"))
 
+"""
