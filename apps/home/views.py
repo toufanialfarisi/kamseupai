@@ -11,6 +11,7 @@ from apps.home.utility import *
 from apps.auth.models import UserDetail, User
 from apps.auth_admin.models import * 
 from flask_login import login_user
+from sqlalchemy.orm.exc import NoResultFound
 
 home = Blueprint("home", __name__, template_folder="templates/")
 
@@ -42,8 +43,18 @@ def delete_sessions():
 
 def foto_profile_user():
     try:
-        user_pro = UserDetail.query.filter_by(id_user=current_user.get_id()).first()
-        img_user = user_pro.foto_user
+        user_pro = User.query.get(current_user.get_id()).foto_user
+        user_detail = UserDetail.query.get(current_user.get_id()).foto_user
+        print("USER SAAT INI : ", current_user.get_id())
+        print(user_detail)
+        if user_pro is not None:
+            print("atas")
+            img_user = user_pro
+        elif user_detail is not None :
+            print("bawah")
+            img_user = user_detail     
+        print("HALLOOOOOOOOOO")           
+        print("foto_final : ", img_user)
         return img_user
     except:
         img_user = None 
@@ -154,7 +165,6 @@ def index():
         favor=status_favor.status
     except:
         favor=False
-    
     data_slider = Slider.query.all()
     return render_template(
         "home.html", 
@@ -636,7 +646,16 @@ def user_detail():
     fav, is_fav_exist = show_fav()
     user_id = current_user.get_id()
     user_form = UserDetailForm()
-    query_user = User.query.get(user_id) 
+    foto_user = User.query.get(user_id).foto_user
+    query_userDetail = UserDetail.query.filter_by(id_user=user_id)
+    query_user = User.query.get(user_id)
+    try:
+        user = query_userDetail.one()
+    except NoResultFound:
+        add_userDetail = UserDetail(id_user=user_id, foto_user=foto_user)
+        db.session.add(add_userDetail)
+        db.session.commit()
+    # print("FOTO_USER_DETAIL : ", foto_profile_user())
     user_detail = UserDetail.query.filter_by(id_user=current_user.get_id()).first()
     return render_template(
         "user_detail.html", 
@@ -667,20 +686,30 @@ def edit_user():
             ip = host()
             foto = ip + "/" + foto
         except:
-            foto = user_detail.foto_user
-
+            foto = user_detail.foto_user       
+        
         model = UserDetail.query.filter_by(id_user=current_user.get_id()).first()
         model.nama_lengkap = form.nama_lengkap.data
         model.jenis_kelamin = form.jenis_kelamin.data
         model.nomor_hp = form.nomor_hp.data
         model.alamat = form.alamat.data
-        model.foto_user = foto
         models.db.session.add(model)
+        models.db.session.commit()
+
+        '''
+        karena foto_user sudah tergenerate secara default ketika
+        pertama kali membuat user account, maka kita perlu mengakses
+        tabel User untuk mengganti foto_user di dalamnya. sehingga
+        yang sebelumnya pengeditan foto_user dilakukan di database UserDetail
+        sekarang dilakukan di tabel User agar gambar foto profile bisa
+        berjalan
+        '''
+        model2 = User.query.get(current_user.get_id())
+        model2.foto_user = foto
+        models.db.session.add(model2)
         models.db.session.commit()
         
         return redirect(url_for('home.user_detail'))
-
-
     return render_template(
         "user_detail_edit.html", 
         form=form, 
