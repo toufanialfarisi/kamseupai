@@ -65,14 +65,14 @@ def google_logged_in(blueprint, token):
 def confirmation(token):
     try:
         user_unconfirm = session["unconfirmed_user"]
-        print(user_unconfirm)
+        # print(user_unconfirm)
         email = email_confirm.loads(token, salt="email-confirm")
         user_now = models.User.query.filter_by(username=user_unconfirm).first()
         user_now.confirmation_status = True
         models.db.session.add(user_now)
         models.db.session.commit()
         session.pop("unconfirmed_user", None)
-        print("session terhapus")
+        # print("session terhapus")
     except:
         return render_template("expired.html")
 
@@ -91,7 +91,7 @@ def register():
                 email=form.email.data,
                 username=form.username.data,
                 password=form.password.data,
-                foto_user= host() + "/static/default_profile.png",
+                foto_user=host() + "/static/default_profile.png",
             )
 
             db.session.add(user)
