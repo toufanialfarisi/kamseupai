@@ -11,4 +11,4 @@ export OAUTHLIB_INSECURE_TRANSPORT=true
 echo "==========================="
 echo "source of env was activated"
 echo "==========================="
-exec flask run  
+flask run  
