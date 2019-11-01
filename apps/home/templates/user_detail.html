@@ -41,13 +41,15 @@
 
             <aside class="col-sm-3" style="margin-right: 30px">
               <div class="image-cropper">
-                {% if form.foto_user is none %}
-                <img id="img" class="image-cropper" src="{{ url_for('static', filename='default_profile.png') }}">
-                {% else %}
+
+                <!-- GAMBAR FOTO PROFILE -->
+                {% if img_user is not none %}
                 <img id="img" class="image-cropper" src="{{ img_user }}">
                 {% endif %}
+                <!-- GAMBAR FOTO PROFILE -->
               </div>
             </aside> <!-- col.// -->
+
 
             <article class="col-sm-6">
               <dl class="dlist-align">
