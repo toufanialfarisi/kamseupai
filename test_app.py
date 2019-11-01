@@ -10,6 +10,7 @@ from flask_login import (
     login_required,
     LoginManager,
 )
+import os
 
 
 class MonolitikTesting(unittest.TestCase):
@@ -35,8 +36,9 @@ class MonolitikTesting(unittest.TestCase):
         username="toufani alfarisi",
         email="toufani1515@gmail.com",
         password="113966755098006852222alfarisi",
+        foto_user=None,
     ):
-        user = User(username, email, password)
+        user = User(username, email, password, foto_user)
         apps.db.session.add(user)
         apps.db.session.commit()
         result = self.app.post("/login")
@@ -47,10 +49,13 @@ class MonolitikTesting(unittest.TestCase):
         username="toufani alfarisi",
         email="toufani1515@gmail.com",
         password="113966755098006852222alfarisi",
+        foto_user=None,
     ):
         result = self.app.post(
             "/login",
-            data=dict(username=username, email=email, password=password),
+            data=dict(
+                username=username, email=email, password=password, foto_user=foto_user
+            ),
             follow_redirects=True,
         )
         self.assertEqual(result.status_code, 200)
