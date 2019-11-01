@@ -9,15 +9,56 @@ from flask_login import (
 from flask import redirect, url_for, flash, render_template, request, Blueprint, session
 from apps.auth import forms, models
 from apps import db, email_confirm, Message, mail
-from apps.auth.models import User
+from apps.auth.models import User, UserDetail
 from apps.home.utility import host_mode, host
 from flask_dance.contrib.google import make_google_blueprint, google
+from flask_dance.consumer.backend.sqla import OAuthConsumerMixin, SQLAlchemyBackend
+from flask_dance.consumer import oauth_authorized
+from sqlalchemy.orm.exc import NoResultFound
+import random
 
 
 auth = Blueprint("auth", __name__, template_folder="templates/")
-google_bp = make_google_blueprint(
-    scope=["profile", "email"], redirect_url="{}".format(host() + "/google-auth-login")
+
+google_blueprint = make_google_blueprint(
+    scope=["profile", "email"],
+    client_id="1010640175796-vnp220hj8ceepbniguvrvifju99bi398.apps.googleusercontent.com",
+    client_secret="5VBRMSPo32XiuL4N5h481zqJ",
 )
+
+
+@auth.route("/google")
+def google_auth_login():
+    # cek apakah user authorized, klo tidak maka redirect ke google.login auth
+    if not google.authorized:
+        return redirect(url_for("google.login"))
+
+    respon = google.get("/oauth2/v1/userinfo")
+    respon_json = respon.json()
+    return redirect(url_for("home.index"))
+
+
+@oauth_authorized.connect_via(google_blueprint)
+def google_logged_in(blueprint, token):
+
+    respon = blueprint.session.get("/oauth2/v2/userinfo")
+
+    if respon.ok:
+        respon_json = respon.json()
+        email = respon_json["email"]
+        username = respon_json["given_name"]
+        password = str(respon_json["given_name"]) + "_" + str(random.randint(1, 1000))
+        foto_user = respon_json["picture"]
+        query = User.query.filter_by(email=email)
+        try:
+            user = query.one()
+        except NoResultFound:
+            user = User(
+                email=email, username=username, password=password, foto_user=foto_user
+            )
+            db.session.add(user)
+            db.session.commit()
+        login_user(user)
 
 
 @auth.route("/confirmation/<token>")
@@ -39,62 +80,6 @@ def confirmation(token):
     return redirect(url_for("auth.login"))
 
 
-@auth.route("/google-auth-login")
-def google_auth_login():
-    # cek apakah user authorized, klo tidak maka redirect ke google.login auth
-    if not google.authorized:
-        return redirect(url_for("google.login"))
-
-    # ambil respon json google authnya jika sudah authentication
-    respon = google.get("/oauth2/v1/userinfo")
-    email = respon.json()["email"]
-    username = respon.json()["name"]
-    session["username"] = username
-    password = respon.json()["family_name"]
-    picture = respon.json()["picture"]
-    user_google_id = respon.json()["id"]
-
-    """ 
-        jika pertama kali query write data, maka tulis/masukan data json google ke db 
-        Ini yang disebut sebagai REGISTER
-    """
-    try:
-        print("REGISTER")
-        print("REGISTER")
-        print("REGISTER")
-        print("REGISTER")
-        print("REGISTER")
-
-        user = models.User(email, username, password)
-        models.db.session.add(user)
-        models.db.session.commit()
-
-        user = models.User.query.filter_by(username=username).first()
-        login_user(user)  # masukan user ke dalam login manager nya
-        user_detail = models.UserDetail(id_user=user.id, foto_user=picture)
-        models.db.session.add(user_detail)
-        models.db.session.commit()
-        next = request.args.get("next")
-        if next == None or not next[0] == "/":
-            next = url_for("home.index")
-        return redirect(next)
-
-    except:
-        print("LOGIN")
-        print("LOGIN")
-        print("LOGIN")
-        print("LOGIN")
-        print("LOGIN")
-
-        """ 
-            jika sudah query / write data yg sama sebelumnya, 
-            maka lakukan pass supaya tidak terjadi duplikasi. 
-            ini yang disebut sebagai LOGIN
-         """
-        pass
-    return redirect(url_for("home.index"))
-
-
 @auth.route("/register", methods=["POST", "GET", "PUT" "DELETE"])
 def register():
     if current_user.is_authenticated:
@@ -106,6 +91,7 @@ def register():
                 email=form.email.data,
                 username=form.username.data,
                 password=form.password.data,
+                foto_user="http://localhost/static/default_profile.png",
             )
 
             db.session.add(user)
@@ -117,21 +103,24 @@ def register():
             db.session.add(user_detail)
             db.session.commit()
 
-            email = form.email.data
-            token = email_confirm.dumps(email, salt="email-confirm")
-            msg = Message(
-                "Konfirmasi Akun",
-                sender="kamseupai@makeitation.com",
-                recipients=[email],
-            )
-            link = url_for("auth.confirmation", token=token, external=True)
+            """
+                token = email_confirm.dumps(email, salt="email-confirm")
+                msg = Message(
+                    "Konfirmasi Akun",
+                    sender="kamseupai@makeitation.com",
+                    recipients=[email],
+                )
+                link = url_for("auth.confirmation", token=token, external=True)
 
-            host_server = host()
-            msg.html = "<html>Silahkan konfirmasi akun Anda dengan mengklik link di bawah ini : <br> <strong> <a href='{}{}'> KONFIRMASI </a> </strong></html>".format(
-                host_server, link
-            )
-            mail.send(msg)
-            return render_template("confirmation.html")
+                host_server = host()
+                msg.html = "<html>Silahkan konfirmasi akun Anda dengan mengklik link di bawah ini : <br> <strong> <a href='{}{}'> KONFIRMASI </a> </strong></html>".format(
+                    host_server, link
+                )
+                mail.send(msg)
+                return render_template("confirmation.html")
+            """
+
+            return redirect(url_for("auth.login"))
         return render_template("register.html", form=form)
 
 
@@ -148,26 +137,12 @@ def login():
             user = User.query.filter_by(username=form.username.data).first()
             try:
                 check_user_confirmed = user.confirmation_status
-                if (
-                    user.check_password(form.password.data)
-                    and user is not None
-                    and check_user_confirmed is True
-                ):
-
+                if user.check_password(form.password.data) and user is not None:
                     login_user(user)
                     next = request.args.get("next")
                     if next == None or not next[0] == "/":
                         next = url_for("home.index")
                     return redirect(next)
-                elif (
-                    user.check_password(form.password.data)
-                    and user is not None
-                    and check_user_confirmed is False
-                ):
-                    flash(
-                        "Akun belum terkonfirmasi, silahkan cek email Anda !", "danger"
-                    )
-                    return redirect(url_for("auth.login"))
                 else:
                     flash("Username / password Anda salah", "danger")
                     return redirect(url_for("auth.login"))
@@ -178,34 +153,20 @@ def login():
         return render_template("login.html", form=form)
 
 
-"""
-SEMENTARA WAKTU, FITUR LOGOUT SAYA DISABLE DULU.
-KARENA ADA LOGIC YANG BELUM TERSELESAIKAN
-
 @auth.route("/logout")
 def logout():
-
-    token = google_bp.token["access_token"]
     try:
-        print("token expired")
-        logout_user()
-        return redirect(url_for("auth.login"))
+        token = google_blueprint.token["access_token"]
+        resp = google.post(
+            "https://accounts.google.com/o/oauth2/revoke",
+            params={"token": token},
+            headers={"Content-Type": "application/x-www-form-urlencoded"},
+        )
+        assert resp.ok, resp.text
+        logout_user()  # Delete Flask-Login's session cookie
+        del google_blueprint.token  # Delete OAuth token from storage
+        return redirect(url_for("home.index"))
     except:
-        print("token belum expired")
-        if token is not None:
-            resp = google.post(
-                "https://accounts.google.com/o/oauth2/revoke",
-                params={"token": token},
-                headers={"Content-Type": "application/x-www-form-urlencoded"},
-            )
-            assert resp.ok, resp.text
-            logout_user()
-            del google_bp.token
-            print("ada token google auth nya")
-            return redirect(url_for("auth.login"))
-        else:
-            logout_user()
-            print("tidak ada token google auth nya")
-            return redirect(url_for("auth.login"))
+        logout_user()
+        return redirect(url_for("home.index"))
 
-"""
