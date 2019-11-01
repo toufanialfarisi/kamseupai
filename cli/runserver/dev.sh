@@ -6,4 +6,4 @@ export HOST_MODE=development
 echo "==========================="
 echo "source of env was activated"
 echo "==========================="
-exec flask run  
+python app.py
