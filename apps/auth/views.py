@@ -91,7 +91,7 @@ def register():
                 email=form.email.data,
                 username=form.username.data,
                 password=form.password.data,
-                foto_user="http://localhost/static/default_profile.png",
+                foto_user= host() + "/static/default_profile.png",
             )
 
             db.session.add(user)
