@@ -4,6 +4,7 @@ from apps import db
 from datetime import datetime
 from werkzeug.security import generate_password_hash, check_password_hash
 from wtforms.validators import ValidationError
+from flask_dance.consumer.backend.sqla import OAuthConsumerMixin, SQLAlchemyBackend
 
 
 @login_manager.user_loader
@@ -32,14 +33,16 @@ class User(db.Model, UserMixin):
         "Historybelanja", backref="history_user_berbelanja", uselist=False
     )
     user_detail = db.relationship("UserDetail", backref="detail_user", uselist=False)
+    foto_user = db.Column(db.String(250))
 
     # This connects BlogPosts to a User Author.
     # posts = db.relationship('BlogPost', backref='author', lazy=True)
 
-    def __init__(self, email, username, password):
+    def __init__(self, email, username, password, foto_user):
         self.email = email
         self.username = username
         self.password_hash = generate_password_hash(password)
+        self.foto_user = foto_user
 
     def check_password(self, password):
         # https://stackoverflow.com/questions/23432478/flask-generate-password-hash-not-constant-output
@@ -69,3 +72,7 @@ class UserDetail(db.Model):
     alamat = db.Column(db.TEXT)
     foto_user = db.Column(db.String(100))
 
+
+class OAuth(OAuthConsumerMixin, db.Model):
+    user_id = db.Column(db.Integer, db.ForeignKey(User.id))
+    user = db.relationship(User)
