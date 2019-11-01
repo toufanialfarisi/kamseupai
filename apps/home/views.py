@@ -43,24 +43,17 @@ def delete_sessions():
 
 def foto_profile_user():
     try:
-        user_pro = User.query.get(current_user.get_id()).foto_user
-        user_detail = UserDetail.query.get(current_user.get_id()).foto_user
-        print("USER SAAT INI : ", current_user.get_id())
-        print(user_detail)
+        user_pro = User.query.get(current_user.get_id())
+        user_detail = UserDetail.query.get(current_user.get_id())       
         if user_pro is not None:
-            print("atas")
-            img_user = user_pro
-        elif user_detail is not None :
-            print("bawah")
-            img_user = user_detail     
-        print("HALLOOOOOOOOOO")           
-        print("foto_final : ", img_user)
+            img_user = user_pro.foto_user
+        else:
+            img_user = user_detail.foto_user     
         return img_user
+        
     except:
         img_user = None 
         return img_user
-
-
 
 @home.route("/", methods=["GET", "POST"])
 def index():
@@ -655,7 +648,6 @@ def user_detail():
         add_userDetail = UserDetail(id_user=user_id, foto_user=foto_user)
         db.session.add(add_userDetail)
         db.session.commit()
-    # print("FOTO_USER_DETAIL : ", foto_profile_user())
     user_detail = UserDetail.query.filter_by(id_user=current_user.get_id()).first()
     return render_template(
         "user_detail.html", 
@@ -735,7 +727,6 @@ def status_pesanan():
 
     for i in belanja:
         id_homestay.append(i.id_homestay)
-    print("id_homestay : ", id_homestay)
     home = Homestay()
     return render_template(
         "status_pesanan.html", 
