@@ -121,6 +121,10 @@
                     <button class="btn btn-warning my-2 my-sm-0" type="submit">Search</button> -->
 
 
+
+                    &ensp;
+                    {% if current_user.is_authenticated %}
+                    <!-- FAVORITE -->
                     &ensp;
                     <div class="dropdown">
                         <button class="btn btn-outline-light dropdown-toggle" type="button" id="dropdownMenu2"
@@ -157,8 +161,8 @@
                             {% endif %}
                         </div>
                     </div>
+                    <!-- FAVORITE -->
                     &ensp;
-                    {% if current_user.is_authenticated %}
                     <div class="dropdown">
                         <button type="button" class="btn btn-outline-light dropdown-toggle" data-toggle="dropdown">
                             Account
@@ -169,7 +173,7 @@
                             <div class="dropdown-divider"></div>
                             <h6 class="dropdown-header">Pengaturan akun</h6>
                             <a class="dropdown-item" href="{{ url_for('home.user_detail') }}"> Profile</a>
-                            <!-- <a href="{{ host }}/logout" class="dropdown-item">Logout</a> -->
+                            <a href="{{ url_for('auth.logout') }}" class="dropdown-item">Logout</a>
                         </div>
                     </div>
                     &ensp;
@@ -190,30 +194,24 @@
                             data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             login
                         </button>
-                        <form action="" class="dropdown-menu p-4" method="POST">
-                            <div class="form-group">
-                                <label for="exampleDropdownFormEmail2">Username</label>
-                                <input type="text" class="form-control" placeholder="Username Anda" name="username">
-                            </div>
-                            <div class="form-group">
-                                <label for="exampleDropdownFormPassword2">Password</label>
-                                <input type="password" class="form-control" name="password" placeholder="Password">
-                            </div>
-
-                            <h6 class="text-muted">Atau register <a href="{{ url_for('auth.register') }}">di
-                                    sini</a></h6>
-
-
-                            <button type="submit" class="btn btn-info btn-block">Masuk</button>
-
+                        <div class="dropdown-menu p-4">
+                            <fieldset style="margin-top: 10px">
+                                <a href="{{ url_for('auth.login') }}" class="btn btn-outline-info btn-block"> Akun
+                                    kamseupai</a>
+                            </fieldset>
                             <fieldset style="margin-top: 10px">
                                 <a class="btn btn-outline-danger btn-block"
                                     href="{{ url_for('auth.google_auth_login') }}">
                                     <img src="{{ url_for('static', filename='icons/search.png') }}"
                                         style="margin-bottom: 3px" width="20px" />
-                                    Log in with Google</a>
+                                    Login dengan Google</a>
                             </fieldset>
-                        </form>
+                            <fieldset style="margin-top: 10px">
+                                <h6 class="text-muted">Atau register <a href="{{ url_for('auth.register') }}">di
+                                        sini</a></h6>
+                            </fieldset>
+
+                        </div>
                     </div>
                     <!-- login -->
                     {% endif %}
