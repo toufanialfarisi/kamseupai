@@ -14,6 +14,9 @@ echo "=========================="
 
 
 
+echo "==========================="
+echo "Production Server"
+echo "==========================="
 export FLASK_ENV=production
 export APP_SETTINGS=config.ProductionConfig
 export HOST_MODE=production 
