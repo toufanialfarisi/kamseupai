@@ -14,7 +14,7 @@ from apps import db
 from apps.home.utility import *
 from apps.config import IMAGES_DIR, MY_IP
 from apps.utils import validasi_type, upload_file
-from apps.home.models import Homestay, Wisata, Historybelanja, BuktiBayar
+from apps.home.models import Homestay, Wisata, Historybelanja, BuktiBayar, Favorit
 from apps.api import provinsi, kabupaten, kecamatan 
 from sqlalchemy import desc
 
@@ -239,7 +239,10 @@ def add_homestay():
             )
             models.db.session.add(model)
             models.db.session.commit()
+
+                
             flash("Homestay berhasil ditambah", "success")
+
             return redirect(url_for("admin.view_homestay"))
         return render_template(
             "homestay/add_homestay.html",

@@ -25,6 +25,9 @@ def custom_session_idhomestay(homestay_id):
 
 
 def show_fav():
+    """
+    table favorite itu panjang datanya tidak sama dengna tabel homestay
+    """
     fav = models.Favorit.query.filter_by(id_user=current_user.get_id()).all()
     if fav:
         is_fav_exist = True

@@ -107,7 +107,7 @@
 
       <div class="content-section" id="carding">
         <div class="card-body">
-          {% for data, idr, diskon, homeTersedia in form | zip(rupiah, ls_diskon, available) %}
+          {% for data, idr, diskon, homeTersedia  in form | zip(rupiah, ls_diskon, available) %}
           <div class="row">
             <div class="table-responsive-md">
               <aside class="col-sm-3">
@@ -153,7 +153,7 @@
                     <i class="fas fa-heart"></i>
                   </a>
 
-                  {% if homeTersedia.ketersediaanHomestay == true %}
+                  {% if homeTersedia.ketersediaanHomestay == true  %}
                   <a href="{{ url_for('home.detail_homestay', id=data.id) }}" class="btn btn-outline-info btn-sm">
                     Detail
                   </a> <br>
@@ -163,7 +163,9 @@
                     class="btn btn-outline-danger btn-sm disabled">
                     Detail
                   </a> <br>
-                  <span class="badge badge-danger">Sedang diboking orang</span>
+                  <span class="badge badge-danger" style="margin-right: 3px">Reserved</span> <span
+                    class="badge badge-warning">s/d
+                    {{ data.tanggal_selesai[:11] }}</span>
                   {% endif %}
 
                 </p>

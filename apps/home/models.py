@@ -23,9 +23,11 @@ class Homestay(db.Model):
     create_at = db.Column(db.DateTime, default=datetime.datetime.utcnow())
     update_at = db.Column(db.DateTime, onupdate=datetime.datetime.utcnow())
     ketersediaanHomestay = db.Column(db.Boolean, default=True)
+    fav = db.Column(db.Boolean, default=False)
+    tanggal_selesai = db.Column(db.String(10))
 
     def __repr__(self):
-        return f"homestay : -{self.nama_homestay}"
+        return f"homestay : - {self.nama_homestay}"
 
 
 class Transaksi(db.Model):

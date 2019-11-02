@@ -70,7 +70,7 @@ class UserDetail(db.Model):
     jenis_kelamin = db.Column(db.String(20))
     nomor_hp = db.Column(db.String(100))
     alamat = db.Column(db.TEXT)
-    foto_user = db.Column(db.String(100))
+    foto_user_detail = db.Column(db.String(100))
 
 
 class OAuth(OAuthConsumerMixin, db.Model):

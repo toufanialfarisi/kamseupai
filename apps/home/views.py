@@ -33,7 +33,7 @@ def foto_profile_user():
         if user_pro is not None:
             img_user = user_pro.foto_user
         else:
-            img_user = user_detail.foto_user     
+            img_user = user_detail.foto_user_detail     
         return img_user
         
     except:
@@ -179,13 +179,14 @@ def index():
     '''
         FITUR STATUS KETERSEDIAAN HOMESTAY (AVAILABLE HOMESTAY)        
     '''
-    # isHomeAvail = Homestay.query.all()
-        
+    fav = models.Favorit.query.filter_by(id_user=current_user.get_id()).all()
+    # length(Historybelanja) != length(Homestay)
+    
     return render_template(
         "home.html", 
         formm=searchform,
         form=paginate.items, 
-        favs=fav, 
+        favs=fav, # many objects # boolean
         favs_exist=is_fav_exist, 
         rupiah=ls_curency, 
         ls_diskon=ls_diskon,
@@ -200,7 +201,7 @@ def index():
         homestay=models.Homestay(),
         sliders=data_slider,
         len_sliders=len(data_slider),
-        available=model
+        available=model,
         )
 
 
@@ -604,8 +605,18 @@ def pay():
             tgl_check_out = session["co"]
 
         )
+
         db.session.add_all([data_bayar, history])
         db.session.commit()
+
+        tglSelesaiHomestay = models.Homestay.query.get(session["save_id_homestay"])
+        tglSelesaiHomestay.tanggal_selesai = session["co"]
+        db.session.add(tglSelesaiHomestay)
+        db.session.commit()
+        
+
+
+        
 
         '''
             tambahkan session untuk mentrigger function 
@@ -673,7 +684,7 @@ def user_detail():
     try:
         user = query_userDetail.one()
     except NoResultFound:
-        add_userDetail = UserDetail(id_user=user_id, foto_user=foto_user)
+        add_userDetail = UserDetail(id_user=user_id, foto_user_detail=foto_user)
         db.session.add(add_userDetail)
         db.session.commit()
     user_detail = UserDetail.query.filter_by(id_user=current_user.get_id()).first()
@@ -706,7 +717,7 @@ def edit_user():
             ip = host()
             foto = ip + "/" + foto
         except:
-            foto = user_detail.foto_user       
+            foto = user_detail.foto_user_detail       
         
         model = UserDetail.query.filter_by(id_user=current_user.get_id()).first()
         model.nama_lengkap = form.nama_lengkap.data
