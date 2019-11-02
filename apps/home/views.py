@@ -1,19 +1,44 @@
+# FLASK EXTENSION
 from flask import redirect, url_for, flash, render_template, request, Blueprint, session
-from apps.home.forms import * 
-from apps.home.models import * 
-from apps.utils import validasi_type, upload_file
-from apps.config import IMAGES_DIR, MY_IP
 from flask_login import current_user, login_required, logout_user
-import random
-import string
-from datetime import date, time, datetime
-from apps.home.utility import * 
-from apps.auth.models import UserDetail, User
-from apps.auth_admin.models import * 
 from flask_login import login_user
 from sqlalchemy.orm.exc import NoResultFound
+from datetime import date, time, datetime
 
-home = Blueprint("home", __name__, template_folder="templates/")
+# MODELS
+from apps.home.models import * 
+from apps.auth.models import *
+from apps.auth_admin.models import * 
+
+# OTHER UTILITY OF THIS PROJECT
+from apps.home.forms import * 
+from apps.utils import validasi_type, upload_file
+from apps.config import IMAGES_DIR, MY_IP
+from apps.home.utility import * 
+
+# OTHER PYTHON BUILTIN LIBRARY/METHODE
+import random
+import string
+
+
+'''
+    FUNCTION UNTUK MENGHANDEL GAMBAR DAN BEBERAPA QUERY
+'''
+
+# ===================================================================
+def foto_profile_user():
+    try:
+        user_pro = User.query.get(current_user.get_id())
+        user_detail = UserDetail.query.get(current_user.get_id())       
+        if user_pro is not None:
+            img_user = user_pro.foto_user
+        else:
+            img_user = user_detail.foto_user     
+        return img_user
+        
+    except:
+        img_user = None 
+        return img_user
 
 def current_username():
     try:
@@ -21,8 +46,11 @@ def current_username():
         username = query.username
         return username
     except:
-        return redirect(url_for('auth.login'))
+        return redirect(url_for("auth.login"))
 
+# ===================================================================
+
+home = Blueprint("home", __name__, template_folder="templates/")
 
 @home.route("/clear-session", methods=["GET", "POST"])
 def delete_sessions():
@@ -41,19 +69,7 @@ def delete_sessions():
     session.pop("total_biaya", None)
     return 'all sessions are clear'
 
-def foto_profile_user():
-    try:
-        user_pro = User.query.get(current_user.get_id())
-        user_detail = UserDetail.query.get(current_user.get_id())       
-        if user_pro is not None:
-            img_user = user_pro.foto_user
-        else:
-            img_user = user_detail.foto_user     
-        return img_user
-        
-    except:
-        img_user = None 
-        return img_user
+
 
 @home.route("/", methods=["GET", "POST"])
 def index():
@@ -159,6 +175,12 @@ def index():
     except:
         favor=False
     data_slider = Slider.query.all()
+
+    '''
+        FITUR STATUS KETERSEDIAAN HOMESTAY (AVAILABLE HOMESTAY)        
+    '''
+    # isHomeAvail = Homestay.query.all()
+        
     return render_template(
         "home.html", 
         formm=searchform,
@@ -177,9 +199,27 @@ def index():
         fav=favor,
         homestay=models.Homestay(),
         sliders=data_slider,
-        len_sliders=len(data_slider)
+        len_sliders=len(data_slider),
+        available=model
         )
 
+
+@home.route("/status-homestay", methods=['GET', 'POST'])
+def status_homestay():
+    '''
+        Melakukan penambahan route baru dengan maksud untuk mengeksekusi proses
+        penulisan filed status pada tabel Ketersediaan untuk selanjutnya di-redirect 
+        ke home untuk ditampilkan hasilnya.
+    '''
+    id = session["save_id_homestay"]
+    query = Homestay.query.get(id)    
+    # berikan kondisi status dari historybelanja
+    if query.ketersediaanHomestay == True:
+        query.ketersediaanHomestay = False
+        models.db.session.add(query)
+        models.db.session.commit()
+    print("STATUS HOMESTAY EXECUTED AND ROUTED")
+    return redirect(url_for('home.proses_pembayaran'))
 
 @home.route("/favorit/<int:id>", methods=["GET"])
 @login_required
@@ -566,7 +606,14 @@ def pay():
         )
         db.session.add_all([data_bayar, history])
         db.session.commit()
-        return redirect(url_for('home.proses_pembayaran'))
+
+        '''
+            tambahkan session untuk mentrigger function 
+            'status_homestay'
+        '''
+        session['status_ketersediaan'] = False        
+        return redirect(url_for('home.status_homestay'))
+        
 
     # REQUEST FORM
 
@@ -589,28 +636,9 @@ def pay():
 def pay_confirmed():
     # if "save_id_wisata" in session and "save_id_wisata" in session and "nama_lengkap" in session and "no_ktp" in session and "malam" in session and "kamar" in session and "ci" in session and "co" in session:
     if "malam" in session:
-        # try:
-        #     id_wisata = session["save_id_wisata"]
-        # except:
-        #     id_wisata = session["save_id_wisata"] = None
-        # history = models.Historybelanja(
-        #     id_homestay = session["save_id_homestay"]   ,
-        #     id_user = current_user.get_id(),
-        #     id_wisata = session["save_id_wisata"],
-        #     nama_lengkap = session["nama_lengkap"],
-        #     no_ktp = session["no_ktp"],
-        #     no_passport = session["no_passport"],
-        #     malam = session["malam"],
-        #     kamar = session["kamar"],
-        #     tgl_check_in = session["ci"],
-        #     tgl_check_out = session["co"]
-
-        # )
-        # models.db.session.add(history)
-        # models.db.session.commit()
 
         delete_sessions()
-        
+
         trans = models.Transaksi.query.all()
         for data in trans:
             models.db.session.delete(data)
