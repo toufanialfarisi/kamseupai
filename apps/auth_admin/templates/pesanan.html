@@ -42,9 +42,9 @@
             <table class="table table-hover">
                 <thead>
                     <tr>
-                        <th scope="col">#</th>
-                        <th scope="col">Homestay</th>
+                        <!-- <th scope="col">#</th> -->
                         <th scope="col">Check-in</th>
+                        <th scope="col">Homestay</th>
                         <th scope="col">Durasi</th>
                         <th scope="col"></th>
                         <th scope="col"></th>
@@ -54,11 +54,12 @@
                 {% for form, id, form_b in paginate.items|zip(no, data_bukti) %}
                 <tbody>
                     <tr>
-                        <th scope="row">{{id}}</th>
+                        <td>{{form.tgl_check_in}}</td>
+                        <!-- <th scope="row">{{id}}</th> -->
                         <td>{{home.query.get(form.id_homestay).nama_homestay}}</td>
                         <!-- <td> {{ form.no_ktp }} </td> -->
                         <!-- <td> {{ form.no_passport }} </td> -->
-                        <td>{{form.tgl_check_in}}</td>
+
                         <td>{{form.malam}} malam</td>
                         <td>
 

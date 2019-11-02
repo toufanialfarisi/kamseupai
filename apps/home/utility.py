@@ -83,16 +83,15 @@ def tanggal_checkout(n_malam, tanggal_checkin, bulan_checkin):
         "dec",
     ]
 
-    n_malam = n_malam
     tanggal_checkin = tanggal_checkin
     out = tanggal_checkin + n_malam
     bulan_now = end_month[bulan_checkin]
     if out >= bulan_now:
         sis = out - bulan_now
-        checkout = sis
+        checkout = sis - 1
         return checkout, end_month_str.index(end_month_str[bulan_checkin + 1])
     else:
-        return tanggal_checkin + n_malam
+        return tanggal_checkin + n_malam - 1
 
 
 def code_homestay(stringLength=6, gen_for="H"):

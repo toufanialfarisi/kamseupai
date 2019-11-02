@@ -109,9 +109,16 @@
         <div class="card-body">
           {% for data, idr, diskon, homeTersedia  in form | zip(rupiah, ls_diskon, available) %}
           <div class="row">
-            <div class="table-responsive-md">
+            <div class="table-responsive-md ">
               <aside class="col-sm-3">
-                <div class="img-wrap"><img class="rounded float-left" src="{{ data.foto_homestay }}" width="230px">
+                <div class="img-wrap">
+                  {% if homeTersedia.ketersediaanHomestay == true %}
+                  <a href="{{ url_for('home.detail_homestay', id=data.id) }}"><img class="rounded float-left"
+                      src="{{ data.foto_homestay }}" width="230px" /></a>
+                  {% else %}
+                  <img class="rounded float-left" src="{{ data.foto_homestay }}" width="230px" />
+                  {% endif %}
+
                 </div>
               </aside> <!-- col.// -->
             </div>
@@ -154,13 +161,13 @@
                   </a>
 
                   {% if homeTersedia.ketersediaanHomestay == true  %}
-                  <a href="{{ url_for('home.detail_homestay', id=data.id) }}" class="btn btn-outline-info btn-sm">
+                  <a href="{{ url_for('home.detail_homestay', id=data.id) }}" class="btn btn-info btn-sm">
                     Detail
                   </a> <br>
                   <span class="badge badge-success">tersedia</span>
                   {% else %}
                   <a href="{{ url_for('home.detail_homestay', id=data.id) }}"
-                    class="btn btn-outline-danger btn-sm disabled">
+                    class="btn btn-outline-info btn-sm disabled">
                     Detail
                   </a> <br>
                   <span class="badge badge-danger" style="margin-right: 3px">Reserved</span> <span
