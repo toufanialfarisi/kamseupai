@@ -28,6 +28,12 @@ db = SQLAlchemy(app)  # DATABASE SQLALCHEMY
 CORS(app)  # HEADER ALLOW ORIGIN ALL
 Migrate(app, db)  # DATABASE MIGRATION
 
+
+# db.reflect()
+# db.drop_all()
+# print("DB CLEAR")
+
+
 # DEBUG TOOLABAR
 if os.environ["APP_SETTINGS"] == "config.DevelopmentConfig":
     toolbarDebuger = DebugToolbarExtension(app)
