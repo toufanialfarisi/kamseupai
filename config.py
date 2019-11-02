@@ -20,12 +20,12 @@ class Config(object):
 class ProductionConfig(Config):
     DEBUG = False
     SQLALCHEMY_DATABASE_URI = "{}://{}:{}@{}:{}/{}".format(
-        os.environ["db_type"],
-        os.environ["username"],
-        os.environ["password"],
-        os.environ["host"],
-        os.environ["port"],
-        os.environ["database"],
+        os.getenv("db_type"),
+        os.getenv("username"),
+        os.getenv("password"),
+        os.getenv("host"),
+        os.getenv("port"),
+        os.getenv("database"),
     )
     # SERVER_NAME = "kamseupai.herokuapp.com"
 
@@ -34,12 +34,12 @@ class StaggingConfig(Config):
     DEVELOPMENT = True
     DEBUG = True
     SQLALCHEMY_DATABASE_URI = "{}://{}:{}@{}:{}/{}".format(
-        os.environ["db_type"],
-        os.environ["username"],
-        os.environ["password"],
-        os.environ["host"],
-        os.environ["port"],
-        os.environ["database"],
+        os.getenv("db_type"),
+        os.getenv("username"),
+        os.getenv("password"),
+        os.getenv("host"),
+        os.getenv("port"),
+        os.getenv("database"),
     )
 
 
@@ -47,12 +47,12 @@ class DevelopmentConfig(Config):
     DEBUG = True
     DEVELOPMENT = True
     SQLALCHEMY_DATABASE_URI = "{}://{}:{}@{}:{}/{}".format(
-        os.environ["db_type"],
-        os.environ["username"],
-        os.environ["password"],
-        os.environ["host"],
-        os.environ["port"],
-        os.environ["database"],
+        os.getenv("db_type"),
+        os.getenv("username"),
+        os.getenv("password"),
+        os.getenv("host"),
+        os.getenv("port"),
+        os.getenv("database"),
     )
     DEBUG_TB_INTERCEPT_REDIRECTS = False
 
