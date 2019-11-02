@@ -22,6 +22,7 @@ class Homestay(db.Model):
     favoritkan = db.relationship("Favorit", backref="list_favorit")
     create_at = db.Column(db.DateTime, default=datetime.datetime.utcnow())
     update_at = db.Column(db.DateTime, onupdate=datetime.datetime.utcnow())
+    ketersediaanHomestay = db.Column(db.Boolean, default=True)
 
     def __repr__(self):
         return f"homestay : -{self.nama_homestay}"
@@ -51,7 +52,9 @@ class Historybelanja(db.Model):
     kamar = db.Column(db.Integer)
     tgl_check_in = db.Column(db.DATE)
     tgl_check_out = db.Column(db.DATE)
-    status_pesanan = db.Column(db.Boolean, default=False)
+    status_pesanan = db.Column(
+        db.Boolean, default=False
+    )  # False (0) = sudah dibooking, True (1) = tersedia/belum dibooking
     create_at = db.Column(db.DateTime, default=datetime.datetime.utcnow())
     bukti_resi = db.relationship("BuktiBayar", backref="bukti_pembayaran")
 
