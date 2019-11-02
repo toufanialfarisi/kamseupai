@@ -16,7 +16,7 @@ from flask_wtf.file import FileField, FileRequired
 class LoginForm(FlaskForm):
     username = StringField("Username", validators=[DataRequired()])
     password = PasswordField("Password", validators=[DataRequired()])
-    remember = BooleanField("remember")
+    remember = BooleanField("ingat saya")
     submit = SubmitField("Log in")
 
 
@@ -70,7 +70,7 @@ class WisataForm(FlaskForm):
     wisata = StringField("Wisata", validators=[DataRequired()])
     fasilitas = StringField("Fasilitas", validators=[DataRequired()])
     kegiatan = TextAreaField("Kegiatan", validators=[DataRequired()])
-    biaya = IntegerField("Biaya", validators=[DataRequired()])
+    biaya = IntegerField("Biaya (Rp)", validators=[DataRequired()])
     foto_wisata = FileField(validators=[FileRequired()])
     id_homestay = SelectField("Homestay", choices=[], validators=[DataRequired()])
     submit = SubmitField("Tambah Wisata")
@@ -80,7 +80,7 @@ class WisataEditForm(FlaskForm):
     wisata = StringField("Wisata", validators=[DataRequired()])
     fasilitas = StringField("Fasilitas", validators=[DataRequired()])
     kegiatan = TextAreaField("Kegiatan", validators=[DataRequired()])
-    biaya = IntegerField("Biaya", validators=[DataRequired()])
+    biaya = IntegerField("Biaya (Rp)", validators=[DataRequired()])
     foto_wisata = FileField(validators=[FileRequired()])
     id_homestay = SelectField("Homestay", choices=[], validators=[DataRequired()])
     submit = SubmitField("Edit Atraksi")

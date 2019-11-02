@@ -177,17 +177,19 @@
                   <a href="{{ url_for('home.detail_homestay', id=data.id) }}" class="btn btn-info btn-sm"
                     data-toggle="tooltip" data-placement="top" title="Sedang dibooking selama {{ infoDurasi }} hari">
                     Detail
-                  </a> <br>
+                  </a>
+                  <div style="margin-bottom: 10px"></div>
                   {% endif %}
 
                   {% if homeTersedia.ketersediaanHomestay == true  %}
 
                   <span class="badge badge-success">tersedia</span>
                   {% else %}
-
+                  {% set infoDurasi = durasi.query.filter_by(id_homestay=data.id).first().malam %}
                   <span class="badge badge-danger" style="margin-right: 3px">Reserved</span> <span
                     class="badge badge-warning">s/d
                     {{ data.tanggal_selesai[:11] }}</span>
+                  <span class="badge badge-success" style="margin-right: 3px"> selama {{ infoDurasi }} hari</span>
                   {% endif %}
 
                 </p>
