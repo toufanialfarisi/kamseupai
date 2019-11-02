@@ -81,6 +81,7 @@ class DevelopmentConfig(Config):
         db_config["development"]["port"],
         db_config["development"]["database"],
     )
+    DEBUG_TB_INTERCEPT_REDIRECTS = False
 
 
 class TestingConfig(Config):
