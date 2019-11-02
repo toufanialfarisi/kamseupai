@@ -33,13 +33,14 @@ class ProductionConfig(Config):
 class StaggingConfig(Config):
     DEVELOPMENT = True
     DEBUG = True
-    SQLALCHEMY_DATABASE_URI = "{}://{}:{}@{}:{}/{}".format(
-        os.getenv("db_type"),
-        os.getenv("username"),
-        os.getenv("password"),
-        os.getenv("host"),
-        os.getenv("port"),
-        os.getenv("database"),
+    SQLALCHEMY_DATABASE_URI = "postgres://tmmbefrcztvgkg:7db47765147900fa98da631976f81b0372675153d288002ff386f8529a9281db@ec2-174-129-252-252.compute-1.amazonaws.com:5432/d6170o3ua6urrm"
+    # SQLALCHEMY_DATABASE_URI = "{}://{}:{}@{}:{}/{}".format(
+    #     os.getenv("db_type"),
+    #     os.getenv("username"),
+    #     os.getenv("password"),
+    #     os.getenv("host"),
+    #     os.getenv("port"),
+    #     os.getenv("database"),
     )
 
 
