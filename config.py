@@ -41,7 +41,7 @@ class StaggingConfig(Config):
     #     os.getenv("host"),
     #     os.getenv("port"),
     #     os.getenv("database"),
-    )
+    # )
 
 
 class DevelopmentConfig(Config):
