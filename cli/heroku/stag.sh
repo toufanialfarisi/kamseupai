@@ -1,6 +1,6 @@
 heroku config:set APP_SETTINGS=config.StaggingConfig
-heroku config:set FLASK_ENV=development
-heroku config:set HOST_MODE=development
+heroku config:set FLASK_ENV=production
+heroku config:set HOST_MODE=production
 heroku config:set SECRET_KEY=kamseupai2019onfire17081945
 heroku config:set GOOGLE_OAUTH_CLIENT_ID=1010640175796-vnp220hj8ceepbniguvrvifju99bi398.apps.googleusercontent.com
 heroku config:set GOOGLE_OAUTH_CLIENT_SECRET=5VBRMSPo32XiuL4N5h481zqJ
