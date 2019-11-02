@@ -11,6 +11,13 @@ export GOOGLE_OAUTH_CLIENT_SECRET=5VBRMSPo32XiuL4N5h481zqJ
 export OAUTHLIB_RELAX_TOKEN_SCOPE=true
 export OAUTHLIB_INSECURE_TRANSPORT=true
 
+export db_type=postgresql
+export username=admin
+export password=admin
+export host=localhost
+export port=5432
+export database=kamseupai
+
 . env/bin/activate
 echo "source of env was activated"
 flask run  

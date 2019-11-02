@@ -101,3 +101,31 @@ LOGIN DAN REGISTER BERSATU
 #     # except:
 #     #     return redirect(url_for("google.login"))
 
+
+# OTHER DATABASE CONFIGURATION
+db_config = {
+    "production": {
+        "db_type": "postgresql",
+        "username": "rqjlcbouwdptml",
+        "password": "140d296ff6a2103213affa9eaeaa8b3f2d24cb15c1b9a321ce77277db35bca55",
+        "host": "ec2-54-197-238-238.compute-1.amazonaws.com",
+        "port": "5432",
+        "database": "da3kp68t3m2lui",
+    },
+    "development": {
+        "db_type": "mysql",
+        "username": "root",
+        "password": "2911",
+        "host": "localhost",
+        "port": "5432",
+        "database": "kamseupai",
+    },
+    "stagging": {
+        "db_type": "postgresql",
+        "username": "admin",
+        "password": "admin",
+        "host": "localhost",
+        "port": "5432",
+        "database": "kamseupai",
+    },
+}
