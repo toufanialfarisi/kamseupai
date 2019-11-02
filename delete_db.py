@@ -8,3 +8,6 @@ for data in trans:
 
 print("done")
 
+# db.reflect()
+# db.drop_all()
+# print("DB CLEAR")
