@@ -180,7 +180,8 @@ def index():
         FITUR STATUS KETERSEDIAAN HOMESTAY (AVAILABLE HOMESTAY)        
     '''
     fav = models.Favorit.query.filter_by(id_user=current_user.get_id()).all()
-    # length(Historybelanja) != length(Homestay)
+    
+    # informasi homestay terboking 
     
     return render_template(
         "home.html", 
@@ -202,6 +203,7 @@ def index():
         sliders=data_slider,
         len_sliders=len(data_slider),
         available=model,
+        durasi=models.Historybelanja()
         )
 
 
