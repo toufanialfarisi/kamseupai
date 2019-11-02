@@ -11,6 +11,7 @@ from itsdangerous import URLSafeTimedSerializer, SignatureExpired
 from flask_mail import Mail, Message
 from datetime import timedelta
 from flask_cors import CORS
+from flask_debugtoolbar import DebugToolbarExtension
 import os
 import logging
 
@@ -26,6 +27,11 @@ app.jinja_env.filters["zip"] = zip
 db = SQLAlchemy(app)  # DATABASE SQLALCHEMY
 CORS(app)  # HEADER ALLOW ORIGIN ALL
 Migrate(app, db)  # DATABASE MIGRATION
+
+# DEBUG TOOLABAR
+if os.environ["APP_SETTINGS"] == "config.DevelopmentConfig":
+    toolbarDebuger = DebugToolbarExtension(app)
+
 
 # EMAIL PURPOSE
 email_confirm = URLSafeTimedSerializer("KAMseupai291195")
