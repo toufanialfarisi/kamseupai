@@ -107,7 +107,7 @@
 
       <div class="content-section" id="carding">
         <div class="card-body">
-          {% for data, idr, diskon in form | zip(rupiah, ls_diskon) %}
+          {% for data, idr, diskon, homeTersedia in form | zip(rupiah, ls_diskon, available) %}
           <div class="row">
             <div class="table-responsive-md">
               <aside class="col-sm-3">
@@ -116,8 +116,13 @@
               </aside> <!-- col.// -->
             </div>
             <article class="col-sm-6">
+              {% if homeTersedia.ketersediaanHomestay == true %}
               <a href="{{ url_for('home.detail_homestay', id=data.id) }}" style="color: black">
                 <strong>{{ data.nama_homestay.capitalize() }}</strong></a>
+              {% else %}
+              <a style="color: black"><strong>{{ data.nama_homestay.capitalize() }}</strong></a>
+              {% endif %}
+
               <div class="rating-wrap">
                 <div class="text-muted">
                   <h6> <strong> lokasi : <br> </strong> {{ data.alamat }}, {{ data.provinsi }}
@@ -146,9 +151,20 @@
 
                   <a href="{{ url_for('home.favorit', id=data.id) }}" class="btn btn-outline-success btn-sm">
                     <i class="fas fa-heart"></i>
-                  </a> <a href="{{ url_for('home.detail_homestay', id=data.id) }}" class="btn btn-outline-info btn-sm">
-                    Detail </a> <br>
+                  </a>
+
+                  {% if homeTersedia.ketersediaanHomestay == true %}
+                  <a href="{{ url_for('home.detail_homestay', id=data.id) }}" class="btn btn-outline-info btn-sm">
+                    Detail
+                  </a> <br>
                   <span class="badge badge-success">tersedia</span>
+                  {% else %}
+                  <a href="{{ url_for('home.detail_homestay', id=data.id) }}"
+                    class="btn btn-outline-danger btn-sm disabled">
+                    Detail
+                  </a> <br>
+                  <span class="badge badge-danger">Sedang diboking orang</span>
+                  {% endif %}
 
                 </p>
               </div> <!-- action-wrap.// -->
