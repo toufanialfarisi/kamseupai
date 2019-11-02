@@ -1,3 +1,4 @@
+from flask import redirect, url_for
 from datetime import datetime
 from apps.config import MY_IP
 from apps.home import models
@@ -7,7 +8,6 @@ import string
 import os
 
 host_mode = os.getenv("HOST_MODE")
-print("HOST_MODE ", host_mode)
 
 
 def host(localhost=host_mode):
@@ -96,3 +96,4 @@ def code_homestay(stringLength=6, gen_for="H"):
     """Generate a random string of letters and digits """
     lettersAndDigits = gen_for + string.ascii_letters + string.digits
     return "".join(random.choice(lettersAndDigits) for i in range(stringLength))
+
