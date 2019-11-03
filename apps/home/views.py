@@ -295,7 +295,7 @@ from datetime import datetime
 
 @home.route("/homestay/<int:id>", methods=["GET", "POST"])
 def detail_homestay(id):
-    cur = models.Homestay.query.get(id)
+    cur = models.Homestay.query.get_or_404(id)
 
     fav, is_fav_exist = show_fav()
     ls_diskon = []
