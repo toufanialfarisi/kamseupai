@@ -24,7 +24,7 @@ class Homestay(db.Model):
     update_at = db.Column(db.DateTime, onupdate=datetime.datetime.utcnow())
     ketersediaanHomestay = db.Column(db.Boolean, default=True)
     fav = db.Column(db.Boolean, default=False)
-    tanggal_selesai = db.Column(db.String(10))
+    tanggal_selesai = db.Column(db.String(100))
 
     def __repr__(self):
         return f"homestay : - {self.nama_homestay}"
