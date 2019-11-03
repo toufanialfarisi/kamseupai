@@ -46,9 +46,11 @@
                         <th scope="col">Check-in</th>
                         <th scope="col">Homestay</th>
                         <th scope="col">Durasi</th>
-                        <th scope="col"></th>
-                        <th scope="col"></th>
-                        <th scope="col">Aksi</th>
+                        <th scope="col">Detail</th>
+                        <th scope="col">Bukti</th>
+                        <th scope="col">Tanggal Transaksi</th>
+                        <th scope="col">Pembayaran</th>
+                        <th scope="col">Kepulangan</th>
                     </tr>
                 </thead>
                 {% for form, id, form_b in paginate.items|zip(no, data_bukti) %}
@@ -68,7 +70,7 @@
                             <!-- Button trigger modal -->
                             <button type="button" class="btn btn-light" data-toggle="modal"
                                 data-target="#exampleModalLong{{ id }}">
-                                Detail
+                                lihat
                             </button>
 
                             <!-- Modal -->
@@ -138,7 +140,7 @@
 
                             <!-- Button trigger modal -->
                             <button type="button" class="btn btn-light" data-toggle="modal" data-target="#resi{{ id }}">
-                                Bukti
+                                lihat
                             </button>
 
                             <!-- Modal -->
@@ -184,11 +186,26 @@
 
                         </td>
                         <td>
+                            <center><span class="badge badge-warning">{{ form.create_at.date() }}</span></center>
+                        </td>
+                        <td>
+                            {% set status_var = false %}
                             {% if form.status_pesanan == false %}
                             <a href="{{ url_for('admin.konfirmasi', id=form.id) }}" class="btn btn-outline-danger">
                                 Konfirmasi </a>
                             {% else %}
                             <a href="#" class="btn btn-danger disabled"> Siap ditempati </a>
+                            {% endif %}
+                        </td>
+                        <td>
+                            {% if form.status_pesanan == true %}
+                            <a href="{{ url_for('admin.konfirmasi_kepulangan', idhomestay=form.id_homestay) }}"
+                                class="btn btn-outline-info">
+                                Konfirmasi</a>
+                            {% else %}
+                            <a href="#" class="btn btn-info disabled"> selesai </a>
+
+                            <!-- <a href="#" class="btn btn-danger disabled"> selesai </a> -->
                             {% endif %}
                         </td>
                     </tr>

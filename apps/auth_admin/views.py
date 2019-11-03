@@ -470,16 +470,26 @@ def pesanan():
     prev_page = str(prev_page)
     # user = User.query.get(current_user.get_id)
     data_bukti = BuktiBayar.query.all()
-    paginate = Historybelanja.query.order_by(desc(Historybelanja.create_at)).paginate(page=int(page_param), per_page=per_page)
+    paginate = Historybelanja.query.paginate(page=int(page_param), per_page=per_page)
+    # data_bukti = BuktiBayar()
     return render_template("pesanan.html", data_bukti=data_bukti,form=form, no=no, paginate=paginate, prev_page=prev_page, n_pesanan=n_pesanan, home=home)
 
 @admin.route("/admin/konfirmasi/<id>")
 def konfirmasi(id):
-    pesanan = Historybelanja.query.get(id)
+    pesanan = Historybelanja.query.get_or_404(id)
     pesanan.status_pesanan = True 
     db.session.add(pesanan)
     db.session.commit()
     return redirect(url_for('admin.pesanan'))
+
+@admin.route("/admin/konfirmasi-kepulangan/<idhomestay>")
+def konfirmasi_kepulangan(idhomestay):
+    model = Homestay.query.get_or_404(idhomestay)
+    model.ketersediaanHomestay = True
+    db.session.add(model)
+    db.session.commit()
+    return redirect(url_for('admin.pesanan'))
+
 
 @admin.route("/admin/slider/add", methods=["POST", "GET"])
 def add_slider():

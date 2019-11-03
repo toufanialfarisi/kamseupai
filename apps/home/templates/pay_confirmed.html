@@ -60,10 +60,20 @@
             </div>
             <div class="content-section" id="carding"
                 style="background-image: url({{ url_for('static', filename='background.png') }});">
-                <article class="col-sm" style="margin-top: 20px;">
-                    <p><a href="{{ url_for('home.index') }}" class="btn btn-danger btn-block"> kembali ke beranda
-                        </a></p>
-                </article>
+                <div class="row">
+                    <article class="col-sm-6" style="margin-top: 20px;">
+                        <a href="{{ url_for('home.status_pesanan') }}" class="btn btn-danger btn-block">Cek Pesanan</a>
+                    </article>
+                    <article class="col-sm-6" style="margin-top: 20px;">
+                        <p><a href="{{ url_for('home.index') }}" class="btn btn-warning btn-block"> kembali ke beranda
+                            </a></p>
+                    </article>
+                </div>
+
+
+
+
+
             </div>
 
             <!-- TAMBAHKAN CONTENT LAGI DI SINI -->
