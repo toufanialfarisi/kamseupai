@@ -56,7 +56,9 @@
                 {% for form, id, form_b in paginate.items|zip(no, data_bukti) %}
                 <tbody>
                     <tr>
-                        <td>{{form.tgl_check_in}}</td>
+                        <td>
+                            <center><span class="badge badge-success">{{ form.tgl_check_in }}</span></center>
+                        </td>
                         <!-- <th scope="row">{{id}}</th> -->
                         <td>{{home.query.get(form.id_homestay).nama_homestay}}</td>
                         <!-- <td> {{ form.no_ktp }} </td> -->
