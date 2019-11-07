@@ -348,38 +348,17 @@ def detail_homestay(id):
                     tampung_check_in.append([val for val in list_check])
 
                 listCheckInHomestay = list(chain.from_iterable( tampung_check_in ))
-
+                session["check_out"] = list_check[-1]
+                session["co"] = list_check[-1]
                 if session["ci"] in listCheckInHomestay:
-                    flash("Homestay pada tanggal {} sedang dipakai/reserved".format(session["ci"]), "danger")
-                    return "Homestay pada tanggal {} sedang dipakai/reserved".format(session["ci"])
+                    flash("Homestay pada tanggal {} sedang dipakai/reserved".format(session["ci"].date()), "danger")
+                    return redirect(url_for("home.detail_homestay", id=id))
+                 
                 else:
                     if model_wisata:
                         return redirect(url_for("home.book_homestay", id=id))
                     else:    
                         return redirect(url_for("home.checkout"))
-
-
-                # session["co"] = list_check[-1]
-
-                # '''
-                # checkin[0] = tahun
-                # checkin[1] = bulan
-                # checkin[2] = tanggal 
-                # '''
-
-                # # try:
-                # #     tgl_checkout, bulan = tanggal_checkout(int(malam), int(checkin[2]), int(checkin[1]))
-                # #     check_out = session["check_out"] = checkout[0] + '-' + str(bulan) + '-' +  str(tgl_checkout)  
-                # #     session["co"] = datetime(int(checkout[0]), int(bulan), int(tgl_checkout))      
-                # # except:
-                # #     tgl_checkout = tanggal_checkout(int(malam), int(checkin[2]), int(checkin[1]))        
-                # #     check_out = session["check_out"] = checkout[0] + '-' + str(checkout[1]) + '-' +  str(tgl_checkout)        
-                # #     session["co"] = datetime(int(checkout[0]), int(checkout[1]), int(tgl_checkout))
-                
-                # if model_wisata:
-                #     return redirect(url_for("home.book_homestay", id=id))
-                # else:    
-                #     return redirect(url_for("home.checkout"))
             else:
                 flash("Silahkan isi semua form di bawah ini", "danger")
                 redirect(url_for("home.detail_homestay", id=id))
