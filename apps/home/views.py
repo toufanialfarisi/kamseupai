@@ -4,6 +4,8 @@ from flask_login import current_user, login_required, logout_user
 from flask_login import login_user
 from sqlalchemy.orm.exc import NoResultFound
 from datetime import date, time, datetime
+from dateutil import rrule
+from itertools import chain
 
 # MODELS
 from apps.home.models import * 
@@ -316,7 +318,11 @@ def detail_homestay(id):
             harus sedikit dimanipulasi agar ketika user login di halaman ini, dia bisa memanggil kode untuk 
             login di bagian exception 
             '''
+            getHistoryBelanja = Historybelanja.query.all()
             if request.form["malam"] and request.form["kamar"] and request.form["malam"] and request.form["check_in"] and request.form["nama_lengkap"] and request.form["no_ktp"] or request.form["no_passport"]:
+                
+
+                
                 session["no_ktp"] = request.form["no_ktp"]
                 session["save_id_homestay"] = id
                 session["nama_lengkap"] = request.form["nama_lengkap"]
@@ -335,26 +341,45 @@ def detail_homestay(id):
                 kamar = session["kamar"] = request.form["kamar"]
                 checkout = tgl_checkin.split('-')
                 # tgl_checkout = int(checkout[2]) + int(malam)
-
-                '''
-                checkin[0] = tahun
-                checkin[1] = bulan
-                checkin[2] = tanggal 
-                '''
-
-                try:
-                    tgl_checkout, bulan = tanggal_checkout(int(malam), int(checkin[2]), int(checkin[1]))
-                    check_out = session["check_out"] = checkout[0] + '-' + str(bulan) + '-' +  str(tgl_checkout)  
-                    session["co"] = datetime(int(checkout[0]), int(bulan), int(tgl_checkout))      
-                except:
-                    tgl_checkout = tanggal_checkout(int(malam), int(checkin[2]), int(checkin[1]))        
-                    check_out = session["check_out"] = checkout[0] + '-' + str(checkout[1]) + '-' +  str(tgl_checkout)        
-                    session["co"] = datetime(int(checkout[0]), int(checkout[1]), int(tgl_checkout))
+                tampung_check_in = []
                 
-                if model_wisata:
-                    return redirect(url_for("home.book_homestay", id=id))
-                else:    
-                    return redirect(url_for("home.checkout"))
+                for dt in getHistoryBelanja: 
+                    list_check = list(rrule.rrule(rrule.DAILY, count=int(malam), dtstart=dt.tgl_check_in))
+                    tampung_check_in.append([val for val in list_check])
+
+                listCheckInHomestay = list(chain.from_iterable( tampung_check_in ))
+
+                if session["ci"] in listCheckInHomestay:
+                    flash("Homestay pada tanggal {} sedang dipakai/reserved".format(session["ci"]), "danger")
+                    return "Homestay pada tanggal {} sedang dipakai/reserved".format(session["ci"])
+                else:
+                    if model_wisata:
+                        return redirect(url_for("home.book_homestay", id=id))
+                    else:    
+                        return redirect(url_for("home.checkout"))
+
+
+                # session["co"] = list_check[-1]
+
+                # '''
+                # checkin[0] = tahun
+                # checkin[1] = bulan
+                # checkin[2] = tanggal 
+                # '''
+
+                # # try:
+                # #     tgl_checkout, bulan = tanggal_checkout(int(malam), int(checkin[2]), int(checkin[1]))
+                # #     check_out = session["check_out"] = checkout[0] + '-' + str(bulan) + '-' +  str(tgl_checkout)  
+                # #     session["co"] = datetime(int(checkout[0]), int(bulan), int(tgl_checkout))      
+                # # except:
+                # #     tgl_checkout = tanggal_checkout(int(malam), int(checkin[2]), int(checkin[1]))        
+                # #     check_out = session["check_out"] = checkout[0] + '-' + str(checkout[1]) + '-' +  str(tgl_checkout)        
+                # #     session["co"] = datetime(int(checkout[0]), int(checkout[1]), int(tgl_checkout))
+                
+                # if model_wisata:
+                #     return redirect(url_for("home.book_homestay", id=id))
+                # else:    
+                #     return redirect(url_for("home.checkout"))
             else:
                 flash("Silahkan isi semua form di bawah ini", "danger")
                 redirect(url_for("home.detail_homestay", id=id))

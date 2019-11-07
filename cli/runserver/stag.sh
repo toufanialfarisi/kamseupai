@@ -20,4 +20,4 @@ export database=kamseupai
 
 . env/bin/activate
 echo "source of env was activated"
-flask run  
+flask run -p 5001
