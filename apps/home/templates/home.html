@@ -112,15 +112,10 @@
             <div class="table-responsive-md ">
               <aside class="col-sm-3">
                 <div class="img-wrap">
-                  {% if homeTersedia.ketersediaanHomestay == true  %}
                   <a href="{{ url_for('home.detail_homestay', id=data.id) }}"><img class="rounded float-left"
                       src="{{ data.foto_homestay }}" width="230px" /></a>
-                  {% else %}
-                  {% set infoDurasi = durasi.query.filter_by(id_homestay=data.id).first().malam %}
-                  <a href="{{ url_for('home.detail_homestay', id=data.id) }}"><img class="rounded float-left"
-                      src="{{ data.foto_homestay }}" width="230px" data-toggle="tooltip" data-placement="top"
-                      title="Sedang dibooking selama {{ infoDurasi }} hari" /></a>
-                  {% endif %}
+
+
 
 
                 </div>
@@ -128,15 +123,10 @@
             </div>
             <article class="col-sm-6">
 
-              {% if homeTersedia.ketersediaanHomestay == true  %}
+
               <p class="h3"> <a s href="{{ url_for('home.detail_homestay', id=data.id) }}" style="color: black">
                   <strong>{{ data.nama_homestay.capitalize() }}</strong></a></p>
-              {% else %}
-              {% set infoDurasi = durasi.query.filter_by(id_homestay=data.id).first().malam %}
-              <p class="h3"><a href="{{ url_for('home.detail_homestay', id=data.id) }}" style="color: black"
-                  data-toggle="tooltip" data-placement="top" title="Sedang dibooking selama {{ infoDurasi }} hari">
-                  <strong>{{ data.nama_homestay.capitalize() }}</strong></a></p>
-              {% endif %}
+
 
               <div class="rating-wrap">
                 <div class="text-muted">
@@ -169,30 +159,9 @@
                     <i class="fas fa-heart"></i>
                   </a>
 
-                  {% if homeTersedia.ketersediaanHomestay == true  %}
                   <a href="{{ url_for('home.detail_homestay', id=data.id) }}" class="btn btn-info btn-sm">
-                    Detail
+                    Detail Homestay
                   </a> <br>
-                  {% else %}
-                  {% set infoDurasi = durasi.query.filter_by(id_homestay=data.id).first().malam %}
-                  <a href="{{ url_for('home.detail_homestay', id=data.id) }}" class="btn btn-info btn-sm"
-                    data-toggle="tooltip" data-placement="top" title="Sedang dibooking selama {{ infoDurasi }} hari">
-                    Detail
-                  </a>
-                  <div style="margin-bottom: 10px"></div>
-                  {% endif %}
-
-                  {% if homeTersedia.ketersediaanHomestay == true  %}
-
-                  <span class="badge badge-success">tersedia</span>
-                  {% else %}
-                  {% set infoDurasi = durasi.query.filter_by(id_homestay=data.id).first().malam %}
-                  <span class="badge badge-danger" style="margin-right: 3px">Reserved</span> <span
-                    class="badge badge-warning">s/d
-                    {{ data.tanggal_selesai[:11] }}</span>
-                  <span class="badge badge-success" style="margin-right: 3px"> selama {{ infoDurasi }} hari</span>
-                  {% endif %}
-
                 </p>
               </div> <!-- action-wrap.// -->
             </aside> <!-- col.// -->
