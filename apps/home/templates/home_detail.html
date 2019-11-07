@@ -18,6 +18,22 @@
         <p class='text-muted'>
           <legend class="border-bottom mb-4"> Detail <strong>Homestay</strong></legend>
         </p>
+        <p>
+          <!-- FLASH -->
+          {% with messages = get_flashed_messages(with_categories=true) %}
+          {% if messages %}
+          {% for category, message in messages %}
+          <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
+            <span class="text-muted"> {{ message }} </span> &ensp;
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          {% endfor %}
+          {% endif %}
+          {% endwith %}
+          <!-- FLASH -->
+        </p>
         <div class="card-body">
 
           <div class="row">
@@ -149,13 +165,40 @@
                           </div>
 
                           <div class="modal-footer">
-                            <button type="submit" class="btn btn-info btn-block">Pesan Homestay</button>
+                            <button type="submit" class="btn btn-info btn-block" data-toggle="modal"
+                              href="#exampleModal2">Pesan Homestay</button>
                           </div>
                           </form>
                         </div>
                       </div>
                     </div>
                     <!-- MODAL -->
+
+                    <!-- MODAL WARNING -->
+                    {% if warning == true %}
+                    <div class="modal fade" id="exampleModal2" tabindex="-1" role="dialog"
+                      aria-labelledby="exampleModal2Label" aria-hidden="true">
+                      <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                          <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModal2Label">Modal title</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                              <span aria-hidden="true">&times;</span>
+                            </button>
+                          </div>
+                          <div class="modal-body">
+                            TIDAK TERSEDIA HOMESTAY PADA TANGGAL SEGITU
+                          </div>
+                          <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                            <button type="button" class="btn btn-primary">Save changes</button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    {% else %}
+                    {% endif %}
+                    <!-- MODAL WARNING -->
 
                   </dt>
 
