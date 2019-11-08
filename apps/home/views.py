@@ -298,7 +298,6 @@ from datetime import datetime
 @home.route("/homestay/<int:id>", methods=["GET", "POST"])
 def detail_homestay(id):
     cur = models.Homestay.query.get_or_404(id)
-
     fav, is_fav_exist = show_fav()
     ls_diskon = []
     rupiah = formatrupiah(cur.harga)
@@ -310,87 +309,56 @@ def detail_homestay(id):
     model_wisata = models.Wisata.query.filter_by(id_homestay=id).all()
     searchform = searchForm()
     if request.method == "POST":
-        try:
-            '''
-            try dan except ini digunakan karena ada dua request form dalam halaman detail_homestay yaitu
-            login dan fitur pesan homestay, nahh ini harus dilakukan try dan exeption soalnya
-            variable session 'malam' tidak ditemukan ketika request form nya berupa fitur login, sehingga
-            harus sedikit dimanipulasi agar ketika user login di halaman ini, dia bisa memanggil kode untuk 
-            login di bagian exception 
-            '''
-            getHistoryBelanja = Historybelanja.query.all()
-            if request.form["malam"] and request.form["kamar"] and request.form["malam"] and request.form["check_in"] and request.form["nama_lengkap"] and request.form["no_ktp"] or request.form["no_passport"]:
-                
-
-                
-                session["no_ktp"] = request.form["no_ktp"]
-                session["save_id_homestay"] = id
-                session["nama_lengkap"] = request.form["nama_lengkap"]
-                if request.form["no_passport"]:
-                    session["no_passport"] = request.form["no_passport"]
-                else:
-                    session["no_passport"] = None 
-                
-                malam = session["malam"] = request.form["malam"]
-                tgl_checkin = request.form["check_in"] # session["check_in"] = 
-                checkin = tgl_checkin.split('-')
-                check_in = checkin[0] + '-' + checkin[1] +'-' + checkin[2]
-                session["ci"] = datetime(int(checkin[0]), int(checkin[1]), int(checkin[2]))
-                tgl_checkin = session["check_in"] = check_in
-
-                kamar = session["kamar"] = request.form["kamar"]
-                checkout = tgl_checkin.split('-')
-                # tgl_checkout = int(checkout[2]) + int(malam)
-                tampung_check_in = []
-                
-                for dt in getHistoryBelanja: 
-                    list_check = list(rrule.rrule(rrule.DAILY, count=int(malam), dtstart=dt.tgl_check_in))
-                    tampung_check_in.append([val for val in list_check])
-
-                listCheckInHomestay = list(chain.from_iterable( tampung_check_in ))
-                session["check_out"] = list_check[-1]
-                session["co"] = list_check[-1]
-                if session["ci"] in listCheckInHomestay:
-                    flash("Homestay pada tanggal {} sedang dipakai/reserved".format(session["ci"].date()), "danger")
-                    return redirect(url_for("home.detail_homestay", id=id))
-                 
-                else:
-                    if model_wisata:
-                        return redirect(url_for("home.book_homestay", id=id))
-                    else:    
-                        return redirect(url_for("home.checkout"))
+        getHistoryBelanja = Historybelanja.query.all()
+        if (current_user.is_authenticated and 
+                request.form["malam"] and 
+                request.form["kamar"] and 
+                request.form["malam"] and 
+                request.form["check_in"] and 
+                request.form["nama_lengkap"] and 
+                request.form["no_ktp"] or 
+                request.form["no_passport"]
+            ):
+            
+            session["no_ktp"] = request.form["no_ktp"]
+            session["save_id_homestay"] = id
+            session["nama_lengkap"] = request.form["nama_lengkap"]
+            if request.form["no_passport"]:
+                session["no_passport"] = request.form["no_passport"]
             else:
-                flash("Silahkan isi semua form di bawah ini", "danger")
-                redirect(url_for("home.detail_homestay", id=id))
-        except:
-            user = User.query.filter_by(username=request.form["username"]).first()
-            try:
-                check_user_confirmed = user.confirmation_status
-                if (
-                    user.check_password(request.form["password"])
-                    and user is not None
-                    and check_user_confirmed is True
-                ):
+                session["no_passport"] = None 
+            
+            malam = session["malam"] = request.form["malam"]
+            tgl_checkin = request.form["check_in"] # session["check_in"] = 
+            checkin = tgl_checkin.split('-')
+            check_in = checkin[0] + '-' + checkin[1] +'-' + checkin[2]
+            session["ci"] = datetime(int(checkin[0]), int(checkin[1]), int(checkin[2]))
+            tgl_checkin = session["check_in"] = check_in
 
-                    login_user(user)
-                    next = request.args.get("next")
-                    if next == None or not next[0] == "/":
-                        next = url_for("home.detail_homestay", id=id)
-                    return redirect(next)
-                elif (
-                    user.check_password(request.form["password"])
-                    and user is not None
-                    and check_user_confirmed is False
-                ):
-                    flash("Akun belum terkonfirmasi, silahkan cek email Anda !", "danger")
-                    return redirect(url_for("auth.login"))
-                else:
-                    flash("Username / password Anda salah", "danger")
-                    return redirect(url_for("auth.login"))
+            kamar = session["kamar"] = request.form["kamar"]
+            checkout = tgl_checkin.split('-')
+            # tgl_checkout = int(checkout[2]) + int(malam)
+            tampung_check_in = []
+            list_check = list(rrule.rrule(rrule.DAILY, count=int(malam), dtstart=session["ci"]))
+            for dt in getHistoryBelanja: 
+                list_check = list(rrule.rrule(rrule.DAILY, count=int(malam), dtstart=dt.tgl_check_in))
+                tampung_check_in.append([val for val in list_check])
 
-            except AttributeError:
-                flash("Akun anda tidak terdaftar, silahkan register dulu !", "danger")
-                return redirect(url_for("auth.login"))
+            listCheckInHomestay = list(chain.from_iterable( tampung_check_in ))
+            session["co"] = list_check[-1]
+            session["co"] = list_check[-1]
+            if session["ci"] in listCheckInHomestay:
+                flash("Homestay pada tanggal {} sedang dipakai/reserved".format(session["ci"].date()), "danger")
+                return redirect(url_for("home.detail_homestay", id=id))
+                
+            else:
+                if model_wisata:
+                    return redirect(url_for("home.book_homestay", id=id))
+                else:    
+                    return redirect(url_for("home.checkout"))
+        else:
+            flash("Silahkan Login dulu !", "danger")
+            return redirect(url_for("auth.login"))
     
     otherFotoModel = Homestay.query.get(id)
     listFoto = list([otherFotoModel.foto1, otherFotoModel.foto2, otherFotoModel.foto3, otherFotoModel.foto4, otherFotoModel.foto5])
@@ -408,7 +376,7 @@ def detail_homestay(id):
         img_user=foto_profile_user(),
         username = current_username(),
         homestay=models.Homestay(),
-        listFoto=listFoto
+        listFoto=listFoto,
     )
 
 
@@ -453,7 +421,7 @@ def book_processing():
     malam = session["malam"]
     kamar = session["kamar"]
     tgl_check_in = session["check_in"]
-    tgl_check_out = session["check_out"]
+    tgl_check_out = session["co"]
 
     try:
         id_wisata = session["save_id_wisata"]
@@ -486,7 +454,7 @@ def checkout():
     user_now = current_user.get_id()
     id_homestay = session["save_id_homestay"]
     tgl_check_in = session["check_in"]
-    tgl_check_out = session["check_out"]
+    tgl_check_out = session["co"]
     try:
         n_malam = int(session["malam"])
     except:
