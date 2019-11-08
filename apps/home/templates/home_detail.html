@@ -20,7 +20,7 @@
         </p>
         <p>
           <!-- FLASH -->
-
+          {% if current_user.is_authenticated %}
           {% with messages = get_flashed_messages(with_categories=true) %}
           {% if messages %}
           {% for category, message in messages %}
@@ -33,6 +33,11 @@
           {% endfor %}
           {% endif %}
           {% endwith %}
+          {% else %}
+          <div class="alert alert-warning" role="alert">
+            Silahkan login terlebih dahulu sebelum memesan !
+          </div>
+          {% endif %}
 
           <!-- FLASH -->
         </p>
