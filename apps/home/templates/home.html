@@ -27,17 +27,6 @@
   <div class="col">
     <div id="atas"></div>
 
-    <script type="text/babel">
-      class App extends React.Component {
-        render(){
-          return (<h3> Selamat Datang  </h3>)
-        }
-
-      }
-      ReactDOM.render(<App />, document.getElementById('atas'))
-    </script>
-
-
     {% with messages = get_flashed_messages(with_categories=true) %}
     {% if messages %}
     {% for category, message in messages %}

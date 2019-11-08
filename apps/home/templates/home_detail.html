@@ -20,6 +20,7 @@
         </p>
         <p>
           <!-- FLASH -->
+
           {% with messages = get_flashed_messages(with_categories=true) %}
           {% if messages %}
           {% for category, message in messages %}
@@ -32,6 +33,7 @@
           {% endfor %}
           {% endif %}
           {% endwith %}
+
           <!-- FLASH -->
         </p>
         <div class="card-body">
@@ -42,21 +44,6 @@
                 <div class="row">
                   <!-- Gambar utama -->
                   <aside class="col-sm-3">
-                    <div class="img-wrap"><img class="rounded float-left" src="{{ form.foto_homestay }}" height="150px"
-                        width="250px">
-                    </div>
-                  </aside>
-                  <!-- Gambar utama -->
-                </div>
-                <div class="row" style="margin-left: 1px; margin-top: 5px;">
-
-                  <!-- deskripsi gambar dan harga -->
-                  {% if form.diskon != 0 %}
-                  <div class="price-wrap h4">
-                    <span class="price"> Rp.{{ diskon }}</span> <span style="font-size: 14px;">/ malam</span> <br>
-                    <del class="price-old"> Rp. {{ formatrupiah(form.harga) }} </del>
-                    <h6 class="text-success">potongan {{ form.diskon }}%</h6>
-                    <h6>Gambar Lainnya : </h6>
                     <!-- slider -->
                     <div class="img-wrap">
                       <div id="carouselExampleControls" class="carousel slide" data-ride="carousel"
@@ -65,9 +52,7 @@
                         <div class="carousel-inner">
                           {% if listFoto[0] == none and listFoto[1] == none and listFoto[2] == none and listFoto[3] == none and listFoto[4] == none %}
                           <div class="carousel-item active">
-                            <img
-                              src="https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcR5tAuLsAuJkNHVEaFSD8L9-UuE-3XNnJc3x8RnhLVmy1ebR3vS"
-                              height="140px" class="d-block w-100" alt="...">
+                            <img src="{{ form.foto_homestay }}" height="140px" class="d-block w-100" alt="...">
                           </div>
                           {% else %}
                           <div class="carousel-item active">
@@ -99,14 +84,21 @@
                     </div>
                     <!-- slider -->
 
+                  </aside>
+                  <!-- Gambar utama -->
+                </div>
+                <div class="row" style="margin-left: 1px; margin-top: 5px;">
 
+                  <!-- deskripsi gambar dan harga -->
+                  {% if form.diskon != 0 %}
+                  <div class="price-wrap h4">
+                    <span class="price"> Rp.{{ diskon }}</span> <span style="font-size: 14px;">/ malam</span> <br>
+                    <del class="price-old"> Rp. {{ formatrupiah(form.harga) }} </del>
+                    <h6 class="text-success">potongan {{ form.diskon }}%</h6>
                   </div> <!-- info-price-detail // --> <br>
                   <div>
-
                   </div>
-
                   {% else %}
-
                   <div class="price-wrap h4">
                     <span class="price"> Rp. {{ diskon }}</span> <span style="font-size: 14px;">/ malam</span> <br>
                   </div> <!-- info-price-detail // -->
