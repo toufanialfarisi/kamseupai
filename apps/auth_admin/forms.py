@@ -49,7 +49,7 @@ class HomestayForm(FlaskForm):
     jumlah_kamar = IntegerField("Jumlah kamar", validators=[DataRequired()])
     harga = IntegerField("Harga", validators=[DataRequired()])
     diskon = IntegerField("Diskon", validators=[DataRequired()])
-    foto_homestay = FileField(validators=[FileRequired()])
+    foto_homestay = FileField("Foto utama homestay", validators=[FileRequired()])
     submit = SubmitField("Tambah Homestay")
 
 
@@ -94,3 +94,12 @@ class searchForm(FlaskForm):
 class SliderForm(FlaskForm):
     image = FileField("Tambah Image slider", validators=[FileRequired()])
     submit = SubmitField("Tambah")
+
+
+class FotoLainnyaForm(FlaskForm):
+    foto1 = FileField("Foto 1")
+    foto2 = FileField("Foto 2")
+    foto3 = FileField("Foto 3")
+    foto4 = FileField("Foto 4")
+    foto5 = FileField("Foto 5")
+    submit = SubmitField("Simpan")

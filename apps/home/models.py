@@ -25,6 +25,11 @@ class Homestay(db.Model):
     ketersediaanHomestay = db.Column(db.Boolean, default=True)
     fav = db.Column(db.Boolean, default=False)
     tanggal_selesai = db.Column(db.String(100))
+    foto1 = db.Column(db.String(150))
+    foto2 = db.Column(db.String(150))
+    foto3 = db.Column(db.String(150))
+    foto4 = db.Column(db.String(150))
+    foto5 = db.Column(db.String(150))
 
     def __repr__(self):
         return f"homestay : - {self.nama_homestay}"
@@ -119,3 +124,15 @@ class BuktiBayar(db.Model):
     nama_rek = db.Column(db.String(100))
     bank_tujuan = db.Column(db.String(100))
     foto_bukti = db.Column(db.String(100))
+
+
+class FotoLainnya(db.Model):
+    __tablname__ = "fotolainnya"
+    id = db.Column(db.Integer, primary_key=True)
+    id_homestay = db.Column(db.Integer, db.ForeignKey("homestay.id"))
+    foto1 = db.Column(db.String(150))
+    foto2 = db.Column(db.String(150))
+    foto3 = db.Column(db.String(150))
+    foto4 = db.Column(db.String(150))
+    foto5 = db.Column(db.String(150))
+

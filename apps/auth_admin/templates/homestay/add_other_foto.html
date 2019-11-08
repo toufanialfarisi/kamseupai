@@ -1,0 +1,110 @@
+{% extends "admin_layout.html" %}
+{% block content %}
+<main role="main" class="container">
+    <div class="row">
+        <div class="col-sm"></div>
+        <div class="col-sm">
+
+            <style>
+                #carding {
+                    border-radius: 15px;
+                    padding: 20px;
+                    width: 450px;
+                    height: auto;
+                    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+                }
+            </style>
+            <div class="content-selection">
+                <div class="content-section" id="carding">
+                    <div class="card-body">
+
+
+                        <form action="" method="POST" enctype="multipart/form-data">
+                            {{ form.hidden_tag() }}
+                            <fieldset class="form-group">
+                                {{ form.foto1.label(class='form-control-label') }}
+                                {% if form.foto1.errors %}
+                                {{ form.foto1(class='form-control form-control-lg is-invalid') }}
+                                <div class="invalid-feedback">
+                                    {% for error in form.foto1.errors %}
+                                    <span>{{ error }}</span>
+                                    {% endfor %}
+                                </div>
+                                {% else %}
+                                {{ form.foto1(class='form-control form-control-lg') }}
+                                {% endif %}
+                            </fieldset>
+                            <fieldset class="form-group">
+                                {{ form.foto2.label(class='form-control-label') }}
+                                {% if form.foto2.errors %}
+                                {{ form.foto2(class='form-control form-control-lg is-invalid') }}
+                                <div class="invalid-feedback">
+                                    {% for error in form.foto2.errors %}
+                                    <span>{{ error }}</span>
+                                    {% endfor %}
+                                </div>
+                                {% else %}
+                                {{ form.foto2(class='form-control form-control-lg') }}
+                                {% endif %}
+                            </fieldset>
+                            <fieldset class="form-group">
+                                {{ form.foto3.label(class='form-control-label') }}
+                                {% if form.foto3.errors %}
+                                {{ form.foto3(class='form-control form-control-lg is-invalid') }}
+                                <div class="invalid-feedback">
+                                    {% for error in form.foto3.errors %}
+                                    <span>{{ error }}</span>
+                                    {% endfor %}
+                                </div>
+                                {% else %}
+                                {{ form.foto3(class='form-control form-control-lg') }}
+                                {% endif %}
+                            </fieldset>
+                            <fieldset class="form-group">
+                                {{ form.foto4.label(class='form-control-label') }}
+                                {% if form.foto4.errors %}
+                                {{ form.foto4(class='form-control form-control-lg is-invalid') }}
+                                <div class="invalid-feedback">
+                                    {% for error in form.foto4.errors %}
+                                    <span>{{ error }}</span>
+                                    {% endfor %}
+                                </div>
+                                {% else %}
+                                {{ form.foto4(class='form-control form-control-lg') }}
+                                {% endif %}
+                            </fieldset>
+                            <fieldset class="form-group">
+                                {{ form.foto5.label(class='form-control-label') }}
+                                {% if form.foto5.errors %}
+                                {{ form.foto5(class='form-control form-control-lg is-invalid') }}
+                                <div class="invalid-feedback">
+                                    {% for error in form.foto5.errors %}
+                                    <span>{{ error }}</span>
+                                    {% endfor %}
+                                </div>
+                                {% else %}
+                                {{ form.foto5(class='form-control form-control-lg') }}
+                                {% endif %}
+                            </fieldset>
+
+                            <div class="modal-footer">
+                                {{ form.submit(class='btn btn-info btn-block') }}
+
+                            </div>
+                        </form>
+
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm"></div>
+    </div>
+    </div>
+</main>
+
+
+
+
+{% endblock %}

@@ -47,6 +47,7 @@
                         <th scope="col">#</th>
                         <th scope="col">Homestay</th>
                         <th scope="col">Alamat</th>
+                        <th scope="col"></th>
                         <th scope="col">Aksi</th>
                         <th scope="col"></th>
                     </tr>
@@ -57,10 +58,11 @@
                         <th scope="row">{{id}}</th>
                         <td>{{form.nama_homestay}}</td>
                         <td> {{ form.alamat }} </td>
+                        <td><a href="{{ url_for('admin.add_other_foto', id=form.id) }}" class="btn btn-primary"> <i
+                                    class="fas fa-camera"></i> Foto Lainnya </a></td>
+                        <td><a href="{{ url_for('admin.edit_homestay', id=form.id) }}" class="btn btn-success"> <i
+                                    class="fas fa-edit"></i> Edit</a></td>
                         <td>
-                            <a href="{{ url_for('admin.edit_homestay', id=form.id) }}" class="btn btn-success"> <i
-                                    class="fas fa-edit"></i> Edit</a>
-
                             <a href="{{ url_for('admin.delete_homestay', id=form.id) }}" class="btn btn-danger"><i
                                     class="fas fa-trash-alt"></i> Hapus</a>
                         </td>
@@ -73,6 +75,10 @@
             </table>
 
         </div>
+
+        <!-- MODAL -->
+
+        <!-- MODAL -->
 
         <!-- <legend class="border-bottom mb-4"></legend> -->
         <br>

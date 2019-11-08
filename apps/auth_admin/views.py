@@ -14,7 +14,7 @@ from apps import db
 from apps.home.utility import *
 from apps.config import IMAGES_DIR, MY_IP
 from apps.utils import validasi_type, upload_file
-from apps.home.models import Homestay, Wisata, Historybelanja, BuktiBayar, Favorit
+from apps.home.models import Homestay, Wisata, Historybelanja, BuktiBayar, Favorit, FotoLainnya
 from apps.api import provinsi, kabupaten, kecamatan 
 from sqlalchemy import desc
 
@@ -37,6 +37,7 @@ def admin_index():
 @admin.route("/admin/homestay", methods=["POST", "GET", "PUT", "DELETE"])
 def view_homestay():
     if "admin" in session:
+        fotoLainnya = FotoLainnyaForm()
         page_param = request.args.get("page")
         per_page = 4    
         if not page_param:
@@ -51,7 +52,9 @@ def view_homestay():
         prev_page = int(page_param) - 1
         prev_page = str(prev_page)
         form = searchForm()
+        
         if form.validate_on_submit():
+
             post = Homestay.query.filter(
                 Homestay.nama_homestay.like('%' + form.keyword.data + '%')
                 ).order_by(Homestay.nama_homestay).paginate(
@@ -68,8 +71,8 @@ def view_homestay():
                 curr_page=page_param,
                 max_page=max_page,
                 paginate=paginate,
-                n_pesanan=n_pesanan()(),
-                
+                n_pesanan=n_pesanan(),
+                fotoLainnya=fotoLainnya
             )
         else:
             return render_template(
@@ -84,10 +87,73 @@ def view_homestay():
             max_page=max_page,
             paginate=paginate,
             n_pesanan=n_pesanan(), 
+            fotoLainnya=fotoLainnya
         )
+        
+            
+
     else:
         flash("Silahkan login terlebih dahulu", "danger")
         return redirect(url_for("admin.login_admin"))
+
+@admin.route("/admin/add-other-foto/<id>", methods=["POST","GET"])
+def add_other_foto(id):
+    fotoLainnya = FotoLainnyaForm()
+    if fotoLainnya.validate_on_submit():
+
+        folder = IMAGES_DIR + "/homestay"
+
+        file1 = request.files["foto1"]
+        file2 = request.files["foto2"]
+        file3 = request.files["foto3"]
+        file4 = request.files["foto4"]
+        file5 = request.files["foto5"]
+        try:
+            foto1 = upload_file(file1, folder) 
+            foto1 = host() + "/" + foto1
+        except:
+            foto1 = None
+
+        try:
+            foto2 = upload_file(file2, folder) 
+            foto2 = host() + "/" + foto2
+        except:
+            foto2 = None
+
+        try:
+            foto3 = upload_file(file3, folder) 
+            foto3 = host() + "/" + foto3
+        except:
+            foto3 = None
+
+        try:
+            foto4 = upload_file(file4, folder) 
+            foto4 = host() + "/" + foto4
+        except:
+            foto4 = None
+
+        try:
+            foto5 = upload_file(file5, folder) 
+            foto5 = host() + "/" + foto5
+        except:
+            foto5 = None
+
+        print(foto1)
+        print(foto2)
+        print(foto3)
+        print(foto4)
+        print(foto5)        
+        
+        modelFotoLainnya = Homestay.query.get(id)
+        modelFotoLainnya.foto1=foto1
+        modelFotoLainnya.foto2=foto2
+        modelFotoLainnya.foto3=foto3 
+        modelFotoLainnya.foto4=foto4
+        modelFotoLainnya.foto5=foto5
+        models.db.session.add(modelFotoLainnya)
+        models.db.session.commit()
+        return redirect(url_for("admin.view_homestay")) 
+    return render_template("homestay/add_other_foto.html", form=fotoLainnya)
 
 
 @admin.route("/admin/wisata", methods=["POST", "GET", "PUT", "DELETE"])

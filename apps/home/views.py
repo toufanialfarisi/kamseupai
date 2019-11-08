@@ -391,7 +391,10 @@ def detail_homestay(id):
             except AttributeError:
                 flash("Akun anda tidak terdaftar, silahkan register dulu !", "danger")
                 return redirect(url_for("auth.login"))
-            
+    
+    otherFotoModel = Homestay.query.get(id)
+    listFoto = list([otherFotoModel.foto1, otherFotoModel.foto2, otherFotoModel.foto3, otherFotoModel.foto4, otherFotoModel.foto5])
+    print("listFoto : ", listFoto)
     return render_template(
         "home_detail.html", 
         form=cur, 
@@ -405,6 +408,7 @@ def detail_homestay(id):
         img_user=foto_profile_user(),
         username = current_username(),
         homestay=models.Homestay(),
+        listFoto=listFoto
     )
 
 

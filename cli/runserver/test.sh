@@ -8,4 +8,4 @@ export HOST_MODE=development
 export SECRET_KEY=kamseupai2019onfire17081945
 . env/bin/activate
 echo "source of env was activated"
-exec flask run  
+exec flask run -p 5001
