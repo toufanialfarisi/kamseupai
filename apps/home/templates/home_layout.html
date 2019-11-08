@@ -173,7 +173,9 @@
                             <a href="{{ url_for('home.status_pesanan') }}" class="dropdown-item">Pesanan</a>
                             <div class="dropdown-divider"></div>
                             <h6 class="dropdown-header">Pengaturan akun</h6>
-                            <a class="dropdown-item" href="{{ url_for('home.user_detail') }}"> Profile</a>
+                            <a class="dropdown-item"
+                                href="{{ url_for('home.user_detail', username=user.query.get(current_user.get_id()).username) }}">
+                                Profile</a>
                             <a href="{{ url_for('auth.logout') }}" class="dropdown-item">Logout</a>
                         </div>
                     </div>
@@ -182,7 +184,8 @@
                     <img id="img" class="rounded-circle" src="{{ url_for('static', filename='default_profile.png') }}"
                         width="35px" height="35px"> &ensp;
                     {% else %}
-                    <a href="{{ url_for('home.user_detail') }}">
+                    <a
+                        href="{{ url_for('home.user_detail', username=user.query.get(current_user.get_id()).username ) }}">
                         <img class="rounded-circle" src="{{ img_user }}" alt="" width="35px" height="35px">
                     </a>
 

@@ -205,7 +205,8 @@ def index():
         sliders=data_slider,
         len_sliders=len(data_slider),
         available=model,
-        durasi=models.Historybelanja()
+        durasi=models.Historybelanja(),
+        user=User
         )
 
 
@@ -375,6 +376,7 @@ def detail_homestay(id):
         username = current_username(),
         homestay=models.Homestay(),
         listFoto=listFoto,
+        user=User
     )
 
 
@@ -401,6 +403,7 @@ def book_homestay(id):
         img_user=foto_profile_user(),
         username = current_username(),
         homestay=models.Homestay(),
+        user=User
     )
 
 
@@ -438,7 +441,8 @@ def book_processing():
             malam=malam,
             kamar=kamar,
             tgl_check_in=tgl_check_in,
-            tgl_check_out=tgl_check_out
+            tgl_check_out=tgl_check_out,
+            user=User
         )
 
         models.db.session.add(checkout)
@@ -511,6 +515,7 @@ def checkout():
         img_user=foto_profile_user(),
         username = current_username(),
         homestay=models.Homestay(),
+        user=User
     )
 
 
@@ -546,8 +551,10 @@ def pay():
     for val in form_wisata:
         biaya_wisata.append(val.biaya)
 
-    
+    # TOTAL BIAYA INI UNTUK INFORMASI UNDUH RECEIPT
     total_biaya = session["total_biaya"]
+    # TOTAL BIAYA INI UNTUK INFORMASI UNDUH RECEIPT
+    
     fav, is_fav_exist = show_fav()
 
     # REQUEST FORM
@@ -614,7 +621,8 @@ def pay():
         img_user=foto_profile_user(),
         username = current_username(),
         homestay=models.Homestay(),
-        form=form 
+        form=form,
+        user=User
     )
 
 
@@ -641,6 +649,7 @@ def pay_confirmed():
             img_user=foto_profile_user(), 
             username = current_username(),
             homestay=models.Homestay(),
+            user=User
         )
     else:
         progress = url_for("home.index")
@@ -648,9 +657,9 @@ def pay_confirmed():
     
 
 
-@home.route("/user-detail", methods=["POST", "GET"])
+@home.route("/user-detail/<username>", methods=["POST", "GET"])
 @login_required
-def user_detail():
+def user_detail(username):
     fav, is_fav_exist = show_fav()
     user_id = current_user.get_id()
     user_form = UserDetailForm()
@@ -673,6 +682,7 @@ def user_detail():
         username = current_username(),
         favs=fav,
         homestay=models.Homestay(),
+        user=User
         
     )
 
@@ -752,6 +762,7 @@ def status_pesanan():
         username = current_username(),
         formm=searchForm(),
         homestay=models.Homestay(),
+        user=User
     )
 
 @home.route("/bukti-bayar", methods=["POST", "GET"])
@@ -769,6 +780,7 @@ def proses_pembayaran():
         progress=progress, 
         img_user=foto_profile_user(), 
         homestay=models.Homestay(),
+        user=User
     )
 
 @home.route("/logout", methods=["GET"])

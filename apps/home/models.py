@@ -43,8 +43,8 @@ class Transaksi(db.Model):
     id_wisata = db.Column(db.Integer, db.ForeignKey("wisata.id"))
     malam = db.Column(db.Integer)
     kamar = db.Column(db.Integer)
-    tgl_check_in = db.Column(db.String(10))
-    tgl_check_out = db.Column(db.String(10))
+    tgl_check_in = db.Column(db.String(50))
+    tgl_check_out = db.Column(db.String(50))
 
 
 class Historybelanja(db.Model):
