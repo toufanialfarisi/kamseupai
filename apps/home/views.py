@@ -223,7 +223,6 @@ def status_homestay():
         query.ketersediaanHomestay = False
         models.db.session.add(query)
         models.db.session.commit()
-    print("STATUS HOMESTAY EXECUTED AND ROUTED")
     return redirect(url_for('home.proses_pembayaran'))
 
 @home.route("/favorit/<int:id>", methods=["GET"])
@@ -362,7 +361,6 @@ def detail_homestay(id):
     
     otherFotoModel = Homestay.query.get(id)
     listFoto = list([otherFotoModel.foto1, otherFotoModel.foto2, otherFotoModel.foto3, otherFotoModel.foto4, otherFotoModel.foto5])
-    print("listFoto : ", listFoto)
     return render_template(
         "home_detail.html", 
         form=cur, 
