@@ -28,6 +28,7 @@ berada di wilayah pedesaan. fitur fitur standar yang telah dikembang untuk menun
 - mengunduh invoice pemesanan
 - mengetahui apakah homestay sedang reserved/booked atau tersedia
 - logout sebagai user
+- User dapat melihat tanggal berapa saja homestay tersedia
 
 #### Sebagai Admin Kamseupai
 
