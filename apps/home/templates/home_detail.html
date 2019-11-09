@@ -109,6 +109,59 @@
                   </div> <!-- info-price-detail // -->
                   {% endif %}
                 </div>
+                <!-- Button trigger modal -->
+                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#calendar">
+                  Lihat Kalender
+                </button>
+
+                <!-- Modal -->
+                <div class="modal fade" id="calendar" tabindex="-1" role="dialog" aria-labelledby="calendarLabel"
+                  aria-hidden="true">
+                  <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <h5 class="modal-title" id="calendarLabel">List Tanggal yang tersedia</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                          <span aria-hidden="true">&times;</span>
+                        </button>
+                      </div>
+                      <div class="modal-body">
+                        <!-- CALENDER -->
+                        <center>
+                          <div id="caleandar">
+
+                          </div>
+                      </center>
+                        <script type="text/javascript" src="{{ url_for('static', filename='calendar/caleandar.js') }}"></script>
+                        <script>
+                                days = []
+                                dataDay = JSON.parse({{ listDay | tojson }})
+                                dataMonth = JSON.parse({{ listMonth | tojson }})
+                                dataYear = JSON.parse({{ listYear | tojson }})
+                    
+                                const listEvent = []
+                                for(i=0; i < dataDay.length; i++){
+                                    listEvent.push({
+                                        Date: new Date(dataYear[i], dataMonth[i]-1, dataDay[i]),
+                                        Title: "reserved",
+                                        Link: "#"
+                                    })
+                                }
+                                console.log("berhasil")
+                                var settings = {};
+                                var element = document.getElementById("caleandar");
+                                caleandar(element, listEvent, settings);
+                            </script>
+                        <!-- CALENDER -->
+                      </div>
+                      <div style="margin-left: 20px;"><p> Warna <span class="badge badge-primary">biru</span> = sedang dibooking / <span class="badge badge-danger">reserved</span></p></div>
+                      <div class="modal-footer">
+                        
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
               </div>
 
 

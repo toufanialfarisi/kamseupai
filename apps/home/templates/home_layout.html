@@ -39,7 +39,13 @@
     <script src="https://kit.fontawesome.com/c32b8806e8.js"></script>
 
     {% endif %}
-    <!-- font-family: 'Bai Jamjuree'; -->
+    
+    <!-- CALENDAR -->
+    <link href="https://fonts.googleapis.com/css?family=Roboto+Condensed" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='calendar/css/demo.css') }}" />
+    <link rel="stylesheet" href="{{ url_for('static', filename='calendar/css/theme2.css') }}" />
+    <!-- CALENDAR -->
+
     <style>
         body {
             background-image: url('{{ url_for('static', filename='background.png') }}');

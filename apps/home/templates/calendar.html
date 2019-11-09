@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Hello</title>
+    <link href="https://fonts.googleapis.com/css?family=Roboto+Condensed" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='calendar/css/demo.css') }}" />
+    <link rel="stylesheet" href="{{ url_for('static', filename='calendar/css/theme1.css') }}" />
+</head>
+
+<body>
+    <div id="caleandar">
+
+    </div>
+    
+
+    <script type="text/javascript" src="{{ url_for('static', filename='calendar/caleandar.js') }}"></script>
+    <script>
+            days = []
+            dataDay = JSON.parse({{ listDay | tojson }})
+            dataMonth = JSON.parse({{ listMonth | tojson }})
+            dataYear = JSON.parse({{ listYear | tojson }})
+
+            const listEvent = []
+            for(i=0; i < dataDay.length; i++){
+                listEvent.push({
+                    Date: new Date(dataYear[i], dataMonth[i]-1, dataDay[i]),
+                    Title: "reserved",
+                    Link: "#"
+                })
+            }
+            console.log("berhasil")
+            var settings = {};
+            var element = document.getElementById("caleandar");
+            caleandar(element, listEvent, settings);
+        </script>
+    <!-- <script type="text/javascript" src="{{ url_for('static', filename='calendar/demo.js') }}"></script> -->
+</body>
+
+</html>

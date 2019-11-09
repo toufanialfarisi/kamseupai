@@ -21,6 +21,7 @@ from apps.home.utility import *
 # OTHER PYTHON BUILTIN LIBRARY/METHODE
 import random
 import string
+import json
 from flask_weasyprint import HTML, render_pdf
 
 
@@ -363,6 +364,22 @@ def detail_homestay(id):
     
     otherFotoModel = Homestay.query.get(id)
     listFoto = list([otherFotoModel.foto1, otherFotoModel.foto2, otherFotoModel.foto3, otherFotoModel.foto4, otherFotoModel.foto5])
+    # CALENDER
+
+    history = Historybelanja.query.all()
+    listCheckIn = [
+        list(rrule.rrule(rrule.DAILY, count=int(data.malam), dtstart=data.tgl_check_in))for data in history
+    ]
+    listDate = list(chain.from_iterable( listCheckIn ))
+    listYear = []
+    listMonth = []
+    listDay = []
+    for data in listDate:
+        listYear.append(data.isoformat()[:4])
+        listMonth.append(data.isoformat()[5:7])
+        listDay.append(data.isoformat()[8:10])
+
+    # CALENDAR
     return render_template(
         "home_detail.html", 
         form=cur, 
@@ -377,7 +394,10 @@ def detail_homestay(id):
         username = current_username(),
         homestay=models.Homestay(),
         listFoto=listFoto,
-        user=User
+        user=User,
+        listDay=json.dumps(listDay), 
+        listMonth=json.dumps(listMonth), 
+        listYear=json.dumps(listYear)
     )
 
 
