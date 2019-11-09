@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous">
+    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous">
+    </script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous">
+    </script>
+    <link href="https://fonts.googleapis.com/css?family=Lexend+Deca&display=swap" rel="stylesheet" />
+    <title>Invoice</title>
+    <style>
+        body {
+            font-family: "Lexend Deca", sans-serif;
+        }
+    </style>
+</head>
+
+<body>
+    <div style="margin-bottom: 30px; margin-left: 700px; ;">
+        <img src="{{ url_for('static', filename='logo/kamseupai.png') }}" width="100px" /><br>
+        <p>Kampung Seribu Pariwisata</p>
+
+    </div>
+    <div>
+        <h3>Invoice Pemesanan</h3>
+    </div>
+
+    <div>
+        <table class="table table-striped">
+            <tbody>
+                <tr>
+                    <td>Tanggal Transaksi</td>
+                    <td></td>
+                    <td> <strong>{{ history.create_at.date() }} ({{ history.create_at.isoformat()[11:16] }})</strong>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Nama Lengkap</td>
+                    <td></td>
+                    <td><strong>{{ history.nama_lengkap }}</strong></td>
+                </tr>
+                <tr>
+                    <td>No KTP</td>
+                    <td></td>
+                    <td> <strong> {{ history.no_ktp }} </strong> </td>
+                </tr>
+                <tr>
+                    <td>Homestay</td>
+                    <td></td>
+                    <td> <strong> {{ title }} </strong></td>
+                </tr>
+                <tr>
+                    <td>Durasi Menginap</td>
+                    <td></td>
+                    <td><strong>{{ history.malam }} hari </strong> </td>
+                </tr>
+                <tr>
+                    <td>Tanggal Check-In</td>
+                    <td></td>
+                    <td> <strong> {{ history.tgl_check_in }} </strong> </td>
+                </tr>
+                <tr>
+                    <td>Tanggal Check-Out</td>
+                    <td></td>
+                    <td> <strong> {{ history.tgl_check_out }}</strong></td>
+                </tr>
+                <tr>
+                    <td>Diskon</td>
+                    <td></td>
+                    <td> <strong>{{ diskon }}</strong></td>
+                </tr>
+                <tr>
+                    <td>Total Pembayaran</td>
+                    <td></td>
+                    <td>
+                        <h3>Rp. {{ harga }}</h3>
+                    </td>
+                </tr>
+
+
+            </tbody>
+        </table>
+
+    </div>
+    <div style="margin-bottom: 30px; margin-left: 550px;">
+        <img src="{{ url_for('static', filename='logo/booked.png') }}" style="width: 350px;" /> <br />
+        <h5 style="margin-left: 100px;">kamseupai.com</h5>
+
+    </div>
+    <footer style="margin-top: 600px;">
+        <div class="container">
+            <div style="font-size: 18px">
+                &#169; 2019 <strong>kamseupai.com</strong>. All right reserved
+            </div>
+        </div>
+    </footer>
+
+</body>
+
+</html>

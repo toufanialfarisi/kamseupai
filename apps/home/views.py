@@ -21,6 +21,7 @@ from apps.home.utility import *
 # OTHER PYTHON BUILTIN LIBRARY/METHODE
 import random
 import string
+from flask_weasyprint import HTML, render_pdf
 
 
 '''
@@ -762,13 +763,21 @@ def status_pesanan():
         username = current_username(),
         formm=searchForm(),
         homestay=models.Homestay(),
-        user=User
+        user=User,
     )
 
-@home.route("/bukti-bayar", methods=["POST", "GET"])
-def bukti_bayar():
-    pass 
-    return ""
+# @home.route("/invoice_pembayaran_<title>.pdf", methods=["POST", "GET"])
+@home.route("/status-pesanan/invoice/<id>/pembayaran_<title>.pdf", methods=["POST", "GET"])
+def invoice(id, title):
+    history = Historybelanja.query.get(id)
+    homestay = Homestay.query.get(history.id)
+    harga_awal = homestay.harga
+    diskon = homestay.diskon
+    harga_akhir = harga_awal - (harga_awal * diskon)
+    harga_akhir = abs(harga_akhir)
+    harga = formatrupiah(harga_akhir)
+    html = render_template("invoice.html", history=history, title=title, harga=harga, diskon=diskon)
+    return render_pdf(HTML(string=html))
 
 @home.route("/proses-pembayaran")
 @login_required
