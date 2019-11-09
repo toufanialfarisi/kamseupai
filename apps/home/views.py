@@ -766,11 +766,10 @@ def status_pesanan():
         user=User,
     )
 
-# @home.route("/invoice_pembayaran_<title>.pdf", methods=["POST", "GET"])
 @home.route("/status-pesanan/invoice/<id>/pembayaran_<title>.pdf", methods=["POST", "GET"])
 def invoice(id, title):
     history = Historybelanja.query.get(id)
-    homestay = Homestay.query.get(history.id)
+    homestay = Homestay.query.get(history.id_homestay)
     harga_awal = homestay.harga
     diskon = homestay.diskon
     harga_akhir = harga_awal - (harga_awal * diskon)
