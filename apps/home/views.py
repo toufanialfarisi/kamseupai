@@ -366,7 +366,7 @@ def detail_homestay(id):
     listFoto = list([otherFotoModel.foto1, otherFotoModel.foto2, otherFotoModel.foto3, otherFotoModel.foto4, otherFotoModel.foto5])
     # CALENDER
 
-    history = Historybelanja.query.all()
+    history = Historybelanja.query.filter_by(id_homestay=id).all()
     listCheckIn = [
         list(rrule.rrule(rrule.DAILY, count=int(data.malam), dtstart=data.tgl_check_in))for data in history
     ]
