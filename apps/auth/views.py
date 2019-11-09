@@ -134,7 +134,7 @@ def login():
         form = forms.LoginForm()
 
         if form.validate_on_submit() and request.method == "POST":
-            user = User.query.filter_by(username=form.username.data).first()
+            user = User.query.filter_by(email=form.email.data).first()
             try:
                 check_user_confirmed = user.confirmation_status
                 if user.check_password(form.password.data) and user is not None:
