@@ -136,22 +136,9 @@
                         </script>
                         <script>
                           days = []
-                          dataDay = JSON.parse({
-                            {
-                              listDay | tojson
-                            }
-                          })
-                          dataMonth = JSON.parse({
-                            {
-                              listMonth | tojson
-                            }
-                          })
-                          dataYear = JSON.parse({
-                            {
-                              listYear | tojson
-                            }
-                          })
-
+                          dataDay = JSON.parse({{listDay | tojson}})
+                          dataMonth = JSON.parse({{listMonth | tojson}})
+                          dataYear = JSON.parse({{listYear | tojson}})
                           const listEvent = []
                           for (i = 0; i < dataDay.length; i++) {
                             listEvent.push({

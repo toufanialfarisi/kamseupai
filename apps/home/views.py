@@ -280,6 +280,7 @@ def remove_item_notif():
     return render_template(
         "checkout_notif.html", 
         img_user=foto_profile_user(),
+        user=User
     )
 
 @home.route("/remove/item/paket/<int:id>", methods=["GET"])
@@ -343,10 +344,16 @@ def detail_homestay(id):
             checkout = tgl_checkin.split('-')
             # tgl_checkout = int(checkout[2]) + int(malam)
             tampung_check_in = []
+
+            historyDate = Historybelanja.query.filter_by(id_homestay=id).all()
+
             list_check = list(rrule.rrule(rrule.DAILY, count=int(malam), dtstart=session["ci"]))
-            for dt in getHistoryBelanja: 
-                list_check = list(rrule.rrule(rrule.DAILY, count=int(malam), dtstart=dt.tgl_check_in))
-                tampung_check_in.append([val for val in list_check])
+            for dt in historyDate:
+                if dt.status_kepulangan == False: 
+                    list_check = list(rrule.rrule(rrule.DAILY, count=int(malam), dtstart=dt.tgl_check_in))
+                    tampung_check_in.append([val for val in list_check])
+                else:
+                    pass
 
             listCheckInHomestay = list(chain.from_iterable( tampung_check_in ))
             session["co"] = list_check[-1]
@@ -369,10 +376,17 @@ def detail_homestay(id):
     # CALENDER
 
     history = Historybelanja.query.filter_by(id_homestay=id).all()
-    listCheckIn = [
-        list(rrule.rrule(rrule.DAILY, count=int(data.malam), dtstart=data.tgl_check_in))for data in history
-    ]
+
+    listCheckIn = []
+    for data in history:
+        if data.status_kepulangan == False:
+            result = list(rrule.rrule(rrule.DAILY, count=int(data.malam), dtstart=data.tgl_check_in))
+            listCheckIn.append(result)
+        else:
+            pass
+
     listDate = list(chain.from_iterable( listCheckIn ))
+    
     listYear = []
     listMonth = []
     listDay = []
@@ -380,6 +394,11 @@ def detail_homestay(id):
         listYear.append(data.isoformat()[:4])
         listMonth.append(data.isoformat()[5:7])
         listDay.append(data.isoformat()[8:10])
+
+    # else:
+    #     listDay = []
+    #     listYear = []
+    #     listMonth = []
 
     # CALENDAR
     return render_template(

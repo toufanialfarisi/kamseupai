@@ -548,11 +548,11 @@ def konfirmasi(id):
     db.session.commit()
     return redirect(url_for('admin.pesanan'))
 
-@admin.route("/admin/konfirmasi-kepulangan/<idhomestay>")
-def konfirmasi_kepulangan(idhomestay):
-    model = Homestay.query.get_or_404(idhomestay)
-    model.ketersediaanHomestay = True
-    db.session.add(model)
+@admin.route("/admin/konfirmasi-kepulangan/<id>")
+def konfirmasi_kepulangan(id):
+    pulang = Historybelanja.query.get_or_404(id)
+    pulang.status_kepulangan = True
+    db.session.add(pulang)
     db.session.commit()
     return redirect(url_for('admin.pesanan'))
 

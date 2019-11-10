@@ -63,6 +63,9 @@ class Historybelanja(db.Model):
     status_pesanan = db.Column(
         db.Boolean, default=False
     )  # False (0) = sudah dibooking, True (1) = tersedia/belum dibooking
+    status_kepulangan = db.Column(
+        db.Boolean, default=False
+    ) # jika False (0) = belum pulang, jika True maka sudah pulang
     create_at = db.Column(db.DateTime, default=datetime.datetime.utcnow())
     bukti_resi = db.relationship("BuktiBayar", backref="bukti_pembayaran")
 
