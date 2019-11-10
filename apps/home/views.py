@@ -318,6 +318,7 @@ def detail_homestay(id):
                 request.form["malam"] and 
                 request.form["check_in"] and 
                 request.form["nama_lengkap"] and 
+                request.form["nomor_hp"] and
                 request.form["no_ktp"] or 
                 request.form["no_passport"]
             ):
@@ -325,6 +326,7 @@ def detail_homestay(id):
             session["no_ktp"] = request.form["no_ktp"]
             session["save_id_homestay"] = id
             session["nama_lengkap"] = request.form["nama_lengkap"]
+            session["nomor_hp"] = request.form["nomor_hp"]
             if request.form["no_passport"]:
                 session["no_passport"] = request.form["no_passport"]
             else:
@@ -601,6 +603,7 @@ def pay():
             id_user = current_user.get_id(),
             id_wisata = session["save_id_wisata"],
             nama_lengkap = session["nama_lengkap"],
+            no_hp=session["nomor_hp"],
             no_ktp = session["no_ktp"],
             no_passport = session["no_passport"],
             malam = session["malam"],
@@ -617,10 +620,7 @@ def pay():
         tglSelesaiHomestay.tanggal_selesai = session["co"]
         db.session.add(tglSelesaiHomestay)
         db.session.commit()
-        
 
-
-        
 
         '''
             tambahkan session untuk mentrigger function 

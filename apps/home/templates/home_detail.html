@@ -131,32 +131,48 @@
                           <div id="caleandar">
 
                           </div>
-                      </center>
-                        <script type="text/javascript" src="{{ url_for('static', filename='calendar/caleandar.js') }}"></script>
+                        </center>
+                        <script type="text/javascript" src="{{ url_for('static', filename='calendar/caleandar.js') }}">
+                        </script>
                         <script>
-                                days = []
-                                dataDay = JSON.parse({{ listDay | tojson }})
-                                dataMonth = JSON.parse({{ listMonth | tojson }})
-                                dataYear = JSON.parse({{ listYear | tojson }})
-                    
-                                const listEvent = []
-                                for(i=0; i < dataDay.length; i++){
-                                    listEvent.push({
-                                        Date: new Date(dataYear[i], dataMonth[i]-1, dataDay[i]),
-                                        Title: "reserved",
-                                        Link: "#"
-                                    })
-                                }
-                                console.log("berhasil")
-                                var settings = {};
-                                var element = document.getElementById("caleandar");
-                                caleandar(element, listEvent, settings);
-                            </script>
+                          days = []
+                          dataDay = JSON.parse({
+                            {
+                              listDay | tojson
+                            }
+                          })
+                          dataMonth = JSON.parse({
+                            {
+                              listMonth | tojson
+                            }
+                          })
+                          dataYear = JSON.parse({
+                            {
+                              listYear | tojson
+                            }
+                          })
+
+                          const listEvent = []
+                          for (i = 0; i < dataDay.length; i++) {
+                            listEvent.push({
+                              Date: new Date(dataYear[i], dataMonth[i] - 1, dataDay[i]),
+                              Title: "reserved",
+                              Link: "#"
+                            })
+                          }
+                          console.log("berhasil")
+                          var settings = {};
+                          var element = document.getElementById("caleandar");
+                          caleandar(element, listEvent, settings);
+                        </script>
                         <!-- CALENDER -->
                       </div>
-                      <div style="margin-left: 20px;"><p> Warna <span class="badge badge-primary">biru</span> = sedang dibooking / <span class="badge badge-danger">reserved</span></p></div>
+                      <div style="margin-left: 20px;">
+                        <p> Warna <span class="badge badge-primary">biru</span> = sedang dibooking / <span
+                            class="badge badge-danger">reserved</span></p>
+                      </div>
                       <div class="modal-footer">
-                        
+
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                       </div>
                     </div>
@@ -228,34 +244,52 @@
                                 </label>
                                 <input type="number" class="form-control" name="malam" placeholder="Durasi ditempati"
                                   required>
+                              </div>
+
+                              <div class="form-group">
                                 <label for="kamar" class="form-contol">
                                   <h6>Berapa kamar ?</h6>
                                 </label>
                                 <input type="number" class="form-control" name="kamar"
                                   placeholder="Jumlah Kamar yang dibutuhkan" required>
+                              </div>
+
+                              <div class="form-group">
                                 <label for="check_in" class="form-contol">
                                   <h6>Tanggal Check in ?</h6>
                                 </label>
                                 <input type="date" class="form-control" name="check_in" placeholder="Tanggal Check in"
                                   required>
+                              </div>
+
+                              <div class="form-group">
                                 <label for="nama_lengkap" class="form-contol">
                                   <h6>Nama Lengkap sesuai KTP</h6>
                                 </label>
                                 <input type="text" class="form-control" name="nama_lengkap" placeholder="Nama Lengkap"
                                   required>
+                              </div>
+
+                              <div class="form-group">
+                                <label for="nomor_hp" class="form-contol">
+                                  <h6>Nomor HP (WA) </h6>
+                                </label>
+                                <input type="text" class="form-control" name="nomor_hp" placeholder="Nomor HP" required>
+                              </div>
+
+                              <div class="form-group">
                                 <label for="no_ktp" class="form-contol">
                                   <h6>Nomor KTP / E-ID card Number</h6>
                                 </label>
                                 <input type="text" class="form-control" name="no_ktp" placeholder="Nomor KTP" required>
+                              </div>
+
+                              <div class="form-group">
                                 <label for="no_passport" class="form-contol">
                                   <h6>Nomor Passport (opsional)</h6>
                                 </label>
                                 <input type="text" class="form-control" name="no_passport" placeholder="Nomor Passport">
-
                               </div>
-                              <!-- <button type="submit" class="btn btn-outline-info btn-block"> <strong> Pesan Homestay
-                                </strong>
-                              </button> -->
 
                           </div>
 

@@ -55,6 +55,7 @@ class Historybelanja(db.Model):
     nama_lengkap = db.Column(db.String(100))
     no_ktp = db.Column(db.String(100))
     no_passport = db.Column(db.String(100))
+    no_hp = db.Column(db.String(50))
     malam = db.Column(db.Integer)
     kamar = db.Column(db.Integer)
     tgl_check_in = db.Column(db.DATE)
