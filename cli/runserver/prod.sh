@@ -36,6 +36,7 @@ export database=kamseupai
 
 # GUNICORN SERVER
 exec gunicorn app:app -b 0.0.0.0:5000 \
+ --daemon
  --reload \
  --workers 2 \
  --log-level=false \
