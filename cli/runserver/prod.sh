@@ -28,8 +28,8 @@ export OAUTHLIB_RELAX_TOKEN_SCOPE=true
 export OAUTHLIB_INSECURE_TRANSPORT=true
 
 export db_type=postgresql
-export username=kamseupai
-export password=kamseupai
+export username=admin
+export password=admin
 export host=localhost
 export port=5432
 export database=kamseupai
