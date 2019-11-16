@@ -2,6 +2,7 @@
 # echo ${DIR}
 # cd ../../${DIR}
 
+
 . env/bin/activate
 echo "=========================="
 echo "ENVIRONMENT WAS ACTIVATED"
