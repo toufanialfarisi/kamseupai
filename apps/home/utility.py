@@ -15,7 +15,7 @@ def host(localhost=host_mode):
         host = "http://localhost"
         return host
     else:
-        host = "https://kamseupai.herokuapp.com"
+        host = "http://156.67.220.195/"
         return host
 
 
