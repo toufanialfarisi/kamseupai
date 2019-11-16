@@ -35,7 +35,7 @@ Migrate(app, db)  # DATABASE MIGRATION
 
 
 # DEBUG TOOLABAR
-if os.environ["APP_SETTINGS"] == "config.DevelopmentConfig":
+if app.debug:
     toolbarDebuger = DebugToolbarExtension(app)
 
 
