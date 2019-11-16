@@ -25,6 +25,14 @@ export GOOGLE_OAUTH_CLIENT_ID=1010640175796-vnp220hj8ceepbniguvrvifju99bi398.app
 export GOOGLE_OAUTH_CLIENT_SECRET=5VBRMSPo32XiuL4N5h481zqJ
 export OAUTHLIB_RELAX_TOKEN_SCOPE=true
 export OAUTHLIB_INSECURE_TRANSPORT=true
+
+export db_type=postgresql
+export username=kamseupai
+export password=kamseupai
+export host=localhost
+export port=5432
+export database=kamseupai
+
 # GUNICORN SERVER
 exec gunicorn app:app -b 0.0.0.0:5000 \
  --reload \
