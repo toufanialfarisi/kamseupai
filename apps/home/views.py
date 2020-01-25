@@ -766,7 +766,7 @@ def edit_user():
         models.db.session.add(model2)
         models.db.session.commit()
         
-        return redirect(url_for('home.user_detail'))
+        return redirect(url_for('home.user_detail', username=User.query.get(current_user.get_id()).username))
     return render_template(
         "user_detail_edit.html", 
         form=form, 
@@ -775,6 +775,7 @@ def edit_user():
         username = current_username(),
         favs=fav,
         homestay=models.Homestay(),
+        user=User
     )
 
 
