@@ -812,8 +812,7 @@ def invoice(id, title):
     homestay = Homestay.query.get(history.id_homestay)
     harga_awal = homestay.harga
     diskon = homestay.diskon
-    harga_akhir = harga_awal - (harga_awal * diskon)
-    harga_akhir = abs(harga_akhir)
+    harga_akhir = int(harga_awal - (harga_awal * diskon / 100)) * int(history.malam)
     harga = formatrupiah(harga_akhir)
     html = render_template("invoice.html", history=history, title=title, harga=harga, diskon=diskon)
     return render_pdf(HTML(string=html))
