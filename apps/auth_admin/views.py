@@ -14,21 +14,33 @@ from apps import db
 from apps.home.utility import *
 from apps.config import IMAGES_DIR, MY_IP
 from apps.utils import validasi_type, upload_file
-from apps.home.models import Homestay, Wisata, Historybelanja, BuktiBayar, Favorit, FotoLainnya
-from apps.api import provinsi, kabupaten, kecamatan 
+from apps.home.models import (
+    Homestay,
+    Wisata,
+    Historybelanja,
+    BuktiBayar,
+    Favorit,
+    FotoLainnya,
+)
+from apps.api import provinsi, kabupaten, kecamatan
 from sqlalchemy import desc
 
 import requests
-import numpy as np 
-
+import numpy as np
 
 
 admin = Blueprint("admin", __name__, template_folder="templates/")
-    
+
+
 @admin.route("/admin/index", methods=["POST", "GET", "PUT", "DELETE"])
 def admin_index():
     if "admin" in session:
-        return render_template("index_admin.html", admin=session["admin"], host=host(), n_pesanan=n_pesanan())
+        return render_template(
+            "index_admin.html",
+            admin=session["admin"],
+            host=host(),
+            n_pesanan=n_pesanan(),
+        )
     else:
         flash("Silahkan login terlebih dahulu", "danger")
         return redirect(url_for("admin.login_admin"))
@@ -39,31 +51,33 @@ def view_homestay():
     if "admin" in session:
         fotoLainnya = FotoLainnyaForm()
         page_param = request.args.get("page")
-        per_page = 4    
+        per_page = 4
         if not page_param:
             page_param = 1
         paginate = Homestay.query.paginate(page=int(page_param), per_page=per_page)
         max_page = str(paginate.pages)
         curr_page = page_param
-        
+
         next_page = int(page_param) + 1
         next_page = str(next_page)
 
         prev_page = int(page_param) - 1
         prev_page = str(prev_page)
         form = searchForm()
-        
+
         if form.validate_on_submit():
 
-            post = Homestay.query.filter(
-                Homestay.nama_homestay.like('%' + form.keyword.data + '%')
-                ).order_by(Homestay.nama_homestay).paginate(
-                page=int(page_param), per_page=per_page
+            post = (
+                Homestay.query.filter(
+                    Homestay.nama_homestay.like("%" + form.keyword.data + "%")
                 )
+                .order_by(Homestay.nama_homestay)
+                .paginate(page=int(page_param), per_page=per_page)
+            )
             return render_template(
-                'homestay/view_homestay.html', 
-                forms=post.items, 
-                form=form, 
+                "homestay/view_homestay.html",
+                forms=post.items,
+                form=form,
                 no=range(1, len(post.items) + 1),
                 host=host(),
                 next_page=next_page,
@@ -72,31 +86,30 @@ def view_homestay():
                 max_page=max_page,
                 paginate=paginate,
                 n_pesanan=n_pesanan(),
-                fotoLainnya=fotoLainnya
+                fotoLainnya=fotoLainnya,
             )
         else:
             return render_template(
-            "homestay/view_homestay.html",
-            forms=paginate.items,
-            form=form,
-            no=range(1, len(paginate.items) + 1),
-            host=host(),
-            next_page=next_page,
-            prev_page=prev_page,
-            curr_page=page_param,
-            max_page=max_page,
-            paginate=paginate,
-            n_pesanan=n_pesanan(), 
-            fotoLainnya=fotoLainnya
-        )
-        
-            
+                "homestay/view_homestay.html",
+                forms=paginate.items,
+                form=form,
+                no=range(1, len(paginate.items) + 1),
+                host=host(),
+                next_page=next_page,
+                prev_page=prev_page,
+                curr_page=page_param,
+                max_page=max_page,
+                paginate=paginate,
+                n_pesanan=n_pesanan(),
+                fotoLainnya=fotoLainnya,
+            )
 
     else:
         flash("Silahkan login terlebih dahulu", "danger")
         return redirect(url_for("admin.login_admin"))
 
-@admin.route("/admin/add-other-foto/<id>", methods=["POST","GET"])
+
+@admin.route("/admin/add-other-foto/<id>", methods=["POST", "GET"])
 def add_other_foto(id):
     fotoLainnya = FotoLainnyaForm()
     if fotoLainnya.validate_on_submit():
@@ -109,31 +122,31 @@ def add_other_foto(id):
         file4 = request.files["foto4"]
         file5 = request.files["foto5"]
         try:
-            foto1 = upload_file(file1, folder) 
+            foto1 = upload_file(file1, folder)
             foto1 = host() + "/" + foto1
         except:
             foto1 = None
 
         try:
-            foto2 = upload_file(file2, folder) 
+            foto2 = upload_file(file2, folder)
             foto2 = host() + "/" + foto2
         except:
             foto2 = None
 
         try:
-            foto3 = upload_file(file3, folder) 
+            foto3 = upload_file(file3, folder)
             foto3 = host() + "/" + foto3
         except:
             foto3 = None
 
         try:
-            foto4 = upload_file(file4, folder) 
+            foto4 = upload_file(file4, folder)
             foto4 = host() + "/" + foto4
         except:
             foto4 = None
 
         try:
-            foto5 = upload_file(file5, folder) 
+            foto5 = upload_file(file5, folder)
             foto5 = host() + "/" + foto5
         except:
             foto5 = None
@@ -142,17 +155,17 @@ def add_other_foto(id):
         print(foto2)
         print(foto3)
         print(foto4)
-        print(foto5)        
-        
+        print(foto5)
+
         modelFotoLainnya = Homestay.query.get(id)
-        modelFotoLainnya.foto1=foto1
-        modelFotoLainnya.foto2=foto2
-        modelFotoLainnya.foto3=foto3 
-        modelFotoLainnya.foto4=foto4
-        modelFotoLainnya.foto5=foto5
+        modelFotoLainnya.foto1 = foto1
+        modelFotoLainnya.foto2 = foto2
+        modelFotoLainnya.foto3 = foto3
+        modelFotoLainnya.foto4 = foto4
+        modelFotoLainnya.foto5 = foto5
         models.db.session.add(modelFotoLainnya)
         models.db.session.commit()
-        return redirect(url_for("admin.view_homestay")) 
+        return redirect(url_for("admin.view_homestay"))
     return render_template("homestay/add_other_foto.html", form=fotoLainnya)
 
 
@@ -160,29 +173,29 @@ def add_other_foto(id):
 def view_wisata():
     if "admin" in session:
         page_param = request.args.get("page")
-        per_page = 4    
+        per_page = 4
         if not page_param:
             page_param = 1
         paginate = Wisata.query.paginate(page=int(page_param), per_page=per_page)
         max_page = str(paginate.pages)
         curr_page = page_param
-        
+
         next_page = int(page_param) + 1
         next_page = str(next_page)
-        
+
         prev_page = int(page_param) - 1
         prev_page = str(prev_page)
         form = searchForm()
         if form.validate_on_submit():
-            post = Wisata.query.filter(
-                Wisata.wisata.like('%' + form.keyword.data + '%')
-                ).order_by(Wisata.wisata).paginate(
-                page=int(page_param), per_page=per_page
-                )
+            post = (
+                Wisata.query.filter(Wisata.wisata.like("%" + form.keyword.data + "%"))
+                .order_by(Wisata.wisata)
+                .paginate(page=int(page_param), per_page=per_page)
+            )
             return render_template(
-                'homestay/view_wisata.html', 
-                forms=post.items, 
-                form=form, 
+                "homestay/view_wisata.html",
+                forms=post.items,
+                form=form,
                 no=range(1, len(post.items) + 1),
                 host=host(),
                 next_page=next_page,
@@ -190,22 +203,22 @@ def view_wisata():
                 curr_page=page_param,
                 max_page=max_page,
                 paginate=paginate,
-                n_pesanan=n_pesanan(), 
+                n_pesanan=n_pesanan(),
             )
         else:
             return render_template(
-            "homestay/view_wisata.html",
-            forms=paginate.items,
-            form=form,
-            no=range(1, len(paginate.items) + 1),
-            host=host(),
-            next_page=next_page,
-            prev_page=prev_page,
-            curr_page=page_param,
-            max_page=max_page,
-            paginate=paginate,
-            n_pesanan=n_pesanan(),
-        )
+                "homestay/view_wisata.html",
+                forms=paginate.items,
+                form=form,
+                no=range(1, len(paginate.items) + 1),
+                host=host(),
+                next_page=next_page,
+                prev_page=prev_page,
+                curr_page=page_param,
+                max_page=max_page,
+                paginate=paginate,
+                n_pesanan=n_pesanan(),
+            )
     else:
         flash("Silahkan login terlebih dahulu", "danger")
         return redirect(url_for("admin.login_admin"))
@@ -263,14 +276,13 @@ def add_homestay():
     if "admin" in session:
         form = HomestayForm()
         fav, is_fav_exist = show_fav()
-       
         nama = []
         id = []
         url = "http://dev.farizdotid.com/api/daerahindonesia/provinsi"
         data = requests.get(url=url)
-        for i in range(len(data.json()["semuaprovinsi"])):
-            out = data.json()["semuaprovinsi"][i]["nama"]
-            out_id = data.json()["semuaprovinsi"][i]["id"]
+        for i in range(len(data.json()["provinsi"])):
+            out = data.json()["provinsi"][i]["nama"]
+            out_id = data.json()["provinsi"][i]["id"]
             nama.append(out)
             id.append(out_id)
         prov = list(zip(id, nama))
@@ -281,7 +293,6 @@ def add_homestay():
             folder = IMAGES_DIR + "/homestay"
             foto = upload_file(file, folder)  # return random name
             foto = host() + "/" + foto
-
             nama_homestay = validasi_type(form.nama_homestay.data, str)
             alamat = validasi_type(form.alamat.data, str)
             provinsi = validasi_type(form.provinsi.data, str)
@@ -306,7 +317,6 @@ def add_homestay():
             models.db.session.add(model)
             models.db.session.commit()
 
-                
             flash("Homestay berhasil ditambah", "success")
 
             return redirect(url_for("admin.view_homestay"))
@@ -352,7 +362,7 @@ def edit_homestay(id):
                 foto = model.foto_homestay
 
             nama_homestay = validasi_type(form.nama_homestay.data, str)
-            alamat = validasi_type(form.alamat.data, str)            
+            alamat = validasi_type(form.alamat.data, str)
             provinsi = validasi_type(form.provinsi.data, str)
             deskripsi = validasi_type(form.deskripsi.data, str)
             fasilitas = validasi_type(form.fasilitas.data, str)
@@ -387,6 +397,7 @@ def edit_homestay(id):
         flash("Silahkan login terlebih dahulu", "danger")
         return redirect(url_for("admin.login_admin"))
 
+
 @admin.route("/admin/homestay/delete/<int:id>")
 def delete_homestay(id):
     if "admin" in session:
@@ -406,7 +417,9 @@ def add_wisata():
         form = WisataForm()
         fav, is_fav_exist = show_fav()
         model_homestay = Homestay.query.all()
-        form.id_homestay.choices = [(form.id, form.nama_homestay) for form in model_homestay]
+        form.id_homestay.choices = [
+            (form.id, form.nama_homestay) for form in model_homestay
+        ]
         if request.method == "POST":
             file = request.files["foto_wisata"]
             # print(file)
@@ -455,7 +468,9 @@ def edit_wisata(id):
         model = Wisata.query.get(id)
         form = WisataEditForm(formdata=request.form, obj=model)
         model_homestay = Homestay.query.all()
-        form.id_homestay.choices = [(form.id, form.nama_homestay) for form in model_homestay]
+        form.id_homestay.choices = [
+            (form.id, form.nama_homestay) for form in model_homestay
+        ]
         fav, is_fav_exist = show_fav()
         model_homestay = Homestay.query.all()
         if request.method == "POST":
@@ -510,7 +525,9 @@ def delete_wisata(id):
         flash("Silahkan login terlebih dahulu", "danger")
         return redirect(url_for("admin.login_admin"))
 
-import copy 
+
+import copy
+
 
 def n_pesanan():
     history = Historybelanja.query.all()
@@ -519,12 +536,13 @@ def n_pesanan():
     length_history = len(history)
     return n_pesanan
 
+
 @admin.route("/admin/pesanan", methods=["GET", "POST"])
 def pesanan():
     form = searchForm()
     history = Historybelanja.query.all()
     home = Homestay()
-    no = np.arange(1,len(history)+1)
+    no = np.arange(1, len(history) + 1)
     status = Historybelanja.query.filter_by(status_pesanan=True).all()
     n_pesanan = len(history) - len(status)
 
@@ -538,15 +556,26 @@ def pesanan():
     data_bukti = BuktiBayar.query.all()
     paginate = Historybelanja.query.paginate(page=int(page_param), per_page=per_page)
     # data_bukti = BuktiBayar()
-    return render_template("pesanan.html", data_bukti=data_bukti,form=form, no=no, paginate=paginate, prev_page=prev_page, n_pesanan=n_pesanan, home=home)
+    return render_template(
+        "pesanan.html",
+        data_bukti=data_bukti,
+        form=form,
+        no=no,
+        paginate=paginate,
+        prev_page=prev_page,
+        n_pesanan=n_pesanan,
+        home=home,
+    )
+
 
 @admin.route("/admin/konfirmasi/<id>")
 def konfirmasi(id):
     pesanan = Historybelanja.query.get_or_404(id)
-    pesanan.status_pesanan = True 
+    pesanan.status_pesanan = True
     db.session.add(pesanan)
     db.session.commit()
-    return redirect(url_for('admin.pesanan'))
+    return redirect(url_for("admin.pesanan"))
+
 
 @admin.route("/admin/konfirmasi-kepulangan/<id>")
 def konfirmasi_kepulangan(id):
@@ -554,7 +583,7 @@ def konfirmasi_kepulangan(id):
     pulang.status_kepulangan = True
     db.session.add(pulang)
     db.session.commit()
-    return redirect(url_for('admin.pesanan'))
+    return redirect(url_for("admin.pesanan"))
 
 
 @admin.route("/admin/slider/add", methods=["POST", "GET"])
@@ -574,14 +603,16 @@ def add_slider():
 
     return render_template("slider/add_slider.html", form=form)
 
+
 @admin.route("/admin/slider", methods=["GET"])
 def view_slider():
     form = SliderForm()
     page_param = request.args.get("page")
-    per_page = 4    
+    per_page = 4
     paginate = Slider.query.paginate(page=page_param, per_page=per_page)
-    no=range(1, len(paginate.items) + 1)
+    no = range(1, len(paginate.items) + 1)
     return render_template("slider/view_slider.html", forms=paginate.items, no=no)
+
 
 @admin.route("/admin/slider/<int:id>", methods=["GET"])
 def delete_slider(id):
